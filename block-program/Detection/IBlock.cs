@@ -1,7 +1,7 @@
-﻿namespace Myxini.Detection.Raw
+﻿namespace Myxini.Detection
 {
-	interface IBlock
+	class IBlock
 	{
-		Image.IImage BoundingImage { get; protected set; }
+		BlockParameter Parameter { get; protected set; }
 	}
 }
