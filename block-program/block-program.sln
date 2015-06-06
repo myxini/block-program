@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Detection", "Detection\Detection.csproj", "{9DF1D578-4A3A-4769-85CD-B311E1D95F1A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Communication", "Communication\Communication.csproj", "{79444E47-9D7B-4315-91FB-E8639B026B56}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{9DF1D578-4A3A-4769-85CD-B311E1D95F1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DF1D578-4A3A-4769-85CD-B311E1D95F1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DF1D578-4A3A-4769-85CD-B311E1D95F1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79444E47-9D7B-4315-91FB-E8639B026B56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79444E47-9D7B-4315-91FB-E8639B026B56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79444E47-9D7B-4315-91FB-E8639B026B56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79444E47-9D7B-4315-91FB-E8639B026B56}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
