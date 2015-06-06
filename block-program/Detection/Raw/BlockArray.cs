@@ -14,6 +14,6 @@ namespace Myxini.Detection.Raw
 			return this.Blocks[index];
 		}
 
-		List<IBlock> Blocks;
+		List<IBlock> Blocks = new List<IBlock>();
 	}
 }

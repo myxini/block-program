@@ -2,6 +2,6 @@
 {
 	interface IBlock
 	{
-		Image.IImage BoundingImage { get; protected set; }
+		Image.IImage BoundingImage { get; }
 	}
 }

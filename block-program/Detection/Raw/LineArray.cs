@@ -14,6 +14,6 @@ namespace Myxini.Detection.Raw
 			return this.Lines[index];
 		}
 
-		List<ILine> Lines;
+		List<ILine> Lines = new List<ILine>();
 	}
 }

@@ -15,7 +15,7 @@ namespace Myxini.Detection.Raw
 			return (String.Format("{0},{1}", this.X, this.Y));
 		}
 
-		public int X { get; private set; }
-		public int Y { get; private set; }
+		public int X;
+		public int Y;
 	}
 }
