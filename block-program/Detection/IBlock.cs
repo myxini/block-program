@@ -1,7 +1,8 @@
 ﻿namespace Myxini.Detection
 {
-	class IBlock
+	public interface IBlock
 	{
-		BlockParameter Parameter { get; protected set; }
+		Command CommandIdentification { get; }
+		BlockParameter Parameter { get; }
 	}
 }

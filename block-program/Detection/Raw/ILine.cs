@@ -1,8 +1,10 @@
-﻿namespace Myxini.Detection.Raw
+﻿using Myxini.Detection.Image;
+
+namespace Myxini.Detection.Raw
 {
 	public interface ILine
 	{
-		Image.IImage BoundingImage { get; protected set; }
-		Point EndPoint { get; protected set; }
+		IImage BoundingImage { get; }
+		Point EndPoint { get; }
 	}
 }

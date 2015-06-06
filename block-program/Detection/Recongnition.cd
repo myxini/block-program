@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Myxini.Detection.IClassifier" Collapsed="true">
+    <Position X="7" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IClassifier.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Myxini.Detection.IBlock" Collapsed="true">
+    <Position X="10" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAAQAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IBlock.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="Myxini.Detection.BlockParameter" Collapsed="true">
+    <Position X="10" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAgAAAAAAA=</HashCode>
+      <FileName>BlockParameter.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Interface Name="Myxini.Detection.IDetector" Collapsed="true">
+    <Position X="7" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IDetector.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Myxini.Detection.Command" Collapsed="true">
+    <Position X="10" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAgAAAAAAAAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Command.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="メイリオ" Size="9" />
+</ClassDiagram>

@@ -39,24 +39,32 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BlockGraph.cs" />
+    <Compile Include="BlockList.cs" />
+    <Compile Include="BlockNode.cs" />
+    <Compile Include="BlockNodeList.cs" />
     <Compile Include="BlockParameter.cs" />
+    <Compile Include="IBoard.cs" />
+    <Compile Include="Command.cs" />
     <Compile Include="IBlock.cs" />
+    <Compile Include="Image\ICamera.cs" />
     <Compile Include="Raw\BlockArray.cs" />
     <Compile Include="Raw\Rectangle.cs" />
     <Compile Include="IClassifier.cs" />
     <Compile Include="Raw\IBlock.cs" />
     <Compile Include="IDetector.cs" />
-    <Compile Include="Raw\IImage.cs" />
+    <Compile Include="Image\IImage.cs" />
     <Compile Include="Raw\ILine.cs" />
     <Compile Include="Raw\Line.cs" />
-    <Compile Include="Raw\LineList.cs" />
+    <Compile Include="Raw\LineArray.cs" />
     <Compile Include="Raw\Point.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Raw\Size.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
+    <None Include="Recongnition.cd" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

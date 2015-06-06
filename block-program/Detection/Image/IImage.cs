@@ -2,7 +2,7 @@
 
 namespace Myxini.Detection.Image
 {
-	interface IImage
+	public interface IImage
 	{
 		E GetElement<E>(int x, int y, int channel);
 
@@ -10,17 +10,11 @@ namespace Myxini.Detection.Image
 		IImage RegionOfImage(Rectangle region);
 
 
-		int Channel { get; protected set; }
-		Rectangle BoundingBox { get; protected set; }
-		int Width
-		{
-			get { return this.BoundingBox.Width; }
-		}
-		int Height
-		{
-			get { return this.BoundingBox.Height; }
-		}
+		int Channel { get; }
+		Rectangle BoundingBox { get; }
+		int Width { get; }
+		int Height { get; }
 
-		bool IsRegionOfImage { get; protected set; }
+		bool IsRegionOfImage { get; }
 	}
 }

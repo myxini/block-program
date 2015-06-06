@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Myxini.Detection.Image;
 
-namespace Detection
+namespace Myxini.Detection
 {
 	interface IDetector
 	{
-		
+		bool Detection(IImage image, out Raw.BlockArray blocks, out Raw.LineArray lines);
 	}
 }
