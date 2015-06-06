@@ -2,7 +2,7 @@
 
 namespace Myxini.Detection.Raw
 {
-	class LineList
+	class LineArray
 	{
 		void Add(ILine block)
 		{
