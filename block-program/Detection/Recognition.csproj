@@ -40,7 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlockGraph.cs" />
-    <Compile Include="BlockList.cs" />
+    <Compile Include="BlockArray.cs" />
     <Compile Include="BlockNode.cs" />
     <Compile Include="BlockNodeList.cs" />
     <Compile Include="BlockParameter.cs" />
@@ -62,6 +62,7 @@
     <Compile Include="Raw\Size.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Recongnition.cd" />
   </ItemGroup>
   <ItemGroup />

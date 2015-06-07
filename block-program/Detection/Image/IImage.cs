@@ -1,6 +1,6 @@
-﻿using Myxini.Detection.Raw;
+﻿using Myxini.Recognition.Raw;
 
-namespace Myxini.Detection.Image
+namespace Myxini.Recognition.Image
 {
 	public interface IImage
 	{

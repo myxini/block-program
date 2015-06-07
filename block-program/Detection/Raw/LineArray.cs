@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Myxini.Detection.Raw
+namespace Myxini.Recognition.Raw
 {
 	class LineArray
 	{

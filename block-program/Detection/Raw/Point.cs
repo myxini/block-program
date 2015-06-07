@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Myxini.Detection.Raw
+namespace Myxini.Recognition.Raw
 {
 	public struct Point
 	{
