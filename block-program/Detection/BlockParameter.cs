@@ -2,7 +2,7 @@
 {
 	public struct BlockParameter
 	{
-		BlockParameter(int[] parameter)
+		public BlockParameter(int[] parameter)
 		{
 			this.Value_ = parameter;
 		}
