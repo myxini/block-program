@@ -51,6 +51,8 @@
     <Compile Include="IBlock.cs" />
     <Compile Include="Block.cs" />
     <Compile Include="Image\ICamera.cs" />
+    <Compile Include="MicroSwitchBlock.cs" />
+    <Compile Include="MovementBlock.cs" />
     <Compile Include="PSDSensorBlock.cs" />
     <Compile Include="Raw\BlockArray.cs" />
     <Compile Include="Raw\Rectangle.cs" />
