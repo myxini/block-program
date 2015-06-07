@@ -4,6 +4,10 @@
 	{
 		LED,
 		Move,
-		Rotate
+		Rotate,
+		MicroSwitch,
+		PSD,
+		Start,
+		End
 	}
 }

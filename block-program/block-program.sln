@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Recognition", "Detection\Re
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Communication", "Communication\Communication.csproj", "{79444E47-9D7B-4315-91FB-E8639B026B56}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecognitionTest", "RecognitionTest\RecognitionTest.csproj", "{4199714D-F9A4-42A4-8AD4-9F4CD3F73EF8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{79444E47-9D7B-4315-91FB-E8639B026B56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79444E47-9D7B-4315-91FB-E8639B026B56}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{79444E47-9D7B-4315-91FB-E8639B026B56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4199714D-F9A4-42A4-8AD4-9F4CD3F73EF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4199714D-F9A4-42A4-8AD4-9F4CD3F73EF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4199714D-F9A4-42A4-8AD4-9F4CD3F73EF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4199714D-F9A4-42A4-8AD4-9F4CD3F73EF8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
