@@ -1,9 +1,13 @@
-﻿namespace Myxini.Detection
+﻿namespace Myxini.Recognition
 {
 	public enum Command
 	{
 		LED,
 		Move,
-		Rotate
+		Rotate,
+		MicroSwitch,
+		PSD,
+		Start,
+		End
 	}
 }

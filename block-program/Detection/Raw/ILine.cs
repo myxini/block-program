@@ -1,6 +1,6 @@
-﻿using Myxini.Detection.Image;
+﻿using Myxini.Recognition.Image;
 
-namespace Myxini.Detection.Raw
+namespace Myxini.Recognition.Raw
 {
 	public interface ILine
 	{

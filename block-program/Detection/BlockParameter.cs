@@ -1,18 +1,10 @@
-﻿namespace Myxini.Detection
+﻿namespace Myxini.Recognition
 {
 	public struct BlockParameter
 	{
-		BlockParameter(int level, int[] value)
+		public BlockParameter(int[] parameter)
 		{
-			Value_ = new int[value.Length];
-			Level_ = level;
-			value.CopyTo(this.Value_, 0);
-		}
-
-		public int Level
-		{
-			get { return Level_; }
-			private set { Level_ = value; }
+			this.Value_ = parameter;
 		}
 
 		public int Value(int index)
@@ -25,7 +17,6 @@
 			return this.Value_.Length;
 		}
 
-		private int Level_;
 		private int[] Value_;
 	}
 }

@@ -1,7 +1,9 @@
-﻿namespace Myxini.Detection.Raw
+﻿using Myxini.Recognition.Image;
+
+namespace Myxini.Recognition.Raw
 {
 	interface IBlock
 	{
-		Image.IImage BoundingImage { get; }
+		IImage BoundingImage { get; }
 	}
 }

@@ -1,4 +1,4 @@
-﻿namespace Myxini.Detection.Image
+﻿namespace Myxini.Recognition.Image
 {
 	interface ICamera
 	{

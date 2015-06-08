@@ -7,8 +7,8 @@
     <ProjectGuid>{9DF1D578-4A3A-4769-85CD-B311E1D95F1A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Detection</RootNamespace>
-    <AssemblyName>Detection</AssemblyName>
+    <RootNamespace>Myxini.Recognition</RootNamespace>
+    <AssemblyName>Recognition</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,14 +40,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BlockGraph.cs" />
-    <Compile Include="BlockList.cs" />
+    <Compile Include="BlockArray.cs" />
     <Compile Include="BlockNode.cs" />
     <Compile Include="BlockNodeList.cs" />
     <Compile Include="BlockParameter.cs" />
+    <Compile Include="ControlBlock.cs" />
+    <Compile Include="EndBlock.cs" />
     <Compile Include="IBoard.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="IBlock.cs" />
+    <Compile Include="Block.cs" />
     <Compile Include="Image\ICamera.cs" />
+    <Compile Include="LEDBlock.cs" />
+    <Compile Include="MicroSwitchBlock.cs" />
+    <Compile Include="MoveBlock.cs" />
+    <Compile Include="MovementBlock.cs" />
+    <Compile Include="PSDSensorBlock.cs" />
     <Compile Include="Raw\BlockArray.cs" />
     <Compile Include="Raw\Rectangle.cs" />
     <Compile Include="IClassifier.cs" />
@@ -60,8 +68,12 @@
     <Compile Include="Raw\Point.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Raw\Size.cs" />
+    <Compile Include="RotateBlock.cs" />
+    <Compile Include="SensorBlock.cs" />
+    <Compile Include="StartBlock.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Recongnition.cd" />
   </ItemGroup>
   <ItemGroup />

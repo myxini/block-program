@@ -1,4 +1,4 @@
-﻿namespace Myxini.Detection
+﻿namespace Myxini.Recognition
 {
 	interface IClassifier
 	{
