@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace Myxini.Communication.Robot
 {
+    /// <summary>
+    /// コマンドの並んだリスト状態を表すクラス
+    /// 
+    /// あくまで並んだ状態を表すものであり、分岐等は考慮しない
+    /// </summary>
     class CommandList : IEnumerable<Command>
     {
         private List<Command> _commandList = new List<Command>();
