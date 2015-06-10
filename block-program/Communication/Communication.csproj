@@ -38,6 +38,12 @@
     <Compile Include="Communication.cs" />
     <Compile Include="Robot\Command.cs" />
     <Compile Include="Robot\CommandList.cs" />
+    <Compile Include="Robot\LEDCommand.cs" />
+    <Compile Include="Robot\MoveCommand.cs" />
+    <Compile Include="Robot\Packet.cs" />
+    <Compile Include="Robot\RotateCommand.cs" />
+    <Compile Include="Robot\StaticCommand.cs" />
+    <Compile Include="Robot\StraightCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
