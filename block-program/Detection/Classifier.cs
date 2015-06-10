@@ -22,6 +22,7 @@ namespace Myxini.Recognition
             public double Match(Image.IImage image)
             {
                 // ここでパターンマッチング
+
                 // 仮に値を返す
                 return (new Random()).NextDouble() * 2 - 1;
             }
