@@ -44,6 +44,7 @@
     <Compile Include="BlockNode.cs" />
     <Compile Include="BlockNodeList.cs" />
     <Compile Include="BlockParameter.cs" />
+    <Compile Include="Classifier.cs" />
     <Compile Include="ControlBlock.cs" />
     <Compile Include="EndBlock.cs" />
     <Compile Include="IBoard.cs" />
