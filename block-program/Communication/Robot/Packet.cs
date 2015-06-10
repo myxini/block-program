@@ -5,5 +5,6 @@ namespace Myxini.Communication.Robot
     /// </summary>
     public abstract class Packet
     {
+        protected abstract byte[] _packetData { get; }
     }
 }
