@@ -8,7 +8,7 @@ namespace Myxini.Recognition.Raw
 		/// ブロックを追加します
 		/// </summary>
 		/// <param name="block">追加したいブロック</param>
-		void Add(IBlock block)
+		void Add(IRawBlock block)
 		{
 			this.Blocks.Add(block);
 		}
@@ -18,7 +18,7 @@ namespace Myxini.Recognition.Raw
 		/// </summary>
 		/// <param name="index">取得したいブロックのインデックス</param>
 		/// <returns>指定したインデックスのブロック</returns>
-		IBlock Get(int index)
+		IRawBlock Get(int index)
 		{
 			return this.Blocks[index];
 		}
@@ -28,6 +28,6 @@ namespace Myxini.Recognition.Raw
 		/// </summary>
 		int Count { get { return this.Blocks.Count; } }
 
-		List<IBlock> Blocks = new List<IBlock>();
+		List<IRawBlock> Blocks = new List<IRawBlock>();
 	}
 }

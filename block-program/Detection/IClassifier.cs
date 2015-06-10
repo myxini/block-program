@@ -2,6 +2,6 @@
 {
 	interface IClassifier
 	{
-		IBlock clustering(Raw.IBlock block);
+		IBlock clustering(Raw.IRawBlock block);
 	}
 }

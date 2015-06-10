@@ -2,7 +2,7 @@
 
 namespace Myxini.Recognition.Raw
 {
-	interface IBlock
+	interface IRawBlock
 	{
 		IImage BoundingImage { get; }
 	}
