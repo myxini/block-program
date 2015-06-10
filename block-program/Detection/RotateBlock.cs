@@ -2,7 +2,7 @@
 {
 	public class RotateBlock : MovementBlock
 	{
-		RotateBlock(int angle) : base(Command.Rotate, new BlockParameter(new int[]{angle, 0}))
+		public RotateBlock(int angle) : base(Command.Rotate, new BlockParameter(new int[]{angle, 0}))
 		{
 
 		}
