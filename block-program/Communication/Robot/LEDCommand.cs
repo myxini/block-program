@@ -17,7 +17,6 @@ namespace Myxini.Communication.Robot
         public Packet ToPacket()
         {
             throw new NotSupportedException();
-            return null;
         }
         
     }
