@@ -32,17 +32,69 @@ namespace Myxini.Recognition
             //LED
             new Pattern(
                 /* なにかパターンの画像 */null, 
-                new Block(Command.LED, /* なにかパラメータ */new BlockParameter(), false)
+                new Block(Command.LED, new BlockParameter(new int[]{ 0 }), false)
+            ),
+            new Pattern(
+                /* なにかパターンの画像 */null, 
+                new Block(Command.LED, new BlockParameter(new int[]{ 1 }), false)
             ),
             //Move
+            new Pattern(
+                /* なにかパターンの画像 */null, 
+                new Block(Command.Move, new BlockParameter(new int[]{ -3 }), false)
+            ),
+            new Pattern(
+                /* なにかパターンの画像 */null, 
+                new Block(Command.Move, new BlockParameter(new int[]{ -2 }), false)
+            ),
+            new Pattern(
+                /* なにかパターンの画像 */null, 
+                new Block(Command.Move, new BlockParameter(new int[]{ -1 }), false)
+            ),
+            new Pattern(
+                /* なにかパターンの画像 */null, 
+                new Block(Command.Move, new BlockParameter(new int[]{ 1 }), false)
+            ),
+            new Pattern(
+                /* なにかパターンの画像 */null, 
+                new Block(Command.Move, new BlockParameter(new int[]{ 2 }), false)
+            ),
+            new Pattern(
+                /* なにかパターンの画像 */null, 
+                new Block(Command.Move, new BlockParameter(new int[]{ 3 }), false)
+            ),
             //Rotate
+            new Pattern(
+                /* なにかパターンの画像 */null, 
+                new Block(Command.Rotate, new BlockParameter(new int[]{ -1 }), false)
+            ),
+            new Pattern(
+                /* なにかパターンの画像 */null, 
+                new Block(Command.Rotate, new BlockParameter(new int[]{ 1 }), false)
+            ),
             //MicroSwitch
+            new Pattern(
+                /* なにかパターンの画像 */null, 
+                new Block(Command.MicroSwitch, new BlockParameter(), false)
+            ),
             //PSD
+            new Pattern(
+                /* なにかパターンの画像 */null, 
+                new Block(Command.PSD, new BlockParameter(), false)
+            ),
             //Start
+            new Pattern(
+                /* なにかパターンの画像 */null, 
+                new Block(Command.Start, new BlockParameter(), false)
+            ),
             //End
+            new Pattern(
+                /* なにかパターンの画像 */null, 
+                new Block(Command.End, new BlockParameter(), false)
+            ),
         };
 
-        public IBlock clustering(Raw.IRawBlock raw_block)
+        public IBlock Clustering(Raw.IRawBlock raw_block)
         {
             // ここでパターンマッチングして最もマッチする
             Pattern pattern_max_matching = patterns
