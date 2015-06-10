@@ -11,13 +11,14 @@ namespace Myxini.Communication.Robot
     /// </summary>
     class LEDCommand : StaticCommand
     {
-        public MoveCommand()
+        public LEDCommand()
         {
-            public Packet ToPacket()
-            {
-                throw new NotSupportedException();
-                return null;
-            }
         }
+        public Packet ToPacket()
+        {
+            throw new NotSupportedException();
+            return null;
+        }
+        
     }
 }

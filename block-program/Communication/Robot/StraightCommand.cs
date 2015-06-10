@@ -13,9 +13,11 @@ namespace Myxini.Communication.Robot
     {
         public StraightCommand()
         {
-            public Packet ToPacket()
-            {
-            }
+        }
+        public Packet ToPacket()
+        {
+            throw new NotImplementedException();
+            return null;
         }
     }
 }

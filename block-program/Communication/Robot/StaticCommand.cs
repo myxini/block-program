@@ -13,11 +13,11 @@ namespace Myxini.Communication.Robot
     {
         public StaticCommand()
         {
-            public Packet ToPacket()
-            {
-                throw new NotSupportedException();
-                return null;
-            }
+        }
+        public override Packet ToPacket()
+        {
+            throw new NotSupportedException();
+            return null;
         }
     }
 }

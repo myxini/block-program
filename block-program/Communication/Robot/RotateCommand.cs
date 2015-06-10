@@ -13,9 +13,12 @@ namespace Myxini.Communication.Robot
     {
         public RotateCommand()
         {
-            public Packet ToPacket()
-            {
-            }
+        }
+
+        public Packet ToPacket()
+        {
+            throw new NotImplementedException();
+            return null;
         }
     }
 }

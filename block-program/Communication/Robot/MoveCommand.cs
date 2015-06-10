@@ -13,11 +13,12 @@ namespace Myxini.Communication.Robot
     {
         public MoveCommand()
         {
-            public Packet ToPacket()
-            {
-                throw new NotSupportedException();
-                return null;
-            }
         }
+        public override Packet ToPacket()
+        {
+            throw new NotSupportedException();
+            return null;
+        }
+        
     }
 }
