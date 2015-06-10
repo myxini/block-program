@@ -11,6 +11,6 @@ namespace Myxini.Communication.Robot
     /// </summary>
     public abstract class Command
     {
-        public abstract byte[] ToByteArray();
+        public abstract Packet ToPacket();
     }
 }

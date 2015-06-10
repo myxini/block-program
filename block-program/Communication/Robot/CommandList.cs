@@ -19,6 +19,11 @@ namespace Myxini.Communication.Robot
         {
         }
 
+        public void Add(Command command)
+        {
+            this._commandList.Add(command);
+        }
+
         /// <summary>
         /// IEnumeratorを返す。
         /// 
