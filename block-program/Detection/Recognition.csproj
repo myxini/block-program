@@ -61,6 +61,7 @@
     </Compile>
     <Compile Include="Image\DepthImage.cs" />
     <Compile Include="Image\ICamera.cs" />
+    <Compile Include="Image\Kinect.cs" />
     <Compile Include="Image\KinectImage.cs" />
     <Compile Include="LEDBlock.cs" />
     <Compile Include="MicroSwitchBlock.cs" />
