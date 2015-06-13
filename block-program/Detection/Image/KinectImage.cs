@@ -1,26 +1,41 @@
-﻿
+﻿using System;
+
 namespace Myxini.Recognition.Image
 {
 	using Rectangle = Raw.Rectangle;
 	using Size = Raw.Size;
 
-	public class ColorImage : IImage
+	class KinectImage : IImage
 	{
-		public ColorImage(byte[] pixels, int width, int height)
+		public KinectImage(ColorImage color, DepthImage depth)
 		{
-			this.BoundingBox = new Rectangle(0, 0, width, height);
+			this.Color = color;
+			this.Depth = depth;
+			this.BoundingBox = color.BoundingBox;
+			this.Channel = 4;
 			this.OriginalSize = this.BoundingBox.BoundingSize;
-			this.Channel = 3;
 			this.IsRegionOfImage = false;
-			pixels.CopyTo(this.Pixels, 0);
 		}
 
-		public ColorImage(ColorImage image, Rectangle region)
+		public KinectImage(short[] depth, byte[] color, int width, int height)
+		{
+			this.Depth = new DepthImage(depth, width, height);
+			this.Color = new ColorImage(color, width, height);
+
+			this.BoundingBox = new Rectangle(0, 0, width, height);
+			this.OriginalSize = this.BoundingBox.BoundingSize;
+			this.Channel = 4;
+			this.IsRegionOfImage = false;
+		}
+
+		public KinectImage(KinectImage image, Rectangle region)
 		{
 			this.Channel = image.Channel;
-			this.Pixels = image.Pixels;
 			this.OriginalSize = this.OriginalSize;
 			this.IsRegionOfImage = true;
+
+			this.Color = new ColorImage(image.Color, region);
+			this.Depth = new DepthImage(image.Depth, region);
 
 			Rectangle new_region = new Rectangle(
 				image.BoundingBox.X + region.X,
@@ -32,10 +47,16 @@ namespace Myxini.Recognition.Image
 
 		public int GetElement(int x, int y, int channel)
 		{
-			return this.Pixels[
-				(this.OriginalSize.Width * this.BoundingBox.Y + this.BoundingBox.X +	/// 画像全体での部分画像の位置
-				this.BoundingBox.Width * y + x) * this.Channel + channel];						/// 部分画像内での位置
-			//return this.Pixels[(this.Width * y + x) * this.Channel + channel];
+			if(channel == (this.Channel - 1))
+			{
+				return this.Depth.GetElement(x, y, 0);
+			}
+			else
+			{
+				return this.Color.GetElement(x, y, channel);
+			}
+
+			throw new ArgumentOutOfRangeException();
 		}
 
 		/// <summary>
@@ -48,7 +69,7 @@ namespace Myxini.Recognition.Image
 		/// <returns>部分画像</returns>
 		public IImage RegionOfImage(int x, int y, int width, int height)
 		{
-			return new ColorImage(this, new Rectangle(x, y, width, height));
+			return new KinectImage(this, new Rectangle(x, y, width, height));
 		}
 
 		/// <summary>
@@ -58,7 +79,7 @@ namespace Myxini.Recognition.Image
 		/// <returns>部分画像</returns>
 		public IImage RegionOfImage(Rectangle region)
 		{
-			return new ColorImage(this, region);
+			return new KinectImage(this, region);
 		}
 
 		/// <summary>
@@ -67,7 +88,7 @@ namespace Myxini.Recognition.Image
 		/// <returns>ディープコピーした画像</returns>
 		public IImage Clone()
 		{
-			return new ColorImage(this.Pixels, this.Width, this.Height);
+			return new KinectImage(this.Color, this.Depth);
 		}
 
 		/// <summary>
@@ -107,13 +128,33 @@ namespace Myxini.Recognition.Image
 		public bool IsRegionOfImage { get; private set; }
 
 		/// <summary>
-		/// 画像の画素値が保存されています
+		/// 深度画像の画素値が保存されています
 		/// </summary>
-		public byte[] Pixels { get; private set; }
+		public short[] DepthPixels 
+		{
+			get
+			{
+				return this.DepthPixels;
+			}
+		}
+
+		/// <summary>
+		/// カラー画像の画素値が保存されています
+		/// </summary>
+		public byte[] ColorPixels 
+		{
+			get
+			{
+				return this.Color.Pixels;
+			}
+		}
 
 		/// <summary>
 		/// 部分画像の時に原画像の幅と高さを取得する
 		/// </summary>
 		private Size OriginalSize { get; set; }
+
+		private ColorImage Color;
+		private DepthImage Depth;
 	}
 }

@@ -53,8 +53,15 @@
     <Compile Include="IBlock.cs" />
     <Compile Include="Block.cs" />
     <Compile Include="Image\ColorImage.cs" />
+    <Compile Include="Image\Component1.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Image\Component1.Designer.cs">
+      <DependentUpon>Component1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Image\DepthImage.cs" />
     <Compile Include="Image\ICamera.cs" />
+    <Compile Include="Image\KinectImage.cs" />
     <Compile Include="LEDBlock.cs" />
     <Compile Include="MicroSwitchBlock.cs" />
     <Compile Include="MoveBlock.cs" />
