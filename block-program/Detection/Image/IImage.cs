@@ -1,18 +1,18 @@
-﻿using Myxini.Recognition.Raw;
-
-namespace Myxini.Recognition.Image
+﻿namespace Myxini.Recognition.Image
 {
+	using Rectangle = Raw.Rectangle;
+	using Size = Raw.Size;
+
 	public interface IImage
 	{　
 		/// <summary>
 		/// 画像の要素を取得します
 		/// </summary>
-		/// <typeparam name="ElementType">要素の型です</typeparam>
 		/// <param name="x">画像のX座標</param>
 		/// <param name="y">画像のY座標</param>
 		/// <param name="channel">画像のチャネル</param>
 		/// <returns>画像の要素</returns>
-		ElementType GetElement<ElementType>(int x, int y, int channel);
+		int GetElement(int x, int y, int channel);
 
 		/// <summary>
 		/// 画像の一部を取得します
@@ -43,7 +43,7 @@ namespace Myxini.Recognition.Image
 		int Channel { get; }
 		/// <summary>
 		/// 画像の領域
-		/// この画像が部分画像の時，X,Yには元画像のオフセットが指定されます．
+		/// この画像が部分画像の時，X,Yには元画像とのオフセットが指定されます．
 		/// </summary>
 		Rectangle BoundingBox { get; }
 		/// <summary>
