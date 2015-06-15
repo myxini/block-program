@@ -6,29 +6,40 @@ using System.Threading.Tasks;
 
 namespace Myxini.Recognition
 {
-    class Classifier : IClassifier
-    {
-        private class Pattern
-        {
-            private Image.IImage pattern;
-            public IBlock Block { get; private set; }
-            
-            public Pattern(Image.IImage pattern, IBlock block)
-            {
-                this.pattern = pattern;
-                Block = block;
-            }
+	class Classifier : IClassifier
+	{
+		private class Pattern
+		{
+			private Image.IImage pattern;
+			public IBlock Block { get; private set; }
 
-            public double Match(Image.IImage image)
-            {
-                // ここでパターンマッチング
+			public Pattern(Image.IImage pattern, IBlock block)
+			{
+				this.pattern = pattern;
+				Block = block;
+			}
 
-                // 仮に値を返す
-                return (new Random()).NextDouble() * 2 - 1;
-            }
-        }
+			public double Match(Image.IImage image)
+			{
+				// ここでパターンマッチング
+				// とりあえず SADで
+				uint distance = 0;
+				for (int y = 0; y < image.Width; ++y)
+				{
+					for (int x = 0; x < image.Height; ++x)
+					{
+						distance += (uint)Math.Pow(image.GetElement(x, y, 0) - this.pattern.GetElement(x, y, 0), 2);
+					}
+				}
 
-        private IList<Pattern> patterns = new List<Pattern>
+				return distance;
+
+				// 仮に値を返す
+				//return (new Random()).NextDouble() * 2 - 1;
+			}
+		}
+
+		private IList<Pattern> patterns = new List<Pattern>
         {
             //LED
             new Pattern(
@@ -95,13 +106,13 @@ namespace Myxini.Recognition
             ),
         };
 
-        public IBlock Clustering(Raw.IRawBlock raw_block)
-        {
-            // ここでパターンマッチングして最もマッチする
-            Pattern pattern_max_matching = patterns
-                .OrderByDescending(pattern => Math.Abs(pattern.Match(raw_block.BoundingImage)))
-                .First();
-            return pattern_max_matching.Block;
-        }
-    }
+		public IBlock Clustering(Raw.IRawBlock raw_block)
+		{
+			// ここでパターンマッチングして最もマッチする
+			Pattern pattern_max_matching = patterns
+					.OrderByDescending(pattern => Math.Abs(pattern.Match(raw_block.BoundingImage)))
+					.First();
+			return pattern_max_matching.Block;
+		}
+	}
 }
