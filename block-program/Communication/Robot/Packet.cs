@@ -7,7 +7,7 @@ namespace Myxini.Communication.Robot
     {
         protected abstract byte[] _packetData { get; }
 
-        private static byte CalcCheckSum(byte[] packet)
+        protected static byte CalcCheckSum(byte[] packet)
         {
             byte sum = 0;
             foreach(var b in packet)
