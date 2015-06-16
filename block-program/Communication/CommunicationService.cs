@@ -13,6 +13,19 @@ namespace Myxini.Communication
         public CommunicationService()
         {
             this.RobotPort = new SerialPort();
+            this.RobotPort.DataReceived += DataReceived;
+        }
+
+        private void DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            var port = sender as SerialPort;
+            if(port == null)
+            {
+                return;
+            }
+            string indata = port.ReadExisting();
+            byte[] data = System.Text.ASCIIEncoding.ASCII.GetBytes(indata);
+            var packet = new Robot.Robot2PcPacket(data);
         }
 
         protected void Do(Robot.Command command)
