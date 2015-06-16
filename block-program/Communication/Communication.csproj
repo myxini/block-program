@@ -45,6 +45,7 @@
     <Compile Include="Robot\MoveCommand.cs" />
     <Compile Include="Robot\Packet.cs" />
     <Compile Include="Robot\Pc2RobotPacket.cs" />
+    <Compile Include="Robot\Robot2PcPacket.cs" />
     <Compile Include="Robot\RotateCommand.cs" />
     <Compile Include="Robot\StaticCommand.cs" />
     <Compile Include="Robot\StraightCommand.cs" />
