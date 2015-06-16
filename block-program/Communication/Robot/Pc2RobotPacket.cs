@@ -85,7 +85,28 @@ namespace Myxini.Communication.Robot
             }
         }
 
+        protected byte Property1
+        {
+            get
+            {
+                return (byte)(this._packetData[(int)PacketIndex.PROP1]);
+            }
+            set
+            {
+                this._packetData[(int)PacketIndex.PROP1] = value;
+            }
+        }
 
-        /////実装途中
+        protected byte Property2
+        {
+            get
+            {
+                return (byte)(this._packetData[(int)PacketIndex.PROP2]);
+            }
+            set
+            {
+                this._packetData[(int)PacketIndex.PROP2] = value;
+            }
+        }
     }
 }
