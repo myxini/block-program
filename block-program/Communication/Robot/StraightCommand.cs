@@ -11,13 +11,24 @@ namespace Myxini.Communication.Robot
     /// </summary>
     class StraightCommand : MoveCommand
     {
+        public float Velocity { get; set; }
+        public float Time { get; set; }
         public StraightCommand()
         {
+            this.CommandID = 0x01;
         }
-        public Packet ToPacket()
+        public override Packet ToPacket()
         {
-            throw new NotImplementedException();
-            return null;
+            var p = new Pc2RobotPacket()
+            {
+                RobotID = this.RobotID,
+                IsNeedInterrupt = this.IsNeedInterrupt,
+                CommandID = this.CommandID,
+                Property1 = (byte)(this.Velocity * 256),
+                Property2 = (byte)(this.Time)
+            };
+            p.AddCheckSum();
+            return p;
         }
     }
 }

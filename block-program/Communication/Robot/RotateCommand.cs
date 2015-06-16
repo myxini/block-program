@@ -11,14 +11,26 @@ namespace Myxini.Communication.Robot
     /// </summary>
     class RotateCommand : MoveCommand
     {
+        public float AngularVelocity { get; set; }
+        public float Angle { get; set; }
+
         public RotateCommand()
         {
+            this.CommandID = 0x02;
         }
 
-        public Packet ToPacket()
+        public override Packet ToPacket()
         {
-            throw new NotImplementedException();
-            return null;
+            var packet = new Pc2RobotPacket()
+            {
+                RobotID = this.RobotID,
+                IsNeedInterrupt = this.IsNeedInterrupt,
+                CommandID = this.CommandID,
+                Property1 = (byte)(this.AngularVelocity * 256),
+                Property2 = (byte)(this.Angle)
+            };
+            packet.AddCheckSum();
+            return packet;
         }
     }
 }

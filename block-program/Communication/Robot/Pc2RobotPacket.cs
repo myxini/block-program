@@ -28,7 +28,7 @@ namespace Myxini.Communication.Robot
             }
         }
 
-        public UInt16 HEAD
+        public UInt16 Head
         {
             get
             {
@@ -85,7 +85,7 @@ namespace Myxini.Communication.Robot
             }
         }
 
-        protected byte Property1
+        public byte Property1
         {
             get
             {
@@ -97,7 +97,7 @@ namespace Myxini.Communication.Robot
             }
         }
 
-        protected byte Property2
+        public byte Property2
         {
             get
             {
@@ -107,6 +107,12 @@ namespace Myxini.Communication.Robot
             {
                 this._packetData[(int)PacketIndex.PROP2] = value;
             }
+        }
+
+        public Pc2RobotPacket()
+        {
+            this.Head = (UInt16)0x0609;
+            this.RobotID = 0x01;
         }
     }
 }

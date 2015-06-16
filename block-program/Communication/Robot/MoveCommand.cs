@@ -14,6 +14,7 @@ namespace Myxini.Communication.Robot
         public MoveCommand()
         {
         }
+
         public override Packet ToPacket()
         {
             throw new NotSupportedException();

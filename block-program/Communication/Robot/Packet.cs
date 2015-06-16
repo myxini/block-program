@@ -7,7 +7,7 @@ namespace Myxini.Communication.Robot
     {
         protected abstract byte[] _packetData { get; }
 
-        private static byte calcCheckSum(byte[] packet)
+        private static byte CalcCheckSum(byte[] packet)
         {
             byte sum = 0;
             foreach(var b in packet)
@@ -20,9 +20,9 @@ namespace Myxini.Communication.Robot
         /// <summary>
         /// PacketDataの最後の要素をチェックサムで埋めます
         /// </summary>
-        protected void addCheckSum()
+        public void AddCheckSum()
         {
-            this._packetData[_packetData.Length - 1] = Packet.calcCheckSum(this._packetData);
+            this._packetData[_packetData.Length - 1] = Packet.CalcCheckSum(this._packetData);
         }
     }
 }
