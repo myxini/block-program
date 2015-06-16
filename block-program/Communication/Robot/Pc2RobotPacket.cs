@@ -11,7 +11,7 @@ namespace Myxini.Communication.Robot
         enum PacketIndex : int
         {
             HEAD_HIGH = 0,
-            HEAD_LOw,
+            HEAD_LOW,
             ROBOT_ID,
             INTERRUPT_COMAND_ID,
             PROP1,
@@ -32,12 +32,12 @@ namespace Myxini.Communication.Robot
         {
             get
             {
-                return (UInt16)(((UInt16)(((UInt16)this._packetData[(int)PacketIndex.HEAD_HIGH]) << 8 )) & ((UInt16)this._packetData[(int)PacketIndex.HEAD_LOw]));
+                return (UInt16)(((UInt16)(((UInt16)this._packetData[(int)PacketIndex.HEAD_HIGH]) << 8 )) & ((UInt16)this._packetData[(int)PacketIndex.HEAD_LOW]));
             }
             set
             {
                 this._packetData[(int)PacketIndex.HEAD_HIGH] = (byte)((value >> 8) & 0xff);
-                this._packetData[(int)PacketIndex.HEAD_LOw] = (byte)(value & 0xff);
+                this._packetData[(int)PacketIndex.HEAD_LOW] = (byte)(value & 0xff);
             }
         }
         public byte RobotID
