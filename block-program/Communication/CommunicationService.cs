@@ -14,5 +14,14 @@ namespace Myxini.Communication
         {
             this.RobotPort = new SerialPort();
         }
+
+        protected void Do(Robot.Command command)
+        {
+            if(this.RobotPort.IsOpen)
+            {
+                var packet = (byte[])command.ToPacket();
+                this.RobotPort.Write(packet, 0, packet.Count());
+            }
+        }
     }
 }

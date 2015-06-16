@@ -24,5 +24,10 @@ namespace Myxini.Communication.Robot
         {
             this._packetData[_packetData.Length - 1] = Packet.CalcCheckSum(this._packetData);
         }
+
+        public static explicit operator byte[](Packet p)
+        {
+            return p._packetData;
+        }
     }
 }
