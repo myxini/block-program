@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO.Ports;
+using Myxini.Recognition;
 
 namespace Myxini.Communication
 {
-    class CommunicationService
+    public class CommunicationService
     {
         public SerialPort RobotPort { get; set; }
         public CommunicationService()
@@ -18,11 +19,11 @@ namespace Myxini.Communication
 
         private void DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            var port = sender as SerialPort;
-            if(port == null)
+            if(!(sender is SerialPort))
             {
                 return;
             }
+            var port = sender as SerialPort;
             string indata = port.ReadExisting();
             byte[] data = System.Text.ASCIIEncoding.ASCII.GetBytes(indata);
             var packet = new Robot.Robot2PcPacket(data);
@@ -36,5 +37,7 @@ namespace Myxini.Communication
                 this.RobotPort.Write(packet, 0, packet.Count());
             }
         }
+
+//        public void Run(Myxini.Recognition.s)
     }
 }

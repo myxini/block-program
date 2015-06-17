@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Myxini.Communication;
 
 namespace CommunicationTest
 {
@@ -7,8 +8,9 @@ namespace CommunicationTest
     public class PacketTest
     {
         [TestMethod]
-        public void TestMethod1()
+        public void RotateCommandTest()
         {
+            CommunicationService service;
         }
     }
 }
