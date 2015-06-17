@@ -8,14 +8,14 @@ namespace Myxini.Recognition
 {
     public class Script
     {
-        private List<Trigger> list_triger = new List<Trigger>();
+        private List<Routine> list_triger = new List<Routine>();
 
         public Script()
         {
             Triggers = list_triger;
         }
 
-        public IEnumerable<Trigger> Triggers { get; private set; }
+        public IEnumerable<Routine> Triggers { get; private set; }
 
     }
 }
