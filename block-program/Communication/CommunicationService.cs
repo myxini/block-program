@@ -11,6 +11,9 @@ namespace Myxini.Communication
     public class CommunicationService
     {
         public SerialPort RobotPort { get; set; }
+        public Script RobotScript { get; private set; }
+        private bool _isRunning = false;
+
         public CommunicationService()
         {
             this.RobotPort = new SerialPort();
@@ -38,6 +41,18 @@ namespace Myxini.Communication
             }
         }
 
-//        public void Run(Myxini.Recognition.s)
+        public void Run(Myxini.Recognition.Script script)
+        {
+            this.RobotScript = script;
+            this._isRunning = true;
+        }
+
+        public void Stop()
+        {
+            if(!this._isRunning)
+            {
+                return;
+            }
+        }
     }
 }
