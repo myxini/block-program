@@ -10,6 +10,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecognitionTest", "RecognitionTest\RecognitionTest.csproj", "{4199714D-F9A4-42A4-8AD4-9F4CD3F73EF8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunicationTest", "CommunicationTest\CommunicationTest.csproj", "{251E2D96-A2CF-47FA-86CD-2B11DF888E7E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{79444E47-9D7B-4315-91FB-E8639B026B56} = {79444E47-9D7B-4315-91FB-E8639B026B56}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
