@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Myxini.Recognition
 {
-    class Trigger
+    public class Trigger
     {
         public IEnumerable<Instruction> Instructions { get; private set; }
     }

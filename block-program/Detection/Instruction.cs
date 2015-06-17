@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Myxini.Recognition
 {
-    class Instruction
+    public class Instruction
     {
     }
 }
