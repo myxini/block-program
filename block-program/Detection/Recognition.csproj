@@ -63,6 +63,7 @@
     <Compile Include="Image\ICamera.cs" />
     <Compile Include="Image\Kinect.cs" />
     <Compile Include="Image\KinectImage.cs" />
+    <Compile Include="Instruction.cs" />
     <Compile Include="LEDBlock.cs" />
     <Compile Include="MicroSwitchBlock.cs" />
     <Compile Include="MoveBlock.cs" />
@@ -81,8 +82,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Raw\Size.cs" />
     <Compile Include="RotateBlock.cs" />
+    <Compile Include="Script.cs" />
     <Compile Include="SensorBlock.cs" />
     <Compile Include="StartBlock.cs" />
+    <Compile Include="Trigger.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
