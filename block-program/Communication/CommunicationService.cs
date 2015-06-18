@@ -20,6 +20,14 @@ namespace Myxini.Communication
             this.RobotPort.DataReceived += DataReceived;
         }
 
+        public ~CommunicationService()
+        {
+            if(this._isRunning)
+            {
+                this.Stop();
+            }
+        }
+
         private void DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             if(!(sender is SerialPort))

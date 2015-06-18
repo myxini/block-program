@@ -58,6 +58,10 @@
       <Project>{79444e47-9d7b-4315-91fb-e8639b026b56}</Project>
       <Name>Communication</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Detection\Recognition.csproj">
+      <Project>{9df1d578-4a3a-4769-85cd-b311e1d95f1a}</Project>
+      <Name>Recognition</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

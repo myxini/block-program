@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Myxini.Communication;
+using Myxini.Recognition;
 
 namespace CommunicationTest
 {
@@ -10,7 +11,9 @@ namespace CommunicationTest
         [TestMethod]
         public void RotateCommandTest()
         {
-            CommunicationService service;
+            var service = new CommunicationService();
+            var script = new Script();
+            service.Run(script);
         }
     }
 }
