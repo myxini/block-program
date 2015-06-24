@@ -34,6 +34,10 @@ namespace Myxini.Communication
             {
                 return this._isRunning;
             }
+            private set
+            {
+                this._isRunning = value;
+            }
         }
 
         public static string[] GetAvailablePorts()
@@ -56,7 +60,7 @@ namespace Myxini.Communication
 
         ~CommunicationService()
         {
-            if(this._isRunning)
+            if(this.IsRunning)
             {
                 this.Stop();
             }
@@ -87,12 +91,12 @@ namespace Myxini.Communication
         {
             this.RobotScript = script;
             this.RobotPort.Open();
-            this._isRunning = this.RobotPort.IsOpen;
+            this.IsRunning = this.RobotPort.IsOpen;
         }
 
         public void Stop()
         {
-            if(!this._isRunning)
+            if(!this.IsRunning)
             {
                 return;
             }
