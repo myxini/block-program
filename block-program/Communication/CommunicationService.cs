@@ -41,7 +41,7 @@ namespace Myxini.Communication
             return SerialPort.GetPortNames();
         }
 
-        public CommunicationService()
+        public CommunicationService(string portname)
         {
             this.RobotPort = new SerialPort()
             {
@@ -50,6 +50,7 @@ namespace Myxini.Communication
                 DataBits = DATABITS,
                 StopBits = STOPBITS
             };
+            this.RobotPortName = portname;
             this.RobotPort.DataReceived += DataReceived;
         }
 
