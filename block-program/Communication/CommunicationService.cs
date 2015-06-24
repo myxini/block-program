@@ -32,7 +32,7 @@ namespace Myxini.Communication
         { 
             get
             {
-                return this.IsRunning;
+                return this._isRunning;
             }
         }
 
