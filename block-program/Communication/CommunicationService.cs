@@ -86,8 +86,8 @@ namespace Myxini.Communication
         public void Run(Myxini.Recognition.Script script)
         {
             this.RobotScript = script;
-            this._isRunning = true;
             this.RobotPort.Open();
+            this._isRunning = this.RobotPort.IsOpen;
         }
 
         public void Stop()
