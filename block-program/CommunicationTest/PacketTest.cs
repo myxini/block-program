@@ -36,7 +36,11 @@ namespace CommunicationTest
         {
             var ports = CommunicationService.GetAvailablePorts();
             CommunicationService service = null;
-            if (ports.Length == 1)
+            if(ports.Length == 0)
+            {
+                return;
+            }
+            else if (ports.Length == 1)
             {
                 service = new CommunicationService(ports[0]);
                 service.Run(new Script());
