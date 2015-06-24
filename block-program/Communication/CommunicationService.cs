@@ -10,10 +10,12 @@ namespace Myxini.Communication
 {
     public class CommunicationService
     {
+        #region シリアル用のconst値
         private const int BAUDRATE = 9600;
         private const Parity PARITY = Parity.None;
         private const int DATABITS = 8;
         private const StopBits STOPBITS = StopBits.One;
+        #endregion
         public SerialPort RobotPort { get; set; }
         public string RobotPortName
         {
@@ -82,8 +84,8 @@ namespace Myxini.Communication
         {
             if(this.RobotPort.IsOpen)
             {
-                var packet = (byte[])command.ToPacket();
-                this.RobotPort.Write(packet, 0, packet.Count());
+                var packetbytes = (byte[])command.ToPacket();
+                this.RobotPort.Write(packetbytes, 0, packetbytes.Count());
             }
         }
 
