@@ -10,10 +10,12 @@ namespace Myxini.Communication
 {
     public class CommunicationService
     {
+        #region シリアル用のconst値
         private const int BAUDRATE = 9600;
         private const Parity PARITY = Parity.None;
         private const int DATABITS = 8;
         private const StopBits STOPBITS = StopBits.One;
+        #endregion
         public SerialPort RobotPort { get; set; }
         public string RobotPortName
         {
@@ -32,11 +34,15 @@ namespace Myxini.Communication
         { 
             get
             {
-                return this.IsRunning;
+                return this._isRunning;
+            }
+            private set
+            {
+                this._isRunning = value;
             }
         }
 
-        public static IEnumerable<string> GetAvailablePorts()
+        public static string[] GetAvailablePorts()
         {
             return SerialPort.GetPortNames();
         }
@@ -56,7 +62,7 @@ namespace Myxini.Communication
 
         ~CommunicationService()
         {
-            if(this._isRunning)
+            if(this.IsRunning)
             {
                 this.Stop();
             }
@@ -78,21 +84,21 @@ namespace Myxini.Communication
         {
             if(this.RobotPort.IsOpen)
             {
-                var packet = (byte[])command.ToPacket();
-                this.RobotPort.Write(packet, 0, packet.Count());
+                var packetbytes = (byte[])command.ToPacket();
+                this.RobotPort.Write(packetbytes, 0, packetbytes.Count());
             }
         }
 
         public void Run(Myxini.Recognition.Script script)
         {
             this.RobotScript = script;
-            this._isRunning = true;
             this.RobotPort.Open();
+            this.IsRunning = this.RobotPort.IsOpen;
         }
 
         public void Stop()
         {
-            if(!this._isRunning)
+            if(!this.IsRunning)
             {
                 return;
             }
