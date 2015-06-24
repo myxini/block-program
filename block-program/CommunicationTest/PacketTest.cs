@@ -56,6 +56,7 @@ namespace CommunicationTest
                 }
             }
             Assert.IsTrue(service.IsRunning);
+            service.Stop();
         }
     }
 }
