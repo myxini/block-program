@@ -11,7 +11,7 @@ namespace CommunicationTest
         [TestMethod]
         public void RotateCommandTest()
         {
-            var service = new CommunicationService();
+            var service = new CommunicationService("4");
             var script = new Script();
             service.Run(script);
         }
