@@ -36,7 +36,7 @@ namespace Myxini.Communication
             }
         }
 
-        public static IEnumerable<string> GetAvailablePorts()
+        public static string[] GetAvailablePorts()
         {
             return SerialPort.GetPortNames();
         }
