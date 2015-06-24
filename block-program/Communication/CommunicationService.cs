@@ -10,17 +10,50 @@ namespace Myxini.Communication
 {
     public class CommunicationService
     {
+        private const int BAUDRATE = 9600;
+        private const Parity PARITY = Parity.None;
+        private const int DATABITS = 8;
+        private const StopBits STOPBITS = StopBits.One;
         public SerialPort RobotPort { get; set; }
+        public string RobotPortName
+        {
+            get
+            {
+                return this.RobotPort.PortName;
+            }
+            set
+            {
+                this.RobotPort.PortName = value;
+            }
+        }
         public Script RobotScript { get; private set; }
         private bool _isRunning = false;
+        public bool IsRunning 
+        { 
+            get
+            {
+                return this.IsRunning;
+            }
+        }
+
+        public static IEnumerable<string> GetAvailablePorts()
+        {
+            return SerialPort.GetPortNames();
+        }
 
         public CommunicationService()
         {
-            this.RobotPort = new SerialPort();
+            this.RobotPort = new SerialPort()
+            {
+                BaudRate = BAUDRATE,
+                Parity = PARITY,
+                DataBits = DATABITS,
+                StopBits = STOPBITS
+            };
             this.RobotPort.DataReceived += DataReceived;
         }
 
-        public ~CommunicationService()
+        ~CommunicationService()
         {
             if(this._isRunning)
             {
@@ -53,6 +86,7 @@ namespace Myxini.Communication
         {
             this.RobotScript = script;
             this._isRunning = true;
+            this.RobotPort.Open();
         }
 
         public void Stop()
@@ -60,6 +94,10 @@ namespace Myxini.Communication
             if(!this._isRunning)
             {
                 return;
+            }
+            if(this.RobotPort.IsOpen)
+            {
+                this.RobotPort.Close();
             }
         }
     }
