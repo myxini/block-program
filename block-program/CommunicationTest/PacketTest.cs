@@ -55,6 +55,11 @@ namespace CommunicationTest
             }
             Assert.IsTrue(service.IsRunning);
             service.Stop();
+=======
+            var service = new CommunicationService("4");
+            var script = new Script();
+            service.Run(script);
+>>>>>>> a91b32cff28944175dc22c95c07d19c01b3f1682
         }
     }
 }
