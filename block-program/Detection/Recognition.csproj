@@ -53,7 +53,7 @@
     <Compile Include="Command.cs" />
     <Compile Include="IBlock.cs" />
     <Compile Include="Image\BitmapImage.cs" />
-    <Compile Include="Instruction.cs" />
+    <Compile Include="InstructionBlock.cs" />
     <Compile Include="Image\ColorImage.cs" />
     <Compile Include="Image\Component1.cs">
       <SubType>Component</SubType>
@@ -68,7 +68,6 @@
     <Compile Include="LEDBlock.cs" />
     <Compile Include="MicroSwitchBlock.cs" />
     <Compile Include="MoveBlock.cs" />
-    <Compile Include="MovementBlock.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

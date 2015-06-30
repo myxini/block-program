@@ -1,9 +1,9 @@
 ﻿
 namespace Myxini.Recognition
 {
-    public class Instruction : IBlock
+    public class InstructionBlock : IBlock
     {
-        public Instruction(Command command, BlockParameter parameter)
+        public InstructionBlock(Command command, BlockParameter parameter)
         {
             this.CommandIdentification = command;
             this.Parameter = parameter;

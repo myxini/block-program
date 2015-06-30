@@ -8,7 +8,7 @@ namespace Myxini.Recognition
 {
     public class Routine
     {
-        private IList<Instruction> list_instruction = new List<Instruction>();
+        private IList<InstructionBlock> list_instruction = new List<InstructionBlock>();
 
         public Routine(ControlBlock trigger)
         {
@@ -16,7 +16,12 @@ namespace Myxini.Recognition
             Trigger = trigger;
         }
 
-        public IEnumerable<Instruction> Instructions { get; private set; }
+        public IEnumerable<InstructionBlock> Instructions { get; private set; }
         public ControlBlock Trigger { get; private set; }
+
+        public void Append(InstructionBlock instruction)
+        {
+            list_instruction.Add(instruction);
+        }
     }
 }
