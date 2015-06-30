@@ -4,6 +4,8 @@
 	{
 		public ControlBlock(Command command, BlockParameter parameter)
 		{
+            CommandIdentification = command;
+            Parameter = parameter;
 		}
 
         public bool IsControlBlock
@@ -15,7 +17,6 @@
         }
 
         public Command CommandIdentification { get; private set; }
-
         public BlockParameter Parameter { get; private set; }
     }
 }
