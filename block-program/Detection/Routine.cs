@@ -10,11 +10,13 @@ namespace Myxini.Recognition
     {
         private IList<Instruction> list_instruction = new List<Instruction>();
 
-        public Routine()
+        public Routine(ControlBlock trigger)
         {
             Instructions = list_instruction;
+            Trigger = trigger;
         }
 
         public IEnumerable<Instruction> Instructions { get; private set; }
+        public ControlBlock Trigger { get; private set; }
     }
 }
