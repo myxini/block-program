@@ -28,8 +28,9 @@ namespace Myxini.Communication
                 this.RobotPort.PortName = value;
             }
         }
-        private Dictionary<Command, List<InstructionBlock>> _robotScript;
-        private Command _currentInstructionType;
+        private Dictionary<Command, Robot.CommandList> _robotScript;
+        private Command _currentInstructionType = Command.Start;
+        private PacketBuilder _buuiler;
         private bool _isRunning = false;
         public bool IsRunning 
         { 
@@ -58,7 +59,7 @@ namespace Myxini.Communication
                 StopBits = STOPBITS
             };
             this.RobotPortName = portname;
-            this._robotScript = new Dictionary<Command, List<InstructionBlock>>();
+            this._robotScript = new Dictionary<Command, Robot.CommandList>();
             this.RobotPort.DataReceived += DataReceived;
         }
 
@@ -102,8 +103,9 @@ namespace Myxini.Communication
             {
                 var script = this._robotScript;
                 var currentInstruction = this._currentInstructionType;
-                foreach(var instruction in this._robotScript[currentInstruction])
+                foreach(var command in this._robotScript[currentInstruction])
                 {
+                    this.Do(command);
                 }
             }
         }
@@ -126,22 +128,21 @@ namespace Myxini.Communication
             this.RobotPort.Close();   
         }
 
-        private Dictionary<Command, List<InstructionBlock>> LoadScript(Myxini.Recognition.Script script)
+        private void LoadScript(Myxini.Recognition.Script script)
         {
-            var dst = new Dictionary<Command, List<InstructionBlock>>();
+            this._robotScript.Clear();
             foreach(var routine in script.Routines)
             {
-                dst.Add(
+                this._robotScript.Add(
                     routine.Trigger.CommandIdentification,
-                    new List<InstructionBlock>(routine.Instructions)
+                    this._buuiler.Build(routine.Instructions)
                 );
             }
-            return dst;
         }
 
         public void Run(Myxini.Recognition.Script script)
         {
-            this._robotScript = this.LoadScript(script);
+            this.LoadScript(script);
             this.RunAsync();
         }
 

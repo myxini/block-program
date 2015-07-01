@@ -39,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommunicationService.cs" />
+    <Compile Include="PacketBuilder.cs" />
     <Compile Include="Robot\Command.cs" />
     <Compile Include="Robot\CommandList.cs" />
     <Compile Include="Robot\LEDCommand.cs" />
