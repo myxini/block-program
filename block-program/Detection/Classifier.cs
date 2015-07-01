@@ -33,9 +33,6 @@ namespace Myxini.Recognition
 				}
 
 				return distance;
-
-				// 仮に値を返す
-				//return (new Random()).NextDouble() * 2 - 1;
 			}
 		}
 
@@ -43,72 +40,73 @@ namespace Myxini.Recognition
         {
             //LED
             new Pattern(
-                /* なにかパターンの画像 */null, 
-                new Instruction(Command.LED, new BlockParameter(new int[]{ 0 }), false)
+                new Image.BitmapImage(Properties.Resources.PatternDummy), // ダミービットマップの例
+                new InstructionBlock(Command.LED, new BlockParameter(new int[]{ 0 }))
             ),
             new Pattern(
                 /* なにかパターンの画像 */null, 
-                new Instruction(Command.LED, new BlockParameter(new int[]{ 1 }), false)
+                new InstructionBlock(Command.LED, new BlockParameter(new int[]{ 1 }))
             ),
             //Move
             new Pattern(
                 /* なにかパターンの画像 */null, 
-                new Instruction(Command.Move, new BlockParameter(new int[]{ -3 }), false)
+                new InstructionBlock(Command.Move, new BlockParameter(new int[]{ -3 }))
             ),
             new Pattern(
                 /* なにかパターンの画像 */null, 
-                new Instruction(Command.Move, new BlockParameter(new int[]{ -2 }), false)
+                new InstructionBlock(Command.Move, new BlockParameter(new int[]{ -2 }))
             ),
             new Pattern(
                 /* なにかパターンの画像 */null, 
-                new Instruction(Command.Move, new BlockParameter(new int[]{ -1 }), false)
+                new InstructionBlock(Command.Move, new BlockParameter(new int[]{ -1 }))
             ),
             new Pattern(
                 /* なにかパターンの画像 */null, 
-                new Instruction(Command.Move, new BlockParameter(new int[]{ 1 }), false)
+                new InstructionBlock(Command.Move, new BlockParameter(new int[]{ 1 }))
             ),
             new Pattern(
                 /* なにかパターンの画像 */null, 
-                new Instruction(Command.Move, new BlockParameter(new int[]{ 2 }), false)
+                new InstructionBlock(Command.Move, new BlockParameter(new int[]{ 2 }))
             ),
             new Pattern(
                 /* なにかパターンの画像 */null, 
-                new Instruction(Command.Move, new BlockParameter(new int[]{ 3 }), false)
+                new InstructionBlock(Command.Move, new BlockParameter(new int[]{ 3 }))
             ),
             //Rotate
             new Pattern(
                 /* なにかパターンの画像 */null, 
-                new Instruction(Command.Rotate, new BlockParameter(new int[]{ -1 }), false)
+                new InstructionBlock(Command.Rotate, new BlockParameter(new int[]{ -1 }))
             ),
             new Pattern(
                 /* なにかパターンの画像 */null, 
-                new Instruction(Command.Rotate, new BlockParameter(new int[]{ 1 }), false)
+                new InstructionBlock(Command.Rotate, new BlockParameter(new int[]{ 1 }))
             ),
             //MicroSwitch
             new Pattern(
                 /* なにかパターンの画像 */null, 
-                new Instruction(Command.MicroSwitch, new BlockParameter(), false)
+                new InstructionBlock(Command.MicroSwitch, new BlockParameter())
             ),
             //PSD
             new Pattern(
                 /* なにかパターンの画像 */null, 
-                new Instruction(Command.PSD, new BlockParameter(), false)
+                new ControlBlock(Command.PSD, new BlockParameter())
             ),
             //Start
             new Pattern(
                 /* なにかパターンの画像 */null, 
-                new Instruction(Command.Start, new BlockParameter(), false)
+                new ControlBlock(Command.Start, new BlockParameter())
             ),
             //End
             new Pattern(
                 /* なにかパターンの画像 */null, 
-                new Instruction(Command.End, new BlockParameter(), false)
+                new ControlBlock(Command.End, new BlockParameter())
             ),
         };
 
 		public IBlock Clustering(Raw.IRawBlock raw_block)
 		{
-			// ここでパターンマッチングして最もマッチする
+			// ここでパターンマッチングして最もマッチするパターンに
+            // 紐付けしたIBlockを返す
 			Pattern pattern_max_matching = patterns
 					.OrderByDescending(pattern => Math.Abs(pattern.Match(raw_block.BoundingImage)))
 					.First();
