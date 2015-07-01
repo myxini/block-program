@@ -10,6 +10,11 @@ namespace Myxini.Recognition
     {
         private IList<Routine> list_routine = new List<Routine>();
 
+        /// <summary>
+        /// 直前に操作した Routine
+        /// </summary>
+        private Routine just_before_routine;
+
         public Script()
         {
             Routines = list_routine;
@@ -17,9 +22,63 @@ namespace Myxini.Recognition
 
         public IEnumerable<Routine> Routines { get; private set; }
 
-        public void AddRoutine(Routine routine)
+       /// <summary>
+        /// trigger がトリガである Routine に instruction を追加する
+        /// </summary>
+        /// <param name="instruction"></param>
+        /// <param name="trigger"></param>
+        public void Add(InstructionBlock instruction, ControlBlock trigger)
         {
-            list_routine.Add(routine);
+            // とりあえず Routine を追加してみる
+            Add(trigger);
+            // 今追加した Routine に instruction を追加
+            Add(instruction, just_before_routine);
+        }
+
+        /// <summary>
+        /// 直前に操作した Routine に instruction を追加する
+        /// </summary>
+        /// <param name="instruction"></param>
+        public void Add(InstructionBlock instruction)
+        {
+            // そもそも操作していない
+            if (just_before_routine == null)
+            {
+                throw new InvalidOperationException(
+                    "Attempt to add an instruction before adding any Routine"
+                );
+            }
+            // 直前に操作した Routine に追加
+            Add(instruction, just_before_routine);
+        }
+
+        /// <summary>
+        /// trigger がトリガである Routine がない場合，追加する．
+        /// </summary>
+        /// <param name="trigger"></param>
+        public void Add(ControlBlock trigger)
+        {
+            Routine existing_routine;
+            // trigger が list_routine にすでに存在する
+            if ((existing_routine = list_routine.
+                FirstOrDefault(routine => routine.Trigger == trigger)) != null)
+            {
+                just_before_routine = existing_routine;
+                return;
+            }
+            Routine new_routine = new Routine(trigger);
+            list_routine.Add(new_routine);
+            just_before_routine = new_routine;
+        }
+
+        /// <summary>
+        /// routine の末尾に instruction を追加する
+        /// </summary>
+        /// <param name="instruction"></param>
+        /// <param name="just_before_routine"></param>
+        private void Add(InstructionBlock instruction, Routine routine)
+        {
+            routine.Add(instruction);
         }
     }
 }

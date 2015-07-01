@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
   <Class Name="Myxini.Recognition.Routine">
-    <Position X="9" Y="19.25" Width="3.25" />
+    <Position X="13.5" Y="19.5" Width="3.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAACAABAAAAAAAAAAAAAIAQAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAIAAAAAAACAABAAAAAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Routine.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -15,9 +15,9 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Myxini.Recognition.Script">
-    <Position X="5.25" Y="19.25" Width="2.75" />
+    <Position X="12.75" Y="21.75" Width="4.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAEAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAIAAAAEAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAA=</HashCode>
       <FileName>Script.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
@@ -26,7 +26,7 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Myxini.Recognition.Classifier" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="21.5" Y="0.5" Width="1.5" />
+    <Position X="25" Y="0.5" Width="1.5" />
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
@@ -37,7 +37,7 @@
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
   <Class Name="Myxini.Recognition.ControlBlock">
-    <Position X="3.25" Y="22.25" Width="4.75" />
+    <Position X="7.75" Y="19.25" Width="4.75" />
     <TypeIdentifier>
       <HashCode>AQAAAAAAAAAAAAAAAAAAIAAAAAAQAAAAAAAAAAAAAAA=</HashCode>
       <FileName>ControlBlock.cs</FileName>
@@ -49,7 +49,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Myxini.Recognition.InstructionBlock">
-    <Position X="8.25" Y="25.25" Width="4.75" />
+    <Position X="17.75" Y="19.25" Width="4.75" />
     <TypeIdentifier>
       <HashCode>AQAAAAAAAAAAAAAAAAAAIAAAAAAQAAAAAAAAAAAAAAA=</HashCode>
       <FileName>InstructionBlock.cs</FileName>
@@ -61,45 +61,13 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Myxini.Recognition.BlockArray">
-    <Position X="18" Y="18.25" Width="2.25" />
+    <Position X="21.5" Y="24.75" Width="2.25" />
     <TypeIdentifier>
       <HashCode>AAIEAAAAAAAAAABAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>BlockArray.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
       <Field Name="Blocks" />
-    </ShowAsCollectionAssociation>
-  </Class>
-  <Class Name="Myxini.Recognition.BlockGraph">
-    <Position X="9.25" Y="22.25" Width="3.75" />
-    <TypeIdentifier>
-      <HashCode>AAIAAAAAAAAAACAAAAAAAAQAAAAAAAAAAAAAAAAAEAA=</HashCode>
-      <FileName>BlockGraph.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsCollectionAssociation>
-      <Property Name="Root" />
-    </ShowAsCollectionAssociation>
-  </Class>
-  <Class Name="Myxini.Recognition.BlockNode">
-    <Position X="13.5" Y="19.5" Width="3.25" />
-    <TypeIdentifier>
-      <HashCode>IgAAAAAAAAAAAgAAAAAAAIAAAAAAAAAAAAAAAAEAAAA=</HashCode>
-      <FileName>BlockNode.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="Node" />
-      <Property Name="Previous" />
-      <Property Name="Next" />
-    </ShowAsAssociation>
-  </Class>
-  <Class Name="Myxini.Recognition.BlockNodeList">
-    <Position X="13.75" Y="22.25" Width="2.5" />
-    <TypeIdentifier>
-      <HashCode>AAIAAAAAAAAAAABAAAIAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>BlockNodeList.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsCollectionAssociation>
-      <Field Name="NodeList" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Myxini.Recognition.Image.ColorImage" BaseTypeListCollapsed="true">
@@ -154,7 +122,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Myxini.Recognition.Image.Component1" Collapsed="true">
-    <Position X="23.25" Y="0.5" Width="1.5" />
+    <Position X="26.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAACAAAAAAAACAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Image\Component1.cs</FileName>
@@ -205,20 +173,13 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="Myxini.Recognition.Properties.Resources" Collapsed="true">
-    <Position X="21.5" Y="1.5" Width="1.5" />
+    <Position X="25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
     </TypeIdentifier>
   </Class>
-  <Class Name="Myxini.Recognition.ScriptBuilder" Collapsed="true">
-    <Position X="23.25" Y="1.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAA=</HashCode>
-      <FileName>ScriptBuilder.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Struct Name="Myxini.Recognition.BlockParameter">
-    <Position X="4.25" Y="25.5" Width="2.75" />
+    <Position X="9.25" Y="22" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAgAAAAAAA=</HashCode>
       <FileName>BlockParameter.cs</FileName>
@@ -250,7 +211,7 @@
     </TypeIdentifier>
   </Struct>
   <Interface Name="Myxini.Recognition.IBlock">
-    <Position X="11.5" Y="16.5" Width="3" />
+    <Position X="21" Y="22" Width="3" />
     <TypeIdentifier>
       <HashCode>AQAAAAAAAAAAAAAAAAAAIAAAAAAQAAAAAAAAAAAAAAA=</HashCode>
       <FileName>IBlock.cs</FileName>
@@ -260,28 +221,28 @@
     </ShowAsAssociation>
   </Interface>
   <Interface Name="Myxini.Recognition.IBoard" Collapsed="true">
-    <Position X="21.5" Y="2.75" Width="1.5" />
+    <Position X="25" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAIAAAAAAAACAA=</HashCode>
       <FileName>IBoard.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="Myxini.Recognition.IClassifier" Collapsed="true">
-    <Position X="21.5" Y="3.5" Width="1.5" />
+    <Position X="25" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>IClassifier.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="Myxini.Recognition.IDetector" Collapsed="true">
-    <Position X="23.25" Y="3.5" Width="1.5" />
+    <Position X="26.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>IDetector.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="Myxini.Recognition.Image.ICamera" Collapsed="true">
-    <Position X="23.25" Y="2.75" Width="1.5" />
+    <Position X="26.75" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAA=</HashCode>
       <FileName>Image\ICamera.cs</FileName>
@@ -319,7 +280,7 @@
     </ShowAsAssociation>
   </Interface>
   <Enum Name="Myxini.Recognition.Command">
-    <Position X="14.5" Y="25" Width="1.5" />
+    <Position X="18.75" Y="22" Width="1.5" />
     <TypeIdentifier>
       <HashCode>CAIAAAAAAKEAAgAAAAAAAAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Command.cs</FileName>

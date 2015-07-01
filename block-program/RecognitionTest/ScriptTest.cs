@@ -6,9 +6,9 @@ using Myxini.Recognition;
 namespace RecognitionTest
 {
 	[TestClass]
-	public class BlockGraphTest
+	public class ScriptTest
 	{
-		private BlockGraph Graph = new BlockGraph();
+		private Script script = new Script();
 
 		[TestMethod]
 		public void AddTest()

@@ -41,10 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BlockGraph.cs" />
     <Compile Include="BlockArray.cs" />
-    <Compile Include="BlockNode.cs" />
-    <Compile Include="BlockNodeList.cs" />
     <Compile Include="BlockParameter.cs" />
     <Compile Include="Classifier.cs" />
     <Compile Include="ControlBlock.cs" />

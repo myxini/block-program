@@ -19,7 +19,7 @@ namespace Myxini.Recognition
         public IEnumerable<InstructionBlock> Instructions { get; private set; }
         public ControlBlock Trigger { get; private set; }
 
-        public void Append(InstructionBlock instruction)
+        public void Add(InstructionBlock instruction)
         {
             list_instruction.Add(instruction);
         }
