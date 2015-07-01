@@ -48,7 +48,6 @@
     <Compile Include="BlockParameter.cs" />
     <Compile Include="Classifier.cs" />
     <Compile Include="ControlBlock.cs" />
-    <Compile Include="EndBlock.cs" />
     <Compile Include="IBoard.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="IBlock.cs" />
@@ -65,15 +64,11 @@
     <Compile Include="Image\ICamera.cs" />
     <Compile Include="Image\Kinect.cs" />
     <Compile Include="Image\KinectImage.cs" />
-    <Compile Include="LEDBlock.cs" />
-    <Compile Include="MicroSwitchBlock.cs" />
-    <Compile Include="MoveBlock.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="PSDSensorBlock.cs" />
     <Compile Include="Raw\BlockArray.cs" />
     <Compile Include="Raw\Rectangle.cs" />
     <Compile Include="IClassifier.cs" />
@@ -86,10 +81,7 @@
     <Compile Include="Raw\Point.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Raw\Size.cs" />
-    <Compile Include="RotateBlock.cs" />
     <Compile Include="Script.cs" />
-    <Compile Include="SensorBlock.cs" />
-    <Compile Include="StartBlock.cs" />
     <Compile Include="Routine.cs" />
   </ItemGroup>
   <ItemGroup>
