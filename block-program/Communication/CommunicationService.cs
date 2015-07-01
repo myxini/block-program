@@ -28,7 +28,8 @@ namespace Myxini.Communication
                 this.RobotPort.PortName = value;
             }
         }
-        public Script RobotScript { get; private set; }
+        private Dictionary<Command, List<InstructionBlock>> _robotScript;
+        private Command _currentInstructionType;
         private bool _isRunning = false;
         public bool IsRunning 
         { 
@@ -57,6 +58,7 @@ namespace Myxini.Communication
                 StopBits = STOPBITS
             };
             this.RobotPortName = portname;
+            this._robotScript = new Dictionary<Command, List<InstructionBlock>>();
             this.RobotPort.DataReceived += DataReceived;
         }
 
@@ -78,6 +80,11 @@ namespace Myxini.Communication
             string indata = port.ReadExisting();
             byte[] data = System.Text.ASCIIEncoding.ASCII.GetBytes(indata);
             var packet = new Robot.Robot2PcPacket(data);
+            this.UpdateCurrentCommand(packet.SensorID, packet.SensorValue);
+        }
+
+        private void UpdateCurrentCommand(byte sensorID, ushort sensorValue)
+        {
         }
 
         protected void Do(Robot.Command command)
@@ -89,6 +96,18 @@ namespace Myxini.Communication
             }
         }
 
+        private void RunLoop()
+        {
+            while (this.IsRunning)
+            {
+                var script = this._robotScript;
+                var currentInstruction = this._currentInstructionType;
+                foreach(var instruction in this._robotScript[currentInstruction])
+                {
+                }
+            }
+        }
+
         private async void RunAsync()
         {
             try
@@ -96,28 +115,33 @@ namespace Myxini.Communication
                 this.RobotPort.Open();
                 this.IsRunning = this.RobotPort.IsOpen;
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 return;
             }
             await Task.Run(() =>
             {
-                while (this.IsRunning)
-                {
-                    var script = this.RobotScript;
-                    foreach(var routine in this.RobotScript.Routines)
-                    {
-                        routine.
-                    }
-                }
+                this.RunLoop();
             });
-            this.RobotPort.Close();
-            
+            this.RobotPort.Close();   
+        }
+
+        private Dictionary<Command, List<InstructionBlock>> LoadScript(Myxini.Recognition.Script script)
+        {
+            var dst = new Dictionary<Command, List<InstructionBlock>>();
+            foreach(var routine in script.Routines)
+            {
+                dst.Add(
+                    routine.Trigger.CommandIdentification,
+                    new List<InstructionBlock>(routine.Instructions)
+                );
+            }
+            return dst;
         }
 
         public void Run(Myxini.Recognition.Script script)
         {
-            this.RobotScript = script;
+            this._robotScript = this.LoadScript(script);
             this.RunAsync();
         }
 
