@@ -89,23 +89,41 @@ namespace Myxini.Communication
             }
         }
 
+        private async void RunAsync()
+        {
+            try
+            {
+                this.RobotPort.Open();
+                this.IsRunning = this.RobotPort.IsOpen;
+            }
+            catch(Exception e)
+            {
+                return;
+            }
+            await Task.Run(() =>
+            {
+                while (this.IsRunning)
+                {
+                    var script = this.RobotScript;
+                    foreach(var routine in this.RobotScript.Routines)
+                    {
+                        routine.
+                    }
+                }
+            });
+            this.RobotPort.Close();
+            
+        }
+
         public void Run(Myxini.Recognition.Script script)
         {
             this.RobotScript = script;
-            this.RobotPort.Open();
-            this.IsRunning = this.RobotPort.IsOpen;
+            this.RunAsync();
         }
 
         public void Stop()
         {
-            if(!this.IsRunning)
-            {
-                return;
-            }
-            if(this.RobotPort.IsOpen)
-            {
-                this.RobotPort.Close();
-            }
+            this.IsRunning = false;
         }
     }
 }

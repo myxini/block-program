@@ -29,6 +29,8 @@ namespace CommunicationTest
         [TestMethod]
         public void RotateCommandTest()
         {
+            CommunicationService serv = new CommunicationService(CommunicationService.GetAvailablePorts()[0]);
+            serv.Run(new Script());
         }
 
         [TestMethod]
