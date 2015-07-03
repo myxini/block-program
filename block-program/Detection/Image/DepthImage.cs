@@ -1,4 +1,6 @@
-﻿namespace Myxini.Recognition.Image
+﻿using System;
+
+namespace Myxini.Recognition.Image
 {
 	using Rectangle = Raw.Rectangle;
 	using Size = Raw.Size;
@@ -47,19 +49,24 @@ using System;
 				);
 		}
 
-		public DepthImage(DepthImage image, Func<IImage, int, int, short> convertor) : this(image.Width, image.Height)
+		public DepthImage(DepthImage image, Func<IImage, int, int, int, int> convertor) : this(image.Width, image.Height)
 		{
 			for(int y = 0;y < this.Height; ++y)
 			{
 				for(int x = 0; x < this.Width; ++x)
 				{
-					this.Pixels[y * this.Width + x] = convertor(image, x, y);
+					this.Pixels[y * this.Width + x] = (short)convertor(image, x, y, 0);
 				}
 			}
 		}
 
 		public int GetElement(int x, int y, int channel = 0)
 		{
+			if (x < 0 || y < 0 || x >= this.Width || y >= this.Height || channel < 0 || channel > this.Channel)
+			{
+				throw new ArgumentOutOfRangeException();
+			}
+
 			return this.Pixels[
 				(this.OriginalSize.Width * this.BoundingBox.Y + this.BoundingBox.X +	/// 画像全体での部分画像の位置
 				this.BoundingBox.Width * y + x) * this.Channel + channel];						/// 部分画像内での位置

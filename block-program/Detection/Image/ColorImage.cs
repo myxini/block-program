@@ -36,22 +36,27 @@ namespace Myxini.Recognition.Image
 				);
 		}
 
-		public ColorImage(ColorImage image, Func<IImage, int, int, int, byte> convertor)
+		public ColorImage(ColorImage image, Func<IImage, int, int, int, int> convertor)
 			: this(image.Width, image.Height)
 		{
 			for(int y = 0;y < this.Height; ++y)
 			{
 				for(int x = 0; x < this.Width; ++x)
 				{
-					this.Pixels[(y * this.Width + x) * this.Channel + 0] = convertor(image, x, y, 0);
-					this.Pixels[(y * this.Width + x) * this.Channel + 1] = convertor(image, x, y, 1);
-					this.Pixels[(y * this.Width + x) * this.Channel + 2] = convertor(image, x, y, 2);
+					this.Pixels[(y * this.Width + x) * this.Channel + 0] = (byte)convertor(image, x, y, 0);
+					this.Pixels[(y * this.Width + x) * this.Channel + 1] = (byte)convertor(image, x, y, 1);
+					this.Pixels[(y * this.Width + x) * this.Channel + 2] = (byte)convertor(image, x, y, 2);
 				}
 			}
 		}
 
 		public int GetElement(int x, int y, int channel)
 		{
+			if(x < 0 || y < 0 || x >= this.Width || y >= this.Height || channel < 0 || channel > this.Channel)
+			{
+				throw new ArgumentOutOfRangeException();
+			}
+
 			return this.Pixels[
 				(this.OriginalSize.Width * this.BoundingBox.Y + this.BoundingBox.X +	/// 画像全体での部分画像の位置
 				this.BoundingBox.Width * y + x) * this.Channel + channel];						/// 部分画像内での位置
