@@ -49,6 +49,7 @@
     <Compile Include="Command.cs" />
     <Compile Include="IBlock.cs" />
     <Compile Include="Image\BitmapImage.cs" />
+    <Compile Include="Image\GrayImage.cs" />
     <Compile Include="Image\Process.cs" />
     <Compile Include="InstructionBlock.cs" />
     <Compile Include="Image\ColorImage.cs" />
