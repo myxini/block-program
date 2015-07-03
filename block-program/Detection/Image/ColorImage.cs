@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+
 namespace Myxini.Recognition.Image
 {
 	using Rectangle = Raw.Rectangle;
@@ -6,12 +7,17 @@ namespace Myxini.Recognition.Image
 
 	public class ColorImage : IImage
 	{
-		public ColorImage(byte[] pixels, int width, int height)
+		public ColorImage(int width, int height)
 		{
 			this.BoundingBox = new Rectangle(0, 0, width, height);
 			this.OriginalSize = this.BoundingBox.BoundingSize;
 			this.Channel = 3;
 			this.IsRegionOfImage = false;
+			this.Pixels = new byte[width * height * this.Channel];
+		}
+
+		public ColorImage(byte[] pixels, int width, int height) : this(width, height)
+		{
 			pixels.CopyTo(this.Pixels, 0);
 		}
 
@@ -28,6 +34,20 @@ namespace Myxini.Recognition.Image
 				region.Width,
 				region.Height
 				);
+		}
+
+		public ColorImage(ColorImage image, Func<IImage, int, int, int, byte> convertor)
+			: this(image.Width, image.Height)
+		{
+			for(int y = 0;y < this.Height; ++y)
+			{
+				for(int x = 0; x < this.Width; ++x)
+				{
+					this.Pixels[(y * this.Width + x) * this.Channel + 0] = convertor(image, x, y, 0);
+					this.Pixels[(y * this.Width + x) * this.Channel + 1] = convertor(image, x, y, 1);
+					this.Pixels[(y * this.Width + x) * this.Channel + 2] = convertor(image, x, y, 2);
+				}
+			}
 		}
 
 		public int GetElement(int x, int y, int channel)

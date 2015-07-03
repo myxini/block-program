@@ -4,29 +4,27 @@
 	using Size = Raw.Size;
 
 	using Microsoft.Kinect;
+using System;
 
 	class DepthImage : IImage
 	{
-		public DepthImage(short[] depth, int width, int height)
+		public DepthImage(int width, int height)
 		{
 			this.BoundingBox = new Rectangle(0, 0, width, height);
 			this.OriginalSize = this.BoundingBox.BoundingSize;
 			this.Channel = 1;
 			this.IsRegionOfImage = false;
+			this.Pixels = new short[width * height];
+		}
 
+		public DepthImage(short[] depth, int width, int height) : this(width, height)
+		{
 			depth.CopyTo(this.Pixels, 0);
 		}
 
-		public DepthImage(DepthImagePixel[] depth, int width, int height)
+		public DepthImage(DepthImagePixel[] depth, int width, int height) : this(width, height)
 		{
-			this.BoundingBox = new Rectangle(0, 0, width, height);
-			this.OriginalSize = this.BoundingBox.BoundingSize;
-			this.Channel = 1;
-			this.IsRegionOfImage = false;
-
 			int area = width * height;
-			this.Pixels = new short[area];
-
 
 			for (int i = 0; i < area; ++i)
 			{
@@ -49,7 +47,18 @@
 				);
 		}
 
-		public int GetElement(int x, int y, int channel)
+		public DepthImage(DepthImage image, Func<IImage, int, int, short> convertor) : this(image.Width, image.Height)
+		{
+			for(int y = 0;y < this.Height; ++y)
+			{
+				for(int x = 0; x < this.Width; ++x)
+				{
+					this.Pixels[y * this.Width + x] = convertor(image, x, y);
+				}
+			}
+		}
+
+		public int GetElement(int x, int y, int channel = 0)
 		{
 			return this.Pixels[
 				(this.OriginalSize.Width * this.BoundingBox.Y + this.BoundingBox.X +	/// 画像全体での部分画像の位置
