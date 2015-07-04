@@ -1,4 +1,7 @@
-﻿namespace Myxini.Recognition.Image
+﻿using System;
+
+
+namespace Myxini.Recognition.Image
 {
 	using Rectangle = Raw.Rectangle;
 	using Size = Raw.Size;
@@ -30,6 +33,7 @@
 		/// <param name="region">部分画像の領域</param>
 		/// <returns>部分画像</returns>
 		IImage RegionOfImage(Rectangle region);
+
 
 		/// <summary>
 		/// 画像のディープコピーを返します

@@ -45,6 +45,12 @@ namespace Myxini.Recognition.Image
 				);
 		}
 
+		public KinectImage(KinectImage lhs, KinectImage rhs, Func<IImage, IImage, int, int, int, int> convertor)
+		{
+			this.Color = new ColorImage(lhs.Color, rhs.Color, convertor);
+			this.Depth = new DepthImage(lhs.Depth, rhs.Depth, convertor);
+		}
+
 		public int GetElement(int x, int y, int channel)
 		{
 			if(channel == 0)

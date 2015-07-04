@@ -8,18 +8,18 @@ namespace Myxini.Recognition.Image
 {
 	public static class Process
 	{
-		public static List<double> average(IImage image)
+		public static List<double> Average(IImage image)
 		{
 			var result = new List<double>(image.Channel);
 
 			for (int c = 0; c < image.Channel; ++c)
 			{
-				result[c] = average(image, c);
+				result[c] = Average(image, c);
 			}
 
 			return result;
 		}
-		public static double average(IImage image, int channel)
+		public static double Average(IImage image, int channel)
 		{
 			double result = 0.0;
 

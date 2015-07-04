@@ -63,6 +63,18 @@ namespace Myxini.Recognition.Image
 			}
 		}
 
+		public GrayImage(GrayImage lhs, GrayImage rhs, Func<IImage, IImage, int, int, int, int> convertor)
+			: this(lhs.Width, lhs.Height)
+		{
+			for (int y = 0; y < this.Height; ++y)
+			{
+				for (int x = 0; x < this.Width; ++x)
+				{
+					this.Pixels[y * this.Width + x] = (byte)convertor(lhs, rhs, x, y, 0);
+				}
+			}
+		}
+
 		public int GetElement(int x, int y, int channel = 0)
 		{
 			if (x < 0 || y < 0 || x >= this.Width || y >= this.Height || channel < 0 || channel > this.Channel)
