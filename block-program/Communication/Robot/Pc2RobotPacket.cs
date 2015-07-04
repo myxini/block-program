@@ -81,7 +81,8 @@ namespace Myxini.Communication.Robot
             }
             set
             {
-                this._packetData[(int)PacketIndex.INTERRUPT_COMAND_ID] &= (byte)((value & 0x7f) | 0x80);
+                this._packetData[(int)PacketIndex.INTERRUPT_COMAND_ID]
+                    = (byte)((value & 0x7f) | (this._packetData[(int)PacketIndex.INTERRUPT_COMAND_ID] & 0x80));
             }
         }
 
