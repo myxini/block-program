@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Myxini.Communication;
 using Myxini.Communication.Robot;
@@ -29,8 +30,32 @@ namespace CommunicationTest
         [TestMethod]
         public void RotateCommandTest()
         {
-            CommunicationService serv = new CommunicationService(CommunicationService.GetAvailablePorts()[0]);
-            serv.Run(new Script());
+            string[] pots = CommunicationService.GetAvailablePorts();
+            CommunicationService serv;
+            if (pots.Length > 0)
+            {
+                serv = new CommunicationService("COM10");
+            }
+            else
+            {
+                return;
+            }
+            Script testScript = new Script();
+            Routine testRoutine = new Routine(
+                new ControlBlock(
+                    Myxini.Recognition.Command.Start,
+                    new BlockParameter())
+            );
+            testRoutine.Append(
+                new InstructionBlock(
+                    Myxini.Recognition.Command.Rotate,
+                    new BlockParameter(new int[1]{1})
+                )
+            );
+            testScript.AddRoutine(testRoutine);
+            var serv_private = new PrivateObject(serv);
+            serv.Run(testScript);
+            Thread.Sleep(5000);
         }
 
         [TestMethod]
