@@ -28,6 +28,14 @@ namespace Myxini.Communication
                 this.RobotPort.PortName = value;
             }
         }
+        #region センサIDとセンサ名をひもづける定数値
+        const byte SENSORID_PSD = 0x01;
+        const byte SENSORID_MICROSWITCH = 0x02;
+        #endregion
+        #region ロボットにおいてどのスレッドが走るかを決めるしきい値群
+        private const int STATE_PSD_THRES = 30;
+        private const int STATE_MICROSWITCH_THRES = 1;
+        #endregion
         private Dictionary<Command, Robot.CommandList> _robotScript;
         private Command _currentInstructionType = Command.Start;
         private PacketBuilder _builer = new PacketBuilder();
@@ -87,6 +95,18 @@ namespace Myxini.Communication
 
         private void UpdateCurrentCommand(byte sensorID, ushort sensorValue)
         {
+            if(sensorID == SENSORID_PSD && sensorValue > STATE_PSD_THRES)
+            {
+                this._currentInstructionType = Command.PSD;
+            }
+            else if(sensorID == SENSORID_MICROSWITCH && sensorValue == STATE_MICROSWITCH_THRES)
+            {
+                this._currentInstructionType = Command.MicroSwitch;
+            }
+            else
+            {
+                this._currentInstructionType = Command.Start;
+            }
         }
 
         protected void Do(Robot.Command command)
