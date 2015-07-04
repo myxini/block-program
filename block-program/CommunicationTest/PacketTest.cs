@@ -46,36 +46,42 @@ namespace CommunicationTest
                     Myxini.Recognition.Command.Start,
                     new BlockParameter())
             );
+            // 前進低速 :0x 06 09 01 01 4C 01 42
             testRoutine.Append(
                 new InstructionBlock(
                     Myxini.Recognition.Command.Move,
                     new BlockParameter(new int[1] { 1 })
                 )
             );
+            // 右旋回 :0x 06 09 01 02 80 5A D6
             testRoutine.Append(
                 new InstructionBlock(
                     Myxini.Recognition.Command.Rotate,
                     new BlockParameter(new int[1]{1})
                 )
             );
+            // LED点灯 :0x 06 09 01 03 00 01 0C
             testRoutine.Append(
                 new InstructionBlock(
                     Myxini.Recognition.Command.LED,
                     new BlockParameter(new int[1] { 1 })
                 )
             );
+            // 左旋回 :0x 06 09 01 02 80 A6 2A
             testRoutine.Append(
                 new InstructionBlock(
                     Myxini.Recognition.Command.Rotate,
                     new BlockParameter(new int[1] { -1 })
                 )
             );
+            // LED消灯 :0x 06 09 01 03 00 00 0D
             testRoutine.Append(
                 new InstructionBlock(
                     Myxini.Recognition.Command.LED,
                     new BlockParameter(new int[1] { 0 })
                 )
             );
+            // 後退低速 :0x 06 09 01 01 B4 01 BA
             testRoutine.Append(
                 new InstructionBlock(
                     Myxini.Recognition.Command.Move,
