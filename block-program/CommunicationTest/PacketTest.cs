@@ -28,7 +28,7 @@ namespace CommunicationTest
         }
 
         [TestMethod]
-        public void RotateCommandTest()
+        public void CommandTest()
         {
             string[] pots = CommunicationService.GetAvailablePorts();
             CommunicationService serv;
@@ -48,8 +48,38 @@ namespace CommunicationTest
             );
             testRoutine.Append(
                 new InstructionBlock(
+                    Myxini.Recognition.Command.Move,
+                    new BlockParameter(new int[1] { 1 })
+                )
+            );
+            testRoutine.Append(
+                new InstructionBlock(
                     Myxini.Recognition.Command.Rotate,
                     new BlockParameter(new int[1]{1})
+                )
+            );
+            testRoutine.Append(
+                new InstructionBlock(
+                    Myxini.Recognition.Command.LED,
+                    new BlockParameter(new int[1] { 1 })
+                )
+            );
+            testRoutine.Append(
+                new InstructionBlock(
+                    Myxini.Recognition.Command.Rotate,
+                    new BlockParameter(new int[1] { -1 })
+                )
+            );
+            testRoutine.Append(
+                new InstructionBlock(
+                    Myxini.Recognition.Command.LED,
+                    new BlockParameter(new int[1] { 0 })
+                )
+            );
+            testRoutine.Append(
+                new InstructionBlock(
+                    Myxini.Recognition.Command.Move,
+                    new BlockParameter(new int[1] { -1 })
                 )
             );
             testScript.AddRoutine(testRoutine);
