@@ -138,9 +138,9 @@ namespace Myxini.Communication
                 this.RobotPort.Open();
                 this.IsRunning = this.RobotPort.IsOpen;
             }
-            catch(Exception)
+            catch(Exception e)
             {
-                return;
+                throw e;
             }
             await Task.Run(() =>
             {
