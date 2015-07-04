@@ -30,7 +30,7 @@ namespace Myxini.Communication
         }
         private Dictionary<Command, Robot.CommandList> _robotScript;
         private Command _currentInstructionType = Command.Start;
-        private PacketBuilder _buuiler;
+        private PacketBuilder _builer = new PacketBuilder();
         private bool _isRunning = false;
         public bool IsRunning 
         { 
@@ -61,6 +61,7 @@ namespace Myxini.Communication
             this.RobotPortName = portname;
             this._robotScript = new Dictionary<Command, Robot.CommandList>();
             this.RobotPort.DataReceived += DataReceived;
+            this._builer.RobotID = 1;
         }
 
         ~CommunicationService()
@@ -135,7 +136,7 @@ namespace Myxini.Communication
             {
                 this._robotScript.Add(
                     routine.Trigger.CommandIdentification,
-                    this._buuiler.Build(routine.Instructions)
+                    this._builer.Build(routine.Instructions)
                 );
             }
         }
