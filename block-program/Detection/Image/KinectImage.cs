@@ -47,13 +47,13 @@ namespace Myxini.Recognition.Image
 
 		public int GetElement(int x, int y, int channel)
 		{
-			if(channel == (this.Channel - 1))
+			if(channel == 0)
 			{
 				return this.Depth.GetElement(x, y, 0);
 			}
 			else
 			{
-				return this.Color.GetElement(x, y, channel);
+				return this.Color.GetElement(x, y, channel - 1);
 			}
 
 			throw new ArgumentOutOfRangeException();

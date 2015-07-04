@@ -82,6 +82,7 @@
     <Compile Include="Raw\Size.cs" />
     <Compile Include="Script.cs" />
     <Compile Include="Routine.cs" />
+    <Compile Include="WhiteBoard.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
