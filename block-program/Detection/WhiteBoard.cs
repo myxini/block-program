@@ -6,8 +6,10 @@ namespace Myxini.Recognition
 {
 	public class WhiteBoard : IBoard
 	{
-		public void Calibration(ICamera image)
+		public void Calibration(ICamera camera)
 		{
+			var image = camera.Capture();
+
 		}
 
 		public Size GetBlockSize(Size size);

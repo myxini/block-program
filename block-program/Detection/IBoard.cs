@@ -9,7 +9,7 @@ namespace Myxini.Recognition
 		/// カメラ画像を元にキャリブレーションを行う
 		/// </summary>
 		/// <param name="camera">キャリブレーションするカメラを指定します</param>
-		public void Calibration(ICamera image);
+		public void Calibration(ICamera camera);
 		
 		/// <summary>
 		/// ブロックのサイズ[mm]から画像中のブロックのサイズ[pixel]に変換する

@@ -6,14 +6,39 @@ using System.Threading.Tasks;
 
 namespace Myxini.Recognition.Image
 {
-	public static class Process<Image>
-		where Image : IImage
+	public static class Process
 	{
+		public static List<double> average(IImage image)
+		{
+			var result = new List<double>(image.Channel);
+
+			for (int c = 0; c < image.Channel; ++c)
+			{
+				result[c] = average(image, c);
+			}
+
+			return result;
+		}
+		public static double average(IImage image, int channel)
+		{
+			double result = 0.0;
+
+			for (int y = 0; y < image.Height; ++y)
+			{
+				for (int x = 0; x < image.Width; ++x)
+				{
+					result += image.GetElement(x, y, channel);
+				}
+			}
+
+			return result / (image.Height * image.Width);
+		}
+
 		/// <summary>
 		/// 膨張処理
 		/// 基本的にコンストラクタにつっこんでください
 		/// </summary>
-		public static int Dilate(Image image, int x, int y, int c)
+		public static int Dilate(IImage image, int x, int y, int c)
 		{
 			if(x < 0 || y < 0 || x >= image.Width || y >= image.Height)
 			{
@@ -36,7 +61,7 @@ namespace Myxini.Recognition.Image
 		/// 膨張処理
 		/// 基本的にコンストラクタにつっこんでください
 		/// </summary>
-		public static int Erode(Image image, int x, int y, int c)
+		public static int Erode(IImage image, int x, int y, int c)
 		{
 			if (x < 0 || y < 0 || x >= image.Width || y >= image.Height)
 			{
@@ -55,7 +80,7 @@ namespace Myxini.Recognition.Image
 				image.GetElement(x + 1, y + 1, c) == 0 ? 0 : int.MaxValue;
 		}
 
-		private static int DilateSlow(Image image, int x, int y, int c)
+		private static int DilateSlow(IImage image, int x, int y, int c)
 		{
 			for(int py = y - 1; py < (y + 1); ++py)
 			{
@@ -77,7 +102,7 @@ namespace Myxini.Recognition.Image
 
 			return 0;
 		}
-		private static int ErodeSlow(Image image, int x, int y, int c)
+		private static int ErodeSlow(IImage image, int x, int y, int c)
 		{
 			for (int py = y - 1; py < (y + 1); ++py)
 			{
