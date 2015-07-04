@@ -18,6 +18,13 @@ namespace Myxini.Recognition.Image
 		int GetElement(int x, int y, int channel);
 
 		/// <summary>
+		/// コンストラクタを使用せずにオブジェクトを生成します
+		/// </summary>
+		/// <param name="convertor">初期化関数</param>
+		/// <returns>生成した画像オブジェクト</returns>
+		IImage Create(Func<IImage, int, int, int, int> convertor);
+
+		/// <summary>
 		/// 画像の一部を取得します
 		/// </summary>
 		/// <param name="x">部分画像の領域のX座標</param>
@@ -33,7 +40,6 @@ namespace Myxini.Recognition.Image
 		/// <param name="region">部分画像の領域</param>
 		/// <returns>部分画像</returns>
 		IImage RegionOfImage(Rectangle region);
-
 
 		/// <summary>
 		/// 画像のディープコピーを返します

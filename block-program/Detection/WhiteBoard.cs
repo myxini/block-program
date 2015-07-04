@@ -45,7 +45,15 @@ namespace Myxini.Recognition
 
 		public IImage GetBackgroundDeleteImage(IImage image)
 		{
-			throw new NotImplementedException();
+			return image.Create(
+				(IImage input, int x, int y, int c) =>
+				{
+					var pixel = input.GetElement(x, y, c);
+					return
+						(pixel > this.WhiteBoardFrontSurfaceDistance) &&
+						(pixel < this.WhiteBoardBackSurfaceDistance) ? pixel : 0;
+				}
+				);
 		}
 
 		private Size ImageSize;

@@ -8,7 +8,7 @@ namespace Myxini.Recognition.Image
 	using Microsoft.Kinect;
 using System;
 
-	class DepthImage : IImage
+	public class DepthImage : IImage
 	{
 		public DepthImage(int width, int height)
 		{
@@ -83,6 +83,11 @@ using System;
 				(this.OriginalSize.Width * this.BoundingBox.Y + this.BoundingBox.X +	/// 画像全体での部分画像の位置
 				this.BoundingBox.Width * y + x) * this.Channel + channel];						/// 部分画像内での位置
 			//return this.Pixels[(this.Width * y + x) * this.Channel + channel];
+		}
+
+		public IImage Create(Func<IImage, int, int, int, int> convertor)
+		{
+			return new DepthImage(this, convertor);
 		}
 
 		/// <summary>

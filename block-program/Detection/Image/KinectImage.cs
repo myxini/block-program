@@ -5,7 +5,7 @@ namespace Myxini.Recognition.Image
 	using Rectangle = Raw.Rectangle;
 	using Size = Raw.Size;
 
-	class KinectImage : IImage
+	public class KinectImage : IImage
 	{
 		public KinectImage(ColorImage color, DepthImage depth)
 		{
@@ -43,6 +43,12 @@ namespace Myxini.Recognition.Image
 				region.Width,
 				region.Height
 				);
+		}
+
+		public KinectImage(KinectImage image, Func<IImage, int, int, int, int> convertor)
+		{
+			this.Color = new ColorImage(image.Color, convertor);
+			this.Depth = new DepthImage(image.Depth, convertor);
 		}
 
 		public KinectImage(KinectImage lhs, KinectImage rhs, Func<IImage, IImage, int, int, int, int> convertor)
@@ -95,6 +101,11 @@ namespace Myxini.Recognition.Image
 		public IImage Clone()
 		{
 			return new KinectImage(this.Color, this.Depth);
+		}
+
+		public IImage Create(Func<IImage, int, int, int, int> convertor)
+		{
+			return new KinectImage(this, convertor);
 		}
 
 		/// <summary>

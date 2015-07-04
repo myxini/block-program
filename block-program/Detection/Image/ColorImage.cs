@@ -78,6 +78,11 @@ namespace Myxini.Recognition.Image
 			//return this.Pixels[(this.Width * y + x) * this.Channel + channel];
 		}
 
+		public IImage Create(Func<IImage, int, int, int, int> convertor)
+		{
+			return new ColorImage(this, convertor);
+		}
+
 		/// <summary>
 		/// 画像の一部を取得します
 		/// </summary>
