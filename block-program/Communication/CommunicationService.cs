@@ -89,8 +89,15 @@ namespace Myxini.Communication
             var port = sender as SerialPort;
             string indata = port.ReadExisting();
             byte[] data = System.Text.ASCIIEncoding.ASCII.GetBytes(indata);
-            var packet = new Robot.Robot2PcPacket(data);
-            this.UpdateCurrentCommand(packet.SensorID, packet.SensorValue);
+            try
+            {
+                var packet = new Robot.Robot2PcPacket(data);
+                this.UpdateCurrentCommand(packet.SensorID, packet.SensorValue);
+            }
+            catch (Exception)
+            {
+                ;
+            }
         }
 
         private void UpdateCurrentCommand(byte sensorID, ushort sensorValue)

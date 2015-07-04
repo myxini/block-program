@@ -33,6 +33,10 @@ namespace Myxini.Communication.Robot
 
         public Robot2PcPacket(byte[] packet)
         {
+            if (packet.Length < 7)
+            {
+                throw new InvalidOperationException("Packet Length is too short");
+            }
             this.__packetData = packet;
             this.RobotID = packet[(int)PacketIndex.SENSOR_ID];
             this.SensorValue = (UInt16)((packet[(int)PacketIndex.SENSOR_VALUE_HIGH] << 8) & packet[(int)PacketIndex.SENSOR_VALUE_LOW]);
