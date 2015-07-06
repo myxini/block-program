@@ -95,6 +95,38 @@ namespace CommunicationTest
         }
 
         [TestMethod]
+        public void SendAPacketTest()
+        {
+            string[] pots = CommunicationService.GetAvailablePorts();
+            CommunicationService serv;
+            if (pots.Length > 0)
+            {
+                serv = new CommunicationService("COM10");
+            }
+            else
+            {
+                return;
+            }
+            Script testScript = new Script();
+            Routine testRoutine = new Routine(
+                new ControlBlock(
+                    Myxini.Recognition.Command.Start,
+                    new BlockParameter())
+            );
+            // 前進低速 :0x 06 09 01 01 4C 01 42
+            testRoutine.Append(
+                new InstructionBlock(
+                    Myxini.Recognition.Command.Move,
+                    new BlockParameter(new int[1] { 1 })
+                )
+            );
+            testScript.AddRoutine(testRoutine);
+            var serv_private = new PrivateObject(serv);
+            serv.Run(testScript);
+            Thread.Sleep(5000);
+        }
+
+        [TestMethod]
         public void SerialOpenTest()
         {
             var ports = CommunicationService.GetAvailablePorts();
