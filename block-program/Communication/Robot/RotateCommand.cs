@@ -26,7 +26,7 @@ namespace Myxini.Communication.Robot
                 RobotID = this.RobotID,
                 IsNeedInterrupt = this.IsNeedInterrupt,
                 CommandID = this.CommandID,
-                Property1 = (byte)(this.AngularVelocity * 256),
+                Property1 = (byte)(this.AngularVelocity * 127),
                 Property2 = (byte)(this.Angle)
             };
             packet.AddCheckSum();
