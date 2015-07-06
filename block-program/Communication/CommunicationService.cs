@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.IO.Ports;
 using Myxini.Recognition;
@@ -121,7 +122,11 @@ namespace Myxini.Communication
             if(this.RobotPort.IsOpen)
             {
                 var packetbytes = (byte[])command.ToPacket();
-                this.RobotPort.Write(packetbytes, 0, packetbytes.Count());
+                for (int i = 0; i < packetbytes.Count(); ++i)
+                {
+                    this.RobotPort.Write(packetbytes, i, 1);
+                }
+//                this.RobotPort.Write(packetbytes, 0, packetbytes.Count());
             }
         }
 
@@ -131,7 +136,7 @@ namespace Myxini.Communication
             {
                 var script = this._robotScript;
                 var currentInstruction = this._currentInstructionType;
-                foreach(var command in this._robotScript[currentInstruction])
+                foreach (var command in this._robotScript[currentInstruction])
                 {
                     this.Do(command);
                 }

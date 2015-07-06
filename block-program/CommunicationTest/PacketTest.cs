@@ -101,7 +101,7 @@ namespace CommunicationTest
             CommunicationService serv;
             if (pots.Length > 0)
             {
-                serv = new CommunicationService("COM10");
+                serv = new CommunicationService("COM4");
             }
             else
             {
@@ -123,7 +123,7 @@ namespace CommunicationTest
             testScript.AddRoutine(testRoutine);
             var serv_private = new PrivateObject(serv);
             serv.Run(testScript);
-            Thread.Sleep(5000);
+            Thread.Sleep(100000);
         }
 
         [TestMethod]
