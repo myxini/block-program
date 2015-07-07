@@ -178,6 +178,14 @@
       <HashCode>AAQAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
     </TypeIdentifier>
   </Class>
+  <Class Name="Myxini.Recognition.BlockProgramExecuter" Collapsed="true">
+    <Position X="2" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BlockProgramExecuter.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
   <Struct Name="Myxini.Recognition.BlockParameter">
     <Position X="9.25" Y="22" Width="2.75" />
     <TypeIdentifier>
@@ -278,6 +286,13 @@
       <Property Name="BoundingImage" />
       <Property Name="EndPoint" />
     </ShowAsAssociation>
+  </Interface>
+  <Interface Name="Myxini.Recognition.IBlockProgramExecuter" Collapsed="true">
+    <Position X="2" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IBlockProgramExecuter.cs</FileName>
+    </TypeIdentifier>
   </Interface>
   <Enum Name="Myxini.Recognition.Command">
     <Position X="18.75" Y="22" Width="1.5" />
