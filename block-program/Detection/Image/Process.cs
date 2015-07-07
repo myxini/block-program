@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Myxini.Recognition.Image
 {
-	public static class Process
+	public static partial class Process
 	{
 		public static List<double> Average(IImage image)
 		{
