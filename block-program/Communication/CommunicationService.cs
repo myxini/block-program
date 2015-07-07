@@ -139,6 +139,7 @@ namespace Myxini.Communication
                 foreach (var command in this._robotScript[currentInstruction])
                 {
                     this.Do(command);
+                    Thread.Sleep(100);
                 }
             }
         }

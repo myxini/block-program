@@ -113,7 +113,7 @@ namespace CommunicationTest
                     Myxini.Recognition.Command.Start,
                     new BlockParameter())
             );
-            // 前進低速 :0x 06 09 01 01 4C 01 42
+            // 前進低速 :0x 06 09 01 01 26 01 28
             testRoutine.Append(
                 new InstructionBlock(
                     Myxini.Recognition.Command.Move,
