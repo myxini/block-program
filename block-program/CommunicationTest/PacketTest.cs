@@ -41,6 +41,7 @@ namespace CommunicationTest
                 return;
             }
             Script testScript = new Script();
+            /*
             Routine testRoutine = new Routine(
                 new ControlBlock(
                     Myxini.Recognition.Command.Start,
@@ -89,6 +90,7 @@ namespace CommunicationTest
                 )
             );
             testScript.AddRoutine(testRoutine);
+             * */
             var serv_private = new PrivateObject(serv);
             serv.Run(testScript);
             Thread.Sleep(5000);
@@ -108,17 +110,16 @@ namespace CommunicationTest
                 return;
             }
             Script testScript = new Script();
-            Routine testRoutine = new Routine(
+            testScript.Add(
                 new ControlBlock(
                     Myxini.Recognition.Command.Start,
                     new BlockParameter())
             );
             // 前進低速 :0x 06 09 01 01 26 01 28
-            testRoutine.Append(new InstructionBlock(
+            testScript.Add(new InstructionBlock(
                     Myxini.Recognition.Command.Move,
                     new BlockParameter(new int[1] { 1 })
                 ));
-            testScript.AddRoutine(testRoutine);
             var serv_private = new PrivateObject(serv);
             serv.Run(testScript);
             Thread.Sleep(100000);
