@@ -6,7 +6,7 @@ namespace Myxini.Recognition
 {
 	public class WhiteBoard : IBoard
 	{
-		public WhiteBoard(int iteration)
+		public WhiteBoard(int iteration = 4)
 		{
 			this.Iteration = iteration;
 		}
