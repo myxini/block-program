@@ -15,6 +15,10 @@ namespace Myxini.Recognition.Raw
 			return (String.Format("{0},{1}", this.Width, this.Height));
 		}
 
+		public int Area
+		{
+			get { return this.Width * this.Height; }
+		}
 		public int Width;
 		public int Height;
 	}
