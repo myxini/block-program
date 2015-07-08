@@ -1,6 +1,6 @@
 ﻿namespace Myxini.Recognition.Image
 {
-	interface ICamera
+	public interface ICamera
 	{
 		/// <summary>
 		/// カメラ画像を取得します

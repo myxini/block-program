@@ -60,20 +60,10 @@
     </ShowAsAssociation>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="Myxini.Recognition.BlockArray">
-    <Position X="21.5" Y="24.75" Width="2.25" />
-    <TypeIdentifier>
-      <HashCode>AAIEAAAAAAAAAABAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>BlockArray.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsCollectionAssociation>
-      <Field Name="Blocks" />
-    </ShowAsCollectionAssociation>
-  </Class>
   <Class Name="Myxini.Recognition.Image.ColorImage" BaseTypeListCollapsed="true">
     <Position X="15.5" Y="13.75" Width="4.25" />
     <TypeIdentifier>
-      <HashCode>AAAAgAAkBAAAAAAAAAABAEAAACAAAAAAACAAAAAIABA=</HashCode>
+      <HashCode>AAAAgAAkBAAAAAAAAAABAEAAACAAAEAAACAAAAAIABA=</HashCode>
       <FileName>Image\ColorImage.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -85,7 +75,7 @@
   <Class Name="Myxini.Recognition.Image.DepthImage" BaseTypeListCollapsed="true">
     <Position X="15.25" Y="3.5" Width="4.5" />
     <TypeIdentifier>
-      <HashCode>AAAAgAAkBAAAAAAAAAABAEAAACAAAAAAACAAAAAIABA=</HashCode>
+      <HashCode>AAAAgAAkBAAAAAAAAAABAEAAACAAAEAAACAAAAAIABA=</HashCode>
       <FileName>Image\DepthImage.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -110,7 +100,7 @@
   <Class Name="Myxini.Recognition.Image.KinectImage" BaseTypeListCollapsed="true">
     <Position X="6" Y="9.75" Width="4.5" />
     <TypeIdentifier>
-      <HashCode>AAAAgAIkBAAACAAAAAAAAEAAACAAAAAgACAAgAAIABA=</HashCode>
+      <HashCode>AAAAgAIkBAAACAAAAAAAAEAAACAAAEAgACAAgAAIABA=</HashCode>
       <FileName>Image\KinectImage.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -164,7 +154,7 @@
   <Class Name="Myxini.Recognition.Image.BitmapImage">
     <Position X="16.25" Y="8.5" Width="4.25" />
     <TypeIdentifier>
-      <HashCode>AAAAgAAkBAAAAAAAAAAAAEAIACAAAAAAAAAAAAAIABA=</HashCode>
+      <HashCode>AAAAgAAkBAAAAAAAAAAAAEAIACAAAEAAAAAAAAAIABA=</HashCode>
       <FileName>Image\BitmapImage.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -251,7 +241,7 @@
   <Interface Name="Myxini.Recognition.Image.IImage">
     <Position X="7.25" Y="6" Width="4.25" />
     <TypeIdentifier>
-      <HashCode>AAAAgAAkBAAAAAAAAAAAAEAAACAAAAAAAAAAAAAIABA=</HashCode>
+      <HashCode>AAAAgAAkBAAAAAAAAAAAAEAAACAAAEAAAAAAAAAIABA=</HashCode>
       <FileName>Image\IImage.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>

@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunicationTest", "Commun
 		{79444E47-9D7B-4315-91FB-E8639B026B56} = {79444E47-9D7B-4315-91FB-E8639B026B56}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Execution", "Execution\Execution.csproj", "{14D1B89E-32E2-4D8F-831F-54309F31D699}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,6 +38,10 @@ Global
 		{251E2D96-A2CF-47FA-86CD-2B11DF888E7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{251E2D96-A2CF-47FA-86CD-2B11DF888E7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{251E2D96-A2CF-47FA-86CD-2B11DF888E7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14D1B89E-32E2-4D8F-831F-54309F31D699}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14D1B89E-32E2-4D8F-831F-54309F31D699}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14D1B89E-32E2-4D8F-831F-54309F31D699}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14D1B89E-32E2-4D8F-831F-54309F31D699}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

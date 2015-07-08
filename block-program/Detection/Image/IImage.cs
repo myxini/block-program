@@ -1,4 +1,7 @@
-﻿namespace Myxini.Recognition.Image
+﻿using System;
+
+
+namespace Myxini.Recognition.Image
 {
 	using Rectangle = Raw.Rectangle;
 	using Size = Raw.Size;
@@ -13,6 +16,13 @@
 		/// <param name="channel">画像のチャネル</param>
 		/// <returns>画像の要素</returns>
 		int GetElement(int x, int y, int channel);
+
+		/// <summary>
+		/// コンストラクタを使用せずにオブジェクトを生成します
+		/// </summary>
+		/// <param name="convertor">初期化関数</param>
+		/// <returns>生成した画像オブジェクト</returns>
+		IImage Create(Func<IImage, int, int, int, int> convertor);
 
 		/// <summary>
 		/// 画像の一部を取得します
