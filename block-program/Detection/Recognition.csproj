@@ -82,6 +82,7 @@
     <Compile Include="Raw\Point.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Raw\Size.cs" />
+    <Compile Include="Recognizer.cs" />
     <Compile Include="Script.cs" />
     <Compile Include="Routine.cs" />
     <Compile Include="WhiteBoard.cs" />
