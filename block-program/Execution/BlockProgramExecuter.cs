@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Myxini.Communication;
+using Myxini.Recognition;
+using Myxini.Recognition.Image;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,21 +9,25 @@ using System.Threading.Tasks;
 
 namespace Myxini.Execution
 {
-    class BlockProgramExecuter : IBlockProgramExecuter
+    public class BlockProgramExecuter : IBlockProgramExecuter
     {
+        private WhiteBoard whiteboard = new WhiteBoard();
+
         /// <summary>
         /// 通信するやつ
         /// </summary>
-        private Communication.CommunicationService service;
+        private CommunicationService service;
 
         /// <summary>
         /// ホワイトボードを撮るカメラ
         /// </summary>
-        private Recognition.Image.ICamera camera = new Recognition.Image.Kinect();
+        private ICamera camera;
 
-        public BlockProgramExecuter(Communication.CommunicationService service)
+        public BlockProgramExecuter(CommunicationService service)
         {
             this.service = service;
+
+            Initialize();
         }
 
         /// <summary>
@@ -29,11 +36,13 @@ namespace Myxini.Execution
         public void Execute()
         {
             // カメラでホワイトボードをパシャリ
-            Recognition.Image.IImage image_whiteboard = camera.Capture();
+            IImage image_whiteboard = camera.Capture();
 
             // 写真からScriptを作る
-            Recognition.Recognizer recognizer = new Recognition.Recognizer();
-            Recognition.Script script = recognizer.Recognition(image_whiteboard);
+            Recognizer recognizer = new Recognition.Recognizer();
+            Script script = recognizer.Recognition(
+                whiteboard.GetBackgroundDeleteImage(image_whiteboard)
+            );
 
             // 通信するやつを使ってScriptを実行
             service.Run(script);
@@ -46,6 +55,14 @@ namespace Myxini.Execution
         {
             // 通信するやつを使って実行を停止
             service.Stop();
+        }
+
+        private void Initialize()
+        {
+            camera = new Kinect();
+
+            // キャリブレーション
+            whiteboard.Calibration(camera);
         }
     }
 }
