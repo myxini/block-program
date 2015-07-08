@@ -8,6 +8,11 @@ namespace Myxini.Recognition.Image
 	public class GrayImage : 
 		IImage
 	{
+		enum ImageType
+		{
+			RGB, ARGB, RGBA
+		}
+
 		public GrayImage(int width, int height)
 		{
 			this.BoundingBox = new Rectangle(0, 0, width, height);
@@ -17,13 +22,36 @@ namespace Myxini.Recognition.Image
 			this.Pixels = new byte[width * height];
 		}
 
-		public GrayImage(byte[] depth, int width, int height) : this(width, height)
+		public GrayImage(byte[] pixel, int width, int height) : this(width, height)
 		{
-			depth.CopyTo(this.Pixels, 0);
+			pixel.CopyTo(this.Pixels, 0);
 		}
 
-		public GrayImage(ColorImage image) : this(image.Width, image.Height)
+		public GrayImage(IImage image, ImageType image_type = ImageType.RGB) : this(image.Width, image.Height)
 		{
+			int?[] place = new int?[4];
+
+			switch(image_type)
+			{
+				case ImageType.RGB:
+					place[0] = 0;
+					place[1] = 1;
+					place[2] = 2;
+					break;
+				case ImageType.RGBA:
+					place[0] = 0;
+					place[1] = 1;
+					place[2] = 2;
+					place[3] = 3;
+					break;
+				case ImageType.ARGB:
+					place[0] = 0;
+					place[1] = 1;
+					place[2] = 2;
+					place[3] = 3;
+					break;
+			}
+
 			for (int y = 0; y < image.Height; ++y)
 			{
 				for (int x = 0; x < image.Width; ++x)
