@@ -1,9 +1,16 @@
-﻿namespace Myxini.Recognition.Raw
+﻿using System;
+
+namespace Myxini.Recognition.Raw
 {
 	public struct Rectangle
 	{
 		public Rectangle(int x, int y, int width, int height)
 			: this(new Point(x, y), new Size(width, height))
+		{
+		}
+
+		public Rectangle(Point left_top, Point right_bottom)
+			: this(left_top, new Size(Math.Abs(right_bottom.X - left_top.X), Math.Abs(right_bottom.Y - left_top.Y)))
 		{
 		}
 
