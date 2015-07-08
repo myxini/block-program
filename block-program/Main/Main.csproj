@@ -42,12 +42,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleInput.cs" />
+    <Compile Include="ConsoleOutput.cs" />
+    <Compile Include="CopnsoleErrorOutput.cs" />
     <Compile Include="IInput.cs" />
+    <Compile Include="IOutput.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Communication\Communication.csproj">
+      <Project>{79444e47-9d7b-4315-91fb-e8639b026b56}</Project>
+      <Name>Communication</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Execution\Execution.csproj">
+      <Project>{14d1b89e-32e2-4d8f-831f-54309f31d699}</Project>
+      <Name>Execution</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
