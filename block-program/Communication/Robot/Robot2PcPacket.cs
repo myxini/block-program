@@ -38,13 +38,18 @@ namespace Myxini.Communication.Robot
                 throw new InvalidOperationException("Packet Length is too short");
             }
             this.__packetData = packet;
+            if(!this.IsValid())
+            {
+                throw new InvalidOperationException("Packet check sum is invalid");
+            }
             this.RobotID = packet[(int)PacketIndex.SENSOR_ID];
             this.SensorValue = (UInt16)((packet[(int)PacketIndex.SENSOR_VALUE_HIGH] << 8) & packet[(int)PacketIndex.SENSOR_VALUE_LOW]);
         }
 
-        public bool IsValid(byte[] packet)
+        public bool IsValid()
         {
-            return Packet.CalcCheckSum(packet) == (byte)packet[(int)PacketIndex.CHKSUM];
+            return Packet.CalcCheckSum(this._packetData) 
+                == 0;
         }
     }
 }
