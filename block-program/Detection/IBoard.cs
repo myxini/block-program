@@ -3,7 +3,7 @@ using Myxini.Recognition.Raw;
 
 namespace Myxini.Recognition
 {
-	interface IBoard
+	public interface IBoard
 	{
 		/// <summary>
 		/// カメラ画像を元にキャリブレーションを行う

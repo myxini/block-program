@@ -41,10 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BlockGraph.cs" />
-    <Compile Include="BlockArray.cs" />
-    <Compile Include="BlockNode.cs" />
-    <Compile Include="BlockNodeList.cs" />
     <Compile Include="BlockParameter.cs" />
     <Compile Include="Classifier.cs" />
     <Compile Include="ControlBlock.cs" />
@@ -52,6 +48,10 @@
     <Compile Include="Command.cs" />
     <Compile Include="IBlock.cs" />
     <Compile Include="Image\BitmapImage.cs" />
+    <Compile Include="Image\GrayImage.cs" />
+    <Compile Include="Image\CellDescriptor.cs" />
+    <Compile Include="Image\Labeling.cs" />
+    <Compile Include="Image\Process.cs" />
     <Compile Include="InstructionBlock.cs" />
     <Compile Include="Image\ColorImage.cs" />
     <Compile Include="Image\Component1.cs">
@@ -81,8 +81,10 @@
     <Compile Include="Raw\Point.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Raw\Size.cs" />
+    <Compile Include="Recognizer.cs" />
     <Compile Include="Script.cs" />
     <Compile Include="Routine.cs" />
+    <Compile Include="WhiteBoard.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
