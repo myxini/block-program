@@ -33,6 +33,11 @@ namespace Myxini.Recognition.Image
             }
         }
 
+				public IImage Create(Func<IImage, int, int, int, int> convertor)
+				{
+					throw new NotImplementedException();
+				}
+
         public IImage RegionOfImage(int x, int y, int width, int height)
         {
             Rectangle rect = new Rectangle(x, y, x + width, y + height);

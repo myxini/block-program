@@ -5,23 +5,39 @@ namespace Myxini.Recognition.Image
 	using Rectangle = Raw.Rectangle;
 	using Size = Raw.Size;
 
-	public class ColorImage : IImage
+	public class GrayImage : 
+		IImage
 	{
-		public ColorImage(int width, int height)
+		public GrayImage(int width, int height)
 		{
 			this.BoundingBox = new Rectangle(0, 0, width, height);
 			this.OriginalSize = this.BoundingBox.BoundingSize;
-			this.Channel = 3;
+			this.Channel = 1;
 			this.IsRegionOfImage = false;
-			this.Pixels = new byte[width * height * this.Channel];
+			this.Pixels = new byte[width * height];
 		}
 
-		public ColorImage(byte[] pixels, int width, int height) : this(width, height)
+		public GrayImage(byte[] depth, int width, int height) : this(width, height)
 		{
-			pixels.CopyTo(this.Pixels, 0);
+			depth.CopyTo(this.Pixels, 0);
 		}
 
-		public ColorImage(ColorImage image, Rectangle region)
+		public GrayImage(ColorImage image) : this(image.Width, image.Height)
+		{
+			for (int y = 0; y < image.Height; ++y)
+			{
+				for (int x = 0; x < image.Width; ++x)
+				{
+					var b = image.GetElement(x, y, 0);
+					var g = image.GetElement(x, y, 1);
+					var r = image.GetElement(x, y, 2);
+
+					this.Pixels[y * image.Width + x] = (byte)(0.299 * r + 0.587 * g + 0.114 * b);
+				}
+			}
+		}
+
+		public GrayImage(GrayImage image, Rectangle region)
 		{
 			this.Channel = image.Channel;
 			this.Pixels = image.Pixels;
@@ -36,38 +52,32 @@ namespace Myxini.Recognition.Image
 				);
 		}
 
-		public ColorImage(ColorImage image, Func<IImage, int, int, int, int> convertor)
-			: this(image.Width, image.Height)
+		public GrayImage(GrayImage image, Func<IImage, int, int, int, int> convertor) : this(image.Width, image.Height)
 		{
 			for(int y = 0;y < this.Height; ++y)
 			{
 				for(int x = 0; x < this.Width; ++x)
 				{
-					this.Pixels[(y * this.Width + x) * this.Channel + 0] = (byte)convertor(image, x, y, 0);
-					this.Pixels[(y * this.Width + x) * this.Channel + 1] = (byte)convertor(image, x, y, 1);
-					this.Pixels[(y * this.Width + x) * this.Channel + 2] = (byte)convertor(image, x, y, 2);
+					this.Pixels[y * this.Width + x] = (byte)convertor(image, x, y, 0);
 				}
 			}
 		}
 
-		public ColorImage(ColorImage lhs, ColorImage rhs, Func<IImage, IImage, int, int, int, int> convertor)
+		public GrayImage(GrayImage lhs, GrayImage rhs, Func<IImage, IImage, int, int, int, int> convertor)
 			: this(lhs.Width, lhs.Height)
 		{
-			for (int c = 0; c < lhs.Channel; ++c)
+			for (int y = 0; y < this.Height; ++y)
 			{
-				for (int y = 0; y < this.Height; ++y)
+				for (int x = 0; x < this.Width; ++x)
 				{
-					for (int x = 0; x < this.Width; ++x)
-					{
-						this.Pixels[y * this.Width + x] = (byte)convertor(lhs, rhs, x, y, c);
-					}
+					this.Pixels[y * this.Width + x] = (byte)convertor(lhs, rhs, x, y, 0);
 				}
 			}
 		}
 
-		public int GetElement(int x, int y, int channel)
+		public int GetElement(int x, int y, int channel = 0)
 		{
-			if(x < 0 || y < 0 || x >= this.Width || y >= this.Height || channel < 0 || channel > this.Channel)
+			if (x < 0 || y < 0 || x >= this.Width || y >= this.Height || channel < 0 || channel > this.Channel)
 			{
 				throw new ArgumentOutOfRangeException();
 			}
@@ -80,7 +90,7 @@ namespace Myxini.Recognition.Image
 
 		public IImage Create(Func<IImage, int, int, int, int> convertor)
 		{
-			return new ColorImage(this, convertor);
+			return new GrayImage(this, convertor);
 		}
 
 		/// <summary>
@@ -93,7 +103,7 @@ namespace Myxini.Recognition.Image
 		/// <returns>部分画像</returns>
 		public IImage RegionOfImage(int x, int y, int width, int height)
 		{
-			return new ColorImage(this, new Rectangle(x, y, width, height));
+			return new GrayImage(this, new Rectangle(x, y, width, height));
 		}
 
 		/// <summary>
@@ -103,7 +113,7 @@ namespace Myxini.Recognition.Image
 		/// <returns>部分画像</returns>
 		public IImage RegionOfImage(Rectangle region)
 		{
-			return new ColorImage(this, region);
+			return new GrayImage(this, region);
 		}
 
 		/// <summary>
@@ -112,7 +122,7 @@ namespace Myxini.Recognition.Image
 		/// <returns>ディープコピーした画像</returns>
 		public IImage Clone()
 		{
-			return new ColorImage(this.Pixels, this.Width, this.Height);
+			return new GrayImage(this.Pixels, this.Width, this.Height);
 		}
 
 		/// <summary>
