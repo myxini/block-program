@@ -8,7 +8,7 @@ namespace Myxini.Recognition.Image
 	public class GrayImage : 
 		IImage
 	{
-		enum ImageType
+		public enum ImageType
 		{
 			RGB, ARGB, RGBA
 		}
@@ -29,26 +29,21 @@ namespace Myxini.Recognition.Image
 
 		public GrayImage(IImage image, ImageType image_type = ImageType.RGB) : this(image.Width, image.Height)
 		{
-			int?[] place = new int?[4];
+			int[] place = new int[3];
 
 			switch(image_type)
 			{
 				case ImageType.RGB:
-					place[0] = 0;
-					place[1] = 1;
-					place[2] = 2;
-					break;
 				case ImageType.RGBA:
 					place[0] = 0;
 					place[1] = 1;
 					place[2] = 2;
-					place[3] = 3;
 					break;
+
 				case ImageType.ARGB:
-					place[0] = 0;
-					place[1] = 1;
-					place[2] = 2;
-					place[3] = 3;
+					place[0] = 1;
+					place[1] = 2;
+					place[2] = 3;
 					break;
 			}
 
@@ -56,9 +51,9 @@ namespace Myxini.Recognition.Image
 			{
 				for (int x = 0; x < image.Width; ++x)
 				{
-					var b = image.GetElement(x, y, 0);
-					var g = image.GetElement(x, y, 1);
-					var r = image.GetElement(x, y, 2);
+					var b = image.GetElement(x, y, place[0]);
+					var g = image.GetElement(x, y, place[1]);
+					var r = image.GetElement(x, y, place[2]);
 
 					this.Pixels[y * image.Width + x] = (byte)(0.299 * r + 0.587 * g + 0.114 * b);
 				}
