@@ -41,12 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BlockArray.cs" />
     <Compile Include="BlockParameter.cs" />
-    <Compile Include="BlockProgramExecuter.cs" />
     <Compile Include="Classifier.cs" />
     <Compile Include="ControlBlock.cs" />
-    <Compile Include="IBlockProgramExecuter.cs" />
     <Compile Include="IBoard.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="IBlock.cs" />

@@ -8,12 +8,24 @@ namespace Myxini.Recognition
 {
     class BlockProgramExecuter : IBlockProgramExecuter
     {
+        public BlockProgramExecuter()
+        {
+
+        }
+
         /// <summary>
         /// ホワイトボード上に構成されたプログラムを1回読んで実行する
         /// </summary>
         public void Execute()
         {
-            throw new NotImplementedException();
+            // Kinectでホワイトボードをパシャリ
+
+            // 写真からScriptを作る
+
+            // Scriptを実行
+
         }
+
+
     }
 }
