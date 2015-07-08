@@ -31,11 +31,11 @@ namespace Myxini.Communication
             }
         }
         #region センサIDとセンサ名をひもづける定数値
-        const byte SENSORID_PSD = 0x01;
+        const byte SENSORID_PSD = 0x07;
         const byte SENSORID_MICROSWITCH = 0x02;
         #endregion
         #region ロボットにおいてどのスレッドが走るかを決めるしきい値群
-        private const int STATE_PSD_THRES = 30;
+        private const int STATE_PSD_THRES = 615;
         private const int STATE_MICROSWITCH_THRES = 1;
         #endregion
         private Dictionary<Command, Robot.CommandList> _robotScript;

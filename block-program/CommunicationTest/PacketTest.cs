@@ -114,12 +114,10 @@ namespace CommunicationTest
                     new BlockParameter())
             );
             // 前進低速 :0x 06 09 01 01 26 01 28
-            testRoutine.Append(
-                new InstructionBlock(
+            testRoutine.Append(new InstructionBlock(
                     Myxini.Recognition.Command.Move,
                     new BlockParameter(new int[1] { 1 })
-                )
-            );
+                ));
             testScript.AddRoutine(testRoutine);
             var serv_private = new PrivateObject(serv);
             serv.Run(testScript);
