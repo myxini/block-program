@@ -1,4 +1,5 @@
-﻿using System;
+﻿//using Myxini.Communication;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,15 @@ namespace Main
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!!!");
+            string prompt = "> ";
+            IInput input = new ConsoleInput(prompt);
+
+            string portname = input.Input("Enter COM port name.");
+
+            // CommunicationService servce = new CommunicationService();
+
+
+            Console.WriteLine(portname);
             Console.ReadLine();
         }
     }
