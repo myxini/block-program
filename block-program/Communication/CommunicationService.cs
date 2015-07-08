@@ -16,6 +16,7 @@ namespace Myxini.Communication
         private const Parity PARITY = Parity.None;
         private const int DATABITS = 8;
         private const StopBits STOPBITS = StopBits.One;
+        private const int COMMAND_DURATION = 100;
         #endregion
         public SerialPort RobotPort { get; set; }
         public string RobotPortName
@@ -139,7 +140,7 @@ namespace Myxini.Communication
                 foreach (var command in this._robotScript[currentInstruction])
                 {
                     this.Do(command);
-                    Thread.Sleep(100);
+                    Thread.Sleep(COMMAND_DURATION);
                 }
             }
         }
