@@ -73,7 +73,6 @@
     <Compile Include="Raw\BlockArray.cs" />
     <Compile Include="Raw\Rectangle.cs" />
     <Compile Include="IClassifier.cs" />
-    <Compile Include="Raw\IRawBlock.cs" />
     <Compile Include="IDetector.cs" />
     <Compile Include="Image\IImage.cs" />
     <Compile Include="Raw\ILine.cs" />
