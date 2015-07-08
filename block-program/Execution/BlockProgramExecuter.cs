@@ -11,6 +11,8 @@ namespace Myxini.Execution
 {
     public class BlockProgramExecuter : IBlockProgramExecuter
     {
+        private WhiteBoard whiteboard = new WhiteBoard();
+
         /// <summary>
         /// 通信するやつ
         /// </summary>
@@ -19,11 +21,13 @@ namespace Myxini.Execution
         /// <summary>
         /// ホワイトボードを撮るカメラ
         /// </summary>
-        private ICamera camera = new Kinect();
+        private ICamera camera;
 
         public BlockProgramExecuter(CommunicationService service)
         {
             this.service = service;
+
+            Initialize();
         }
 
         /// <summary>
@@ -36,7 +40,9 @@ namespace Myxini.Execution
 
             // 写真からScriptを作る
             Recognizer recognizer = new Recognition.Recognizer();
-            Script script = recognizer.Recognition(image_whiteboard);
+            Script script = recognizer.Recognition(
+                whiteboard.GetBackgroundDeleteImage(image_whiteboard)
+            );
 
             // 通信するやつを使ってScriptを実行
             service.Run(script);
@@ -49,6 +55,14 @@ namespace Myxini.Execution
         {
             // 通信するやつを使って実行を停止
             service.Stop();
+        }
+
+        private void Initialize()
+        {
+            camera = new Kinect();
+
+            // キャリブレーション
+            whiteboard.Calibration(camera);
         }
     }
 }
