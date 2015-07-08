@@ -103,12 +103,12 @@ namespace Myxini.Recognition
             ),
         };
 
-		public IBlock Clustering(Raw.IRawBlock raw_block)
+		public IBlock Clustering(Image.IImage raw_block)
 		{
 			// ここでパターンマッチングして最もマッチするパターンに
             // 紐付けしたIBlockを返す
 			Pattern pattern_max_matching = patterns
-					.OrderByDescending(pattern => Math.Abs(pattern.Match(raw_block.BoundingImage)))
+					.OrderByDescending(pattern => Math.Abs(pattern.Match(raw_block)))
 					.First();
 			return pattern_max_matching.Block;
 		}
