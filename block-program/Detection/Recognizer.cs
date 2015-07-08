@@ -7,7 +7,7 @@ namespace Myxini.Recognition
 {
 	public class Recognizer
 	{
-		struct OuterRectangle
+		class OuterRectangle
 		{
 			public int Top = int.MaxValue;
 			public int Bottom = int.MinValue;
@@ -17,14 +17,68 @@ namespace Myxini.Recognition
 
 		public Script Recognition(IImage kinect_image)
 		{
-			
+			var rectangles = this.FindBlockRectangle(kinect_image);
+
+			var image = new GrayImage(kinect_image, GrayImage.ImageType.ARGB);
+			var cell_image = CellDescriptor.DescriptImage(image);
+
+			cell_image = new GrayImage(cell_image, Process.Dilate);
+			cell_image = new GrayImage(cell_image, Process.Dilate);
+			cell_image = new GrayImage(cell_image, Process.Dilate);
+
+			var labels = Process.Labeling(cell_image);
+
+			var classifier = new Classifier();
+			foreach(var rectangle in rectangles)
+			{
+				var target = kinect_image.RegionOfImage(rectangle);
+				var result = classifier.Clustering(target);
+			}
+
+			//IsConnectedBlock(labels, cell_image.BoundingBox.BoundingSize, )
 
 			throw new NotImplementedException();
 		}
 
+		private bool IsConnectedBlock(List<int> labels, Size label_image_size, Rectangle a, Rectangle b)
+		{
+			Point a_bottom_right = new Point(a.X + a.Width, a.Y + a.Height);
+//			Point a_top_left = new Point(a.X, a.Y);
+			Point b_bottom_right = new Point(b.X + b.Width, b.Y + b.Height);
+//			Point b_top_left = new Point(b.X, b.Y);
+
+			for (int ry = a.Y; ry < a_bottom_right.Y; ++ry)
+			{
+				for (int rx = a.X; rx < a_bottom_right.X; ++rx)
+				{
+					for (int by = b.Y; by < b_bottom_right.Y; ++by)
+					{
+						for (int bx = b.X; bx < a_bottom_right.X; ++bx)
+						{
+							var r_label = labels[ry * label_image_size.Width + rx];
+							var b_label = labels[by * label_image_size.Width + bx];
+
+							if (r_label == 0 || b_label == 0)
+							{
+								continue;
+							}
+
+							if (r_label == b_label)
+							{
+								return true;
+							}
+						}
+					}
+				}
+			}
+
+			return false;
+		}
+
+
 		private List<Rectangle> FindBlockRectangle(IImage depth)
 		{
-			Dictionary<int, OuterRectangle> result;
+			var rectangle_dictionary = new Dictionary<int, OuterRectangle>();
 
 			var label = Process.Labeling(depth);
 
@@ -39,12 +93,12 @@ namespace Myxini.Recognition
 						continue;
 					}
 
-					if(!result.ContainsKey(l))
+					if(!rectangle_dictionary.ContainsKey(l))
 					{
-						result.Add(l, new OuterRectangle());
+						rectangle_dictionary.Add(l, new OuterRectangle());
 					}
 
-					var outer_rectangle = result[l];
+					var outer_rectangle = rectangle_dictionary[l];
 
 					if (outer_rectangle.Left > x)
 					{
@@ -68,20 +122,23 @@ namespace Myxini.Recognition
 				}
 			}
 
-			rect.reserve(result.size());
-			for (auto&& out : result)
+			var result = new List<Rectangle>();
+			foreach (var element in rectangle_dictionary)
 			{
-				cv::Rect region(cv::Point(out.second.Left, out.second.Top), cv::Point(out.second.Right, out.second.Bottom));
+				Rectangle region = new Rectangle(
+					new Point(element.Value.Left, element.Value.Top), 
+					new Point(element.Value.Right, element.Value.Bottom));
 
-				if (region.area() < 20)
+				if (region.BoundingSize.Area < 20)
 				{
 					continue;
 				}
 
-				rect.push_back(region);
+				result.Add(region);
 			}
 
-			throw new NotImplementedException();
+			return result;
 		}
+
 	}
 }
