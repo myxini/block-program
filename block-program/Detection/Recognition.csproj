@@ -70,7 +70,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Raw\BlockArray.cs" />
     <Compile Include="Raw\Rectangle.cs" />
     <Compile Include="IClassifier.cs" />
     <Compile Include="IDetector.cs" />

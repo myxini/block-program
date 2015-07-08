@@ -28,16 +28,42 @@ namespace Myxini.Recognition
 
 			var labels = Process.Labeling(cell_image);
 
+
+			List<Tuple<IBlock, Rectangle>> control_block = new List<Tuple<IBlock, Rectangle>>();
+			List<Tuple<IBlock, Rectangle>> other_block = new List<Tuple<IBlock, Rectangle>>();
+
 			var classifier = new Classifier();
 			foreach(var rectangle in rectangles)
 			{
 				var target = kinect_image.RegionOfImage(rectangle);
 				var result = classifier.Clustering(target);
+
+				if(result.IsControlBlock)
+				{
+					control_block.Add(new Tuple<IBlock, Rectangle>(result, rectangle));
+				}
+				else
+				{
+					other_block.Add(new Tuple<IBlock, Rectangle>(result, rectangle));
+				}
 			}
 
-			//IsConnectedBlock(labels, cell_image.BoundingBox.BoundingSize, )
+			Script result_script = new Script();
+			
+			foreach(var trigger in control_block)
+			{
+				result_script.Add(trigger.Item1 as ControlBlock);
 
-			throw new NotImplementedException();
+				foreach(var other in other_block)
+				{
+					if(this.IsConnectedBlock(labels, cell_image.BoundingBox.BoundingSize, trigger.Item2, other.Item2))
+					{
+						result_script.Add(other.Item1 as InstructionBlock);
+					}
+				}
+			}
+
+			return result_script;
 		}
 
 		private bool IsConnectedBlock(List<int> labels, Size label_image_size, Rectangle a, Rectangle b)
