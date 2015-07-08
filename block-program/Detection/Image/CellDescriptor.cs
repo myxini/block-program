@@ -151,7 +151,7 @@ namespace Myxini.Recognition.Image
 				}
 			}
 
-				return new GrayImage(gray_bitmap, low_resolution_size.Width, low_resolution_size.Height); ;
+			return new GrayImage(gray_bitmap, low_resolution_size.Width, low_resolution_size.Height);
 		}
 
 	}
