@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Myxini.Execution
 {
-    interface IBlockProgramExecuter
+    public interface IBlockProgramExecuter
     {
         /// <summary>
         /// ホワイトボード上に構成されたプログラムを1回読んで実行する
