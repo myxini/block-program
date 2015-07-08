@@ -33,7 +33,7 @@ namespace Myxini.Execution
 
             // 写真からScriptを作る
             Recognition.Recognizer recognizer = new Recognition.Recognizer();
-            Recognition.Script script = recognizer.Recognize(image_whiteboard);
+            Recognition.Script script = recognizer.Recognition(image_whiteboard);
 
             // 通信するやつを使ってScriptを実行
             service.Run(script);
