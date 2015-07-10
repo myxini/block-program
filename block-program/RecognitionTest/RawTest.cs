@@ -40,6 +40,15 @@ namespace RecognitionTest
 				Assert.Equals(size.Width, width);
 				Assert.Equals(size.Height, height);
 			}
+			[TestMethod]
+			public void TestArea()
+			{
+				const int width = 20, height = 10;
+
+				var size = new Size(width, height);
+
+				Assert.Equals(size.Area, 200);
+			}
 		}
 	}
 }
