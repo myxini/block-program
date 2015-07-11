@@ -41,7 +41,7 @@ using System;
 			this.OriginalSize = this.OriginalSize;
 			this.IsRegionOfImage = true;
 
-			Rectangle new_region = new Rectangle(
+			this.BoundingBox = new Rectangle(
 				image.BoundingBox.X + region.X,
 				image.BoundingBox.Y + region.Y,
 				region.Width,
