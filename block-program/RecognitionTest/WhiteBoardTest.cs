@@ -64,7 +64,7 @@ namespace RecognitionTest
 		public void CalibrationTest()
 		{
 			var camera = new VirtualCamera();
-			camera.AddFrame(Myxini.Recognition.Image.)
+//			camera.AddFrame(Myxini.Recognition.Image.)
 
 			var white_board = new WhiteBoard();
 		}
