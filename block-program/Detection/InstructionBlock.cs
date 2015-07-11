@@ -18,5 +18,14 @@ namespace Myxini.Recognition
         }
         public Command CommandIdentification { get; private set; }
         public BlockParameter Parameter { get; private set; }
+
+        public override string ToString()
+        {
+            return string.Format(
+                "      [InstructionBlock] Command: {0}, Parameters: {1}",
+                CommandIdentification,
+                Parameter.ValueLength() == 1 ? Parameter.Value(0).ToString() : "null"
+            );
+        }
     }
 }
