@@ -80,10 +80,10 @@ namespace Myxini.Recognition.RecognitionTest
 			var kinect = new Kinect(0);
 			var image = kinect.Capture();
 
-			Assert.Equals(image.Channel, 4);
-			Assert.Equals(image.Width, 640);
-			Assert.Equals(image.Height, 480);
-			Assert.Equals(image.IsRegionOfImage, false);
+			Assert.AreEqual(image.Channel, 4);
+			Assert.AreEqual(image.Width, 640);
+			Assert.AreEqual(image.Height, 480);
+			Assert.AreEqual(image.IsRegionOfImage, false);
 		}
 	}
 }

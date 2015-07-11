@@ -10,19 +10,14 @@ namespace RecognitionTest
 	public class RawTest
 	{
 		[TestMethod]
-		public void TestMethod1()
-		{
-		}
-
-		[TestMethod]
 		public void TestPoint()
 		{
 			const int point_x = 20, point_y = 10;
 
 			var point = new Point(point_x, point_y);
 
-			Assert.Equals(point.X, point_x);
-			Assert.Equals(point.Y, point_y);
+			Assert.AreEqual(point.X, point_x);
+			Assert.AreEqual(point.Y, point_y);
 		}
 
 		[TestMethod]
@@ -32,10 +27,10 @@ namespace RecognitionTest
 
 			var size = new Size(width, height);
 
-			Assert.Equals(size.Width, width);
-			Assert.Equals(size.Height, height);
+			Assert.AreEqual(size.Width, width);
+			Assert.AreEqual(size.Height, height);
 
-			Assert.Equals(size.Area, width * height);
+			Assert.AreEqual(size.Area, width * height);
 		}
 
 		[TestMethod]
@@ -47,16 +42,16 @@ namespace RecognitionTest
 
 			var rect2 = new Rectangle(new Point(left, top), new Point(left + width, top + height));
 
-			Assert.Equals(rect.Position.X, rect2.Position.X);
-			Assert.Equals(rect.Position.Y, rect2.Position.Y);
-			Assert.Equals(rect.BoundingSize.Width, rect2.BoundingSize.Width);
-			Assert.Equals(rect.BoundingSize.Height, rect2.BoundingSize.Height);
+			Assert.AreEqual(rect.Position.X, rect2.Position.X);
+			Assert.AreEqual(rect.Position.Y, rect2.Position.Y);
+			Assert.AreEqual(rect.BoundingSize.Width, rect2.BoundingSize.Width);
+			Assert.AreEqual(rect.BoundingSize.Height, rect2.BoundingSize.Height);
 
 			var rect3 = new Rectangle(left, top, width, height);
-			Assert.Equals(rect.Position.X, rect3.Position.X);
-			Assert.Equals(rect.Position.Y, rect3.Position.Y);
-			Assert.Equals(rect.BoundingSize.Width, rect3.BoundingSize.Width);
-			Assert.Equals(rect.BoundingSize.Height, rect3.BoundingSize.Height);
+			Assert.AreEqual(rect.Position.X, rect3.Position.X);
+			Assert.AreEqual(rect.Position.Y, rect3.Position.Y);
+			Assert.AreEqual(rect.BoundingSize.Width, rect3.BoundingSize.Width);
+			Assert.AreEqual(rect.BoundingSize.Height, rect3.BoundingSize.Height);
 		}
 	}
 }
