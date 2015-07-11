@@ -7,7 +7,7 @@ namespace Myxini.Recognition.Image
 	{
 		public Kinect(int index = 0)
 		{
-			if(KinectSensor.KinectSensors.Count <= index)
+			if (KinectSensor.KinectSensors.Count <= index && KinectSensor.KinectSensors.Count >= 0)
 			{
 				throw new InvalidOperationException();
 			}
