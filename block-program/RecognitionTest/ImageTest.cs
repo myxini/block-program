@@ -53,9 +53,9 @@ namespace RecognitionTest
 				}
 			}
 
-			for (int y = 0; y < Gray.Width; ++y)
+			for (int y = 0; y < Gray.Height; ++y)
 			{
-				for (int x = 0; x < Gray.Height; ++x)
+				for (int x = 0; x < Gray.Width; ++x)
 				{
 					GrayPixels[y * Gray.Width + x] = Gray.GetPixel(x, y).R;
 				}
@@ -95,9 +95,9 @@ namespace RecognitionTest
 			Assert.AreEqual(color.Channel, 3);
 			Assert.AreEqual(color.IsRegionOfImage, false);
 
-			for (int y = 0; y < color.Width; ++y)
+			for (int y = 0; y < color.Height; ++y)
 			{
-				for (int x = 0; x < color.Height; ++x)
+				for (int x = 0; x < color.Width; ++x)
 				{
 					var true_value = Color.GetPixel(x, y);
 					Assert.AreEqual(color.GetElement(x, y, 0), true_value.B);
@@ -118,18 +118,16 @@ namespace RecognitionTest
 
 			var roi = new ColorImage(color, new Myxini.Recognition.Raw.Rectangle(roi_left_top, roi_size));
 
-			Assert.AreEqual(roi.Width, Color.Width);
-			Assert.AreEqual(roi.Height, Color.Height);
 			Assert.AreEqual(roi.Channel, color.Channel);
 			Assert.AreEqual(roi.IsRegionOfImage, true);
 			Assert.AreEqual(roi.BoundingBox.X, roi_left_top.X);
 			Assert.AreEqual(roi.BoundingBox.Y, roi_left_top.Y);
 			Assert.AreEqual(roi.BoundingBox.Width, roi_size.Width);
-			Assert.AreEqual(roi.BoundingBox.Width, roi_size.Height);
+			Assert.AreEqual(roi.BoundingBox.Height, roi_size.Height);
 
-			for (int y = 0; y < roi.Width; ++y)
+			for (int y = 0; y < roi.Height; ++y)
 			{
-				for (int x = 0; x < roi.Height; ++x)
+				for (int x = 0; x < roi.Width; ++x)
 				{
 					Assert.AreEqual(roi.GetElement(x, y, 0), color.GetElement(x + roi_left_top.X, y + roi_left_top.Y, 0));
 					Assert.AreEqual(roi.GetElement(x, y, 1), color.GetElement(x + roi_left_top.X, y + roi_left_top.Y, 1));
