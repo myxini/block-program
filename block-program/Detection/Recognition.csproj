@@ -54,12 +54,6 @@
     <Compile Include="Image\Process.cs" />
     <Compile Include="InstructionBlock.cs" />
     <Compile Include="Image\ColorImage.cs" />
-    <Compile Include="Image\Component1.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Image\Component1.Designer.cs">
-      <DependentUpon>Component1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Image\DepthImage.cs" />
     <Compile Include="Image\ICamera.cs" />
     <Compile Include="Image\Kinect.cs" />

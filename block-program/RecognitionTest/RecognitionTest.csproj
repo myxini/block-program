@@ -54,7 +54,6 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ClassifierTest.cs" />
-    <Compile Include="ImageTest.cs" />
     <Compile Include="KinectTest.cs" />
     <Compile Include="ImageLoader.cs" />
     <Compile Include="RawTest.cs" />
