@@ -12,17 +12,42 @@ namespace Myxini.Recognition.Image
 				throw new InvalidOperationException();
 			}
 
+			this.Sensor = KinectSensor.KinectSensors[index];
+
 			this.Sensor.ColorStream.Enable(ColorImageFormat.RgbResolution640x480Fps30);
 			this.Sensor.DepthStream.Enable(DepthImageFormat.Resolution640x480Fps30);
 
 			this.Sensor.ColorFrameReady += this.OnUpdateColorImage;
 			this.Sensor.DepthFrameReady += this.OnUpdateDepthImage;
+
+			this.Sensor.Start();
 		}
 
 		public Kinect(KinectSensor kinect)
 		{
 			this.Sensor = kinect;
+			if(this.Sensor.IsRunning)
+			{
+				this.Sensor.Stop();
+			}
+			
+			this.Sensor.ColorStream.Enable(ColorImageFormat.RgbResolution640x480Fps30);
+			this.Sensor.DepthStream.Enable(DepthImageFormat.Resolution640x480Fps30);
+
+			this.Sensor.ColorFrameReady += this.OnUpdateColorImage;
+			this.Sensor.DepthFrameReady += this.OnUpdateDepthImage;
+			
+			this.Sensor.Start();
 		}
+		
+		~Kinect()
+		{
+			if(this.Sensor.IsRunning)
+			{
+				this.Sensor.Stop();
+			}
+		}
+
 
 		public static KinectSensor enumerateKinect(Func<KinectSensor, bool> function)
 		{

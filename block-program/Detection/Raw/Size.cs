@@ -19,6 +19,8 @@ namespace Myxini.Recognition.Raw
 		{
 			get { return this.Width * this.Height; }
 		}
+
+
 		public int Width;
 		public int Height;
 	}

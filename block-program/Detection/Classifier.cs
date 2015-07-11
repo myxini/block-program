@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Myxini.Recognition
 {
-	class Classifier : IClassifier
+	public class Classifier : IClassifier
 	{
 		private class Pattern
 		{
