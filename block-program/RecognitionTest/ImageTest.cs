@@ -47,9 +47,9 @@ namespace RecognitionTest
 				for (int x = 0; x < Color.Width; ++x)
 				{
 					var color = Color.GetPixel(x, y);
-					ColorPixels[y * Color.Width + x * 3 + 0] = color.B;
-					ColorPixels[y * Color.Width + x * 3 + 1] = color.G;
-					ColorPixels[y * Color.Width + x * 3 + 2] = color.R;
+					ColorPixels[(y * Color.Width + x) * 3 + 0] = color.B;
+					ColorPixels[(y * Color.Width + x) * 3 + 1] = color.G;
+					ColorPixels[(y * Color.Width + x) * 3 + 2] = color.R;
 				}
 			}
 
