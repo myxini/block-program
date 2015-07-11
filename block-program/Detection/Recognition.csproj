@@ -47,7 +47,6 @@
     <Compile Include="IBoard.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="IBlock.cs" />
-    <Compile Include="ImageTest.cs" />
     <Compile Include="Image\BitmapImage.cs" />
     <Compile Include="Image\GrayImage.cs" />
     <Compile Include="Image\CellDescriptor.cs" />
