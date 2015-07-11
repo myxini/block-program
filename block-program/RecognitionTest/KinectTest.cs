@@ -38,7 +38,7 @@ namespace Myxini.Recognition.RecognitionTest
 				testContextInstance = value;
 			}
 		}
-
+		
 		#region 追加のテスト属性
 		//
 		// テストを作成する際には、次の追加属性を使用できます:
@@ -64,7 +64,14 @@ namespace Myxini.Recognition.RecognitionTest
 		[TestMethod]
 		public void OpenTest()
 		{
-			var kinect = new Kinect(0);
+			 new Kinect(0);
+		}
+
+		[TestMethod()]
+		[ExpectedException(typeof(InvalidOperationException))]
+		public void CaptureFailedTest()
+		{
+			new Kinect(-1);
 		}
 
 		[TestMethod]

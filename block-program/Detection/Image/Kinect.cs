@@ -40,7 +40,7 @@ namespace Myxini.Recognition.Image
 			this.Sensor.Start();
 		}
 		
-		public ~Kinect()
+		~Kinect()
 		{
 			if(this.Sensor.IsRunning)
 			{
