@@ -33,7 +33,7 @@ namespace RecognitionTest
 			return this.Frames[this.CurrentPosition];
 		}
 
-		private List<IImage> Frames;
+		private List<IImage> Frames = new List<IImage>();
 		private int CurrentPosition = -1;
 	}
 }
