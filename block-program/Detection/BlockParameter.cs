@@ -1,11 +1,13 @@
 ﻿namespace Myxini.Recognition
 {
-	public struct BlockParameter
+	public class BlockParameter
 	{
 		public BlockParameter(int[] parameter)
 		{
-			this.Value_ = parameter;
+            this.Value_ = parameter;
 		}
+
+        public BlockParameter() { }
 
 		public int Value(int index)
 		{
@@ -17,6 +19,6 @@
 			return this.Value_.Length;
 		}
 
-		private int[] Value_;
+		private int[] Value_ = new int[] { };
 	}
 }
