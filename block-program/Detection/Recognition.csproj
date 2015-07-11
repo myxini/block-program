@@ -93,6 +93,36 @@
   <ItemGroup>
     <None Include="Resources\pattern_dummy.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pattern_end.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pattern_led_0.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pattern_led_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pattern_move_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pattern_move_-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pattern_psd.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pattern_rotate_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pattern_rotate_-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pattern_start.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pattern_switch.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

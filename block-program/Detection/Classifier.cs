@@ -40,65 +40,65 @@ namespace Myxini.Recognition
         {
             //LED
             new Pattern(
-                new Image.BitmapImage(Properties.Resources.PatternDummy), // ダミービットマップの例
+                new Image.BitmapImage(Properties.Resources.PatternLED0),
                 new InstructionBlock(Command.LED, new BlockParameter(new int[]{ 0 }))
             ),
             new Pattern(
-                /* なにかパターンの画像 */null, 
+                new Image.BitmapImage(Properties.Resources.PatternLED1),
                 new InstructionBlock(Command.LED, new BlockParameter(new int[]{ 1 }))
             ),
             //Move
             new Pattern(
-                /* なにかパターンの画像 */null, 
+                new Image.BitmapImage(Properties.Resources.PatternDummy), // ダミービットマップ
                 new InstructionBlock(Command.Move, new BlockParameter(new int[]{ -3 }))
             ),
             new Pattern(
-                /* なにかパターンの画像 */null, 
+                new Image.BitmapImage(Properties.Resources.PatternDummy), // ダミービットマップ
                 new InstructionBlock(Command.Move, new BlockParameter(new int[]{ -2 }))
             ),
             new Pattern(
-                /* なにかパターンの画像 */null, 
+                new Image.BitmapImage(Properties.Resources.PatternMoveBackward1),
                 new InstructionBlock(Command.Move, new BlockParameter(new int[]{ -1 }))
             ),
             new Pattern(
-                /* なにかパターンの画像 */null, 
+                new Image.BitmapImage(Properties.Resources.PatternMoveForward1),
                 new InstructionBlock(Command.Move, new BlockParameter(new int[]{ 1 }))
             ),
             new Pattern(
-                /* なにかパターンの画像 */null, 
+                new Image.BitmapImage(Properties.Resources.PatternDummy), // ダミービットマップ
                 new InstructionBlock(Command.Move, new BlockParameter(new int[]{ 2 }))
             ),
             new Pattern(
-                /* なにかパターンの画像 */null, 
+                new Image.BitmapImage(Properties.Resources.PatternDummy), // ダミービットマップ
                 new InstructionBlock(Command.Move, new BlockParameter(new int[]{ 3 }))
             ),
             //Rotate
             new Pattern(
-                /* なにかパターンの画像 */null, 
+                new Image.BitmapImage(Properties.Resources.PatternRotateCCW),
                 new InstructionBlock(Command.Rotate, new BlockParameter(new int[]{ -1 }))
             ),
             new Pattern(
-                /* なにかパターンの画像 */null, 
+                new Image.BitmapImage(Properties.Resources.PatternRotateCW),
                 new InstructionBlock(Command.Rotate, new BlockParameter(new int[]{ 1 }))
             ),
             //MicroSwitch
             new Pattern(
-                /* なにかパターンの画像 */null, 
+                new Image.BitmapImage(Properties.Resources.PatternMicroSwitch),
                 new InstructionBlock(Command.MicroSwitch, new BlockParameter())
             ),
             //PSD
             new Pattern(
-                /* なにかパターンの画像 */null, 
+                new Image.BitmapImage(Properties.Resources.PatternPSD),
                 new ControlBlock(Command.PSD, new BlockParameter())
             ),
             //Start
             new Pattern(
-                /* なにかパターンの画像 */null, 
+                new Image.BitmapImage(Properties.Resources.PatternStart),
                 new ControlBlock(Command.Start, new BlockParameter())
             ),
             //End
             new Pattern(
-                /* なにかパターンの画像 */null, 
+                new Image.BitmapImage(Properties.Resources.PatternEnd),
                 new ControlBlock(Command.End, new BlockParameter())
             ),
         };

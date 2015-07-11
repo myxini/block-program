@@ -121,4 +121,34 @@
   <data name="PatternDummy" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\pattern_dummy.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="PatternEnd" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pattern_end.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PatternLED0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pattern_led_0.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PatternLED1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pattern_led_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PatternMicroSwitch" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pattern_switch.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PatternMoveBackward1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pattern_move_-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PatternMoveForward1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pattern_move_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PatternPSD" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pattern_psd.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PatternRotateCCW" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pattern_rotate_-1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PatternRotateCW" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pattern_rotate_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PatternStart" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\pattern_start.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>
