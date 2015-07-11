@@ -69,6 +69,18 @@
       <Name>Recognition</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resource\gray\Test_Whiteboad_Frame1.jpg" />
+    <Content Include="Resource\gray\Test_Whiteboad_Frame2.jpg" />
+    <Content Include="Resource\gray\Test_Whiteboad_Frame3.jpg" />
+    <Content Include="Resource\gray\Test_Whiteboad_Frame4.jpg" />
+    <Content Include="Resource\gray\Test_Whiteboad_Frame5.jpg" />
+    <Content Include="Resource\resized\Test_Whiteboad_Frame1.jpg" />
+    <Content Include="Resource\resized\Test_Whiteboad_Frame2.jpg" />
+    <Content Include="Resource\resized\Test_Whiteboad_Frame3.jpg" />
+    <Content Include="Resource\resized\Test_Whiteboad_Frame4.jpg" />
+    <Content Include="Resource\resized\Test_Whiteboad_Frame5.jpg" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
