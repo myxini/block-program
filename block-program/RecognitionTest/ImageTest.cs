@@ -14,19 +14,37 @@ namespace RecognitionTest
 		private static byte[] ColorPixels;
 		private static byte[] GrayPixels;
 
+		private TestContext testContextInstance;
+
+		/// <summary>
+		///現在のテストの実行についての情報および機能を
+		///提供するテスト コンテキストを取得または設定します。
+		///</summary>
+		public TestContext TestContext
+		{
+			get
+			{
+				return testContextInstance;
+			}
+			set
+			{
+				testContextInstance = value;
+			}
+		}
 
 		[ClassInitialize]
-		public static void IntializeThisTest()
+		[DeploymentItem(@".\Resource\", "Resource")]
+		public static void IntializeThisTest(TestContext context)
 		{
-			Color = new System.Drawing.Bitmap("test_color_img.bmp");
-			Gray = new System.Drawing.Bitmap("test_gray_img.bmp");
+			Color = new System.Drawing.Bitmap(@".\Resource\resized\Test_Whiteboad_Frame1.jpg");
+			Gray = new System.Drawing.Bitmap(@".\Resource\gray\Test_Whiteboad_Frame1.jpg");
 
 			ColorPixels = new byte[Color.Width * Color.Height * 3];
 			GrayPixels = new byte[Gray.Width * Gray.Height];
 
-			for (int y = 0; y < Color.Width; ++y)
+			for (int y = 0; y < Color.Height; ++y)
 			{
-				for (int x = 0; x < Color.Height; ++x)
+				for (int x = 0; x < Color.Width; ++x)
 				{
 					var color = Color.GetPixel(x, y);
 					ColorPixels[y * Color.Width + x * 3 + 0] = color.B;
