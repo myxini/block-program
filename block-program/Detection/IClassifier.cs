@@ -1,7 +1,8 @@
-﻿namespace Myxini.Recognition
+﻿using Myxini.Recognition.Image;
+namespace Myxini.Recognition
 {
-	interface IClassifier
+	public interface IClassifier
 	{
-		IBlock Clustering(Image.IImage block);
+		IBlock Clustering(IImage raw_block, IPatternMatchingAlgorithm algorithm);
 	}
 }
