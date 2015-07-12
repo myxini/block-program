@@ -40,7 +40,7 @@ namespace Myxini.Recognition.Image
 		/// </summary>
 		public static int Dilate(IImage image, int x, int y, int c)
 		{
-			if(x == 0 || y == 0 || x >= image.Width || y >= image.Height)
+			if(x == 0 || y == 0 || (x + 1) >= image.Width || (y + 1) >= image.Height)
 			{
 				return DilateSlow(image, x, y, c);
 			}
@@ -63,7 +63,7 @@ namespace Myxini.Recognition.Image
 		/// </summary>
 		public static int Erode(IImage image, int x, int y, int c)
 		{
-			if (x == 0 || y == 0 || x >= image.Width || y >= image.Height)
+			if (x == 0 || y == 0 || (x + 1) >= image.Width || (y + 1) >= image.Height)
 			{
 				return DilateSlow(image, x, y, c);
 			}

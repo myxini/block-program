@@ -157,7 +157,7 @@ namespace Myxini.Recognition
 					new Point(element.Value.Right, element.Value.Bottom));
 
 				if (region.BoundingSize.Area < 20 && 
-					region.BoundingSize.Area  > depth.BoundingBox.BoundingSize.Area * 0.4)
+					region.BoundingSize.Area  > depth.BoundingBox.BoundingSize.Area * 0.1)
 				{
 					continue;
 				}
