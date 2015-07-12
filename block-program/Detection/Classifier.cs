@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Myxini.Recognition.Image;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,34 +9,6 @@ namespace Myxini.Recognition
 {
 	public class Classifier : IClassifier
 	{
-		private class Pattern
-		{
-			private Image.IImage pattern;
-			public IBlock Block { get; private set; }
-
-			public Pattern(Image.IImage pattern, IBlock block)
-			{
-				this.pattern = pattern;
-				Block = block;
-			}
-
-			public double Match(Image.IImage image)
-			{
-				// ここでパターンマッチング
-				// とりあえず SADで
-				uint distance = 0;
-				for (int y = 0; y < image.Width; ++y)
-				{
-					for (int x = 0; x < image.Height; ++x)
-					{
-						distance += (uint)Math.Pow(image.GetElement(x, y, 0) - this.pattern.GetElement(x, y, 0), 2);
-					}
-				}
-
-				return distance;
-			}
-		}
-
 		private IList<Pattern> patterns = new List<Pattern>
         {
             //LED
@@ -103,13 +76,11 @@ namespace Myxini.Recognition
             ),
         };
 
-		public IBlock Clustering(Image.IImage raw_block)
+		public IBlock Clustering(IImage raw_block, IPatternMatchingAlgorithm algorithm)
 		{
 			// ここでパターンマッチングして最もマッチするパターンに
             // 紐付けしたIBlockを返す
-			Pattern pattern_max_matching = patterns
-					.OrderBy(pattern => Math.Abs(pattern.Match(raw_block)))
-					.First();
+            Pattern pattern_max_matching = algorithm.Match(patterns, raw_block);
 			return pattern_max_matching.Block;
 		}
 	}
