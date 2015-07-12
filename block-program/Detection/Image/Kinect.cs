@@ -40,6 +40,10 @@ namespace Myxini.Recognition.Image
 			this.Sensor.Start();
 		}
 
+		public bool isOpened()
+		{
+			return this.Image != null;
+		}
 
 		public static KinectSensor enumerateKinect(Func<KinectSensor, bool> function)
 		{
