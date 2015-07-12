@@ -44,6 +44,7 @@
     <Compile Include="BlockParameter.cs" />
     <Compile Include="Classifier.cs" />
     <Compile Include="ControlBlock.cs" />
+    <Compile Include="DebugOutput.cs" />
     <Compile Include="IBoard.cs" />
     <Compile Include="Command.cs" />
     <Compile Include="IBlock.cs" />
