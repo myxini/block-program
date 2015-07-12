@@ -46,15 +46,33 @@ namespace Myxini.Recognition
 
 		public IImage GetBackgroundDeleteImage(IImage image)
 		{
-			return image.Create(
-				(IImage input, int x, int y, int c) =>
+			var depth_pixels = new short[image.Width * image.Height];
+			var pixels = new byte[image.Width * image.Height * 3];
+
+			for (int y = 0; y < image.Height; ++y )
+			{
+				for(int x = 0; x < image.Width; ++x)
 				{
-					var pixel = input.GetElement(x, y, c);
-					return
-						(pixel > this.WhiteBoardFrontSurfaceDistance) &&
-						(pixel < this.WhiteBoardBackSurfaceDistance) ? pixel : 0;
+					var depth = image.GetElement(x, y, 0);
+					if ((depth > this.WhiteBoardFrontSurfaceDistance) &&
+						(depth < this.WhiteBoardBackSurfaceDistance))
+					{
+						depth_pixels[y * image.Width + x] = (short)depth;
+						pixels[(y * image.Width + x) * 3 + 0] = (byte)image.GetElement(x, y, 1);
+						pixels[(y * image.Width + x) * 3 + 1] = (byte)image.GetElement(x, y, 2);
+						pixels[(y * image.Width + x) * 3 + 2] = (byte)image.GetElement(x, y, 3);
+					}
+					else
+					{
+						depth_pixels[y * image.Width + x] = 0;
+						pixels[(y * image.Width + x) * 3 + 0] = 0;
+						pixels[(y * image.Width + x) * 3 + 1] = 0;
+						pixels[(y * image.Width + x) * 3 + 2] = 0;
+					}
 				}
-				);
+			}
+
+			return new KinectImage(depth_pixels, pixels, image.Width, image.Height);
 		}
 
 		private Size ImageSize;

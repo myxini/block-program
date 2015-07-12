@@ -40,8 +40,10 @@ namespace Myxini.Execution
 
             // 写真からScriptを作る
             Recognizer recognizer = new Recognition.Recognizer();
+
+						IImage backgrond_deleted_image = whiteboard.GetBackgroundDeleteImage(image_whiteboard);
             Script script = recognizer.Recognition(
-                whiteboard.GetBackgroundDeleteImage(image_whiteboard)
+								backgrond_deleted_image
             );
 
             // 通信するやつを使ってScriptを実行
