@@ -38,12 +38,12 @@ namespace Myxini.Execution
             // カメラでホワイトボードをパシャリ
             IImage image_whiteboard = camera.Capture();
 
-            // 写真からScriptを作る
-            Recognizer recognizer = new Recognition.Recognizer();
+			// 写真からScriptを作る
+			Myxini.Recognition.Recognizer recognizer = new Recognition.Recognizer();
 
-						IImage backgrond_deleted_image = whiteboard.GetBackgroundDeleteImage(image_whiteboard);
+			IImage backgrond_deleted_image = whiteboard.GetBackgroundDeleteImage(image_whiteboard);
             Script script = recognizer.Recognition(
-								backgrond_deleted_image
+				backgrond_deleted_image
             );
 
             // 通信するやつを使ってScriptを実行
@@ -63,7 +63,7 @@ namespace Myxini.Execution
         {
             camera = new Kinect();
 
-						while (!camera.IsOpened) ;
+			while (!camera.IsOpened) ;
 
             // キャリブレーション
             whiteboard.Calibration(camera);

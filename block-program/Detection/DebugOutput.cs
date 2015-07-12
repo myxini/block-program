@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
-using Myxini.Recognition.Image;
 
-namespace Main
+namespace Myxini.Recognition.Image
 {
 	class DebugOutput
 	{
