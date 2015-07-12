@@ -7,7 +7,7 @@ namespace Myxini.Recognition.Image
 	{
 		public Kinect(int index = 0)
 		{
-			if (KinectSensor.KinectSensors.Count <= index && KinectSensor.KinectSensors.Count >= 0)
+			if (KinectSensor.KinectSensors.Count <= index || index < 0)
 			{
 				throw new InvalidOperationException();
 			}
@@ -42,7 +42,7 @@ namespace Myxini.Recognition.Image
 		
 		~Kinect()
 		{
-			if(this.Sensor.IsRunning)
+			if(this.Sensor != null && this.Sensor.IsRunning)
 			{
 				this.Sensor.Stop();
 			}
@@ -75,10 +75,10 @@ namespace Myxini.Recognition.Image
 				{
 					return;
 				}
-
+				
 				var raw_img = img.GetRawPixelData();
 
-				this.ColorInputImage = new ColorImage(raw_img, this.Sensor.DepthStream.FrameWidth, this.Sensor.DepthStream.FrameHeight);
+				this.ColorInputImage = new ColorImage(raw_img, img.Width, img.Height, img.BytesPerPixel);
 			}
 
 			this.Image = new KinectImage(this.ColorInputImage, this.DepthInputImage);

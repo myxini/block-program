@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Myxini.Recognition.Image;
 
 
@@ -8,6 +9,11 @@ namespace RecognitionTest
 	{
 		public static IImage LoadImage(string filename)
 		{
+			if(!File.Exists(filename))
+			{
+				throw new FileNotFoundException();
+			}
+
 			var bitmap = new System.Drawing.Bitmap(filename);
 
 			var pixels = new byte[bitmap.Width * bitmap.Height * 3];
