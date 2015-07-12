@@ -137,10 +137,13 @@ namespace Myxini.Communication
             {
                 var script = this._robotScript;
                 var currentInstruction = this._currentInstructionType;
-                foreach (var command in this._robotScript[currentInstruction])
+                if (this._robotScript.ContainsKey(currentInstruction))
                 {
-                    this.Do(command);
-                    Thread.Sleep(COMMAND_DURATION);
+                    foreach (var command in this._robotScript[currentInstruction])
+                    {
+                        this.Do(command);
+                        Thread.Sleep(COMMAND_DURATION);
+                    }
                 }
             }
         }
