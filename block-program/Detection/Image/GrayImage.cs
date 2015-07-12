@@ -16,7 +16,7 @@ namespace Myxini.Recognition.Image
 		public GrayImage(int width, int height)
 		{
 			this.BoundingBox = new Rectangle(0, 0, width, height);
-			this.OriginalSize = this.BoundingBox.BoundingSize;
+			this.OriginalSize = new Size(width, height);
 			this.Channel = 1;
 			this.IsRegionOfImage = false;
 			this.Pixels = new byte[width * height];
@@ -64,10 +64,10 @@ namespace Myxini.Recognition.Image
 		{
 			this.Channel = image.Channel;
 			this.Pixels = image.Pixels;
-			this.OriginalSize = this.OriginalSize;
+			this.OriginalSize = image.OriginalSize;
 			this.IsRegionOfImage = true;
 
-			Rectangle new_region = new Rectangle(
+			this.BoundingBox = new Rectangle(
 				image.BoundingBox.X + region.X,
 				image.BoundingBox.Y + region.Y,
 				region.Width,
@@ -106,8 +106,7 @@ namespace Myxini.Recognition.Image
 			}
 
 			return this.Pixels[
-				(this.OriginalSize.Width * this.BoundingBox.Y + this.BoundingBox.X +	/// 画像全体での部分画像の位置
-				this.BoundingBox.Width * y + x) * this.Channel + channel];						/// 部分画像内での位置
+				(this.OriginalSize.Width * (this.BoundingBox.Y + y) + this.BoundingBox.X + x) * this.Channel + channel];
 			//return this.Pixels[(this.Width * y + x) * this.Channel + channel];
 		}
 
