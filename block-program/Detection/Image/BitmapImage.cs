@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Myxini.Recognition.Image
 {
-    class BitmapImage : IImage
+    public class BitmapImage : IImage
     {
         private Bitmap bitmap;
 
@@ -33,10 +33,10 @@ namespace Myxini.Recognition.Image
             }
         }
 
-				public IImage Create(Func<IImage, int, int, int, int> convertor)
-				{
-					throw new NotImplementedException();
-				}
+        public IImage Create(Func<IImage, int, int, int, int> convertor)
+        {
+            throw new NotImplementedException();
+        }
 
         public IImage RegionOfImage(int x, int y, int width, int height)
         {
