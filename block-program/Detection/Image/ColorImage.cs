@@ -16,9 +16,15 @@ namespace Myxini.Recognition.Image
 			this.Pixels = new byte[width * height * this.Channel];
 		}
 
-		public ColorImage(byte[] pixels, int width, int height) : this(width, height)
+		public ColorImage(byte[] pixels, int width, int height, int stride = 3) : this(width, height)
 		{
-			pixels.CopyTo(this.Pixels, 0);
+			//pixels.CopyTo(this.Pixels, 0;
+			for (int i = 0; i < width * height; ++i)
+			{
+				this.Pixels[i * this.Channel + 0] = pixels[i * stride + 0];
+				this.Pixels[i * this.Channel + 1] = pixels[i * stride + 1];
+				this.Pixels[i * this.Channel + 2] = pixels[i * stride + 2];
+			}
 		}
 
 		public ColorImage(ColorImage image, Rectangle region)

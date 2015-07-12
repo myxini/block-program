@@ -62,7 +62,7 @@ namespace RecognitionTest
 		#endregion
 		
 		[TestMethod]
-		[DeploymentItem(@".\Resource\resized", "resized")]
+		[DeploymentItem(@"$(SolutionDir)Resource\resized", "resized")]
 		public void CalibrationTest()
 		{
 #warning This test is ignored for no depth image.
