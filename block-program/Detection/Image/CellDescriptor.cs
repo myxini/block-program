@@ -64,7 +64,7 @@ namespace Myxini.Recognition.Image
 			return gradient;
 		}
 
-		private static List<Gradient> DescriptHOG(GrayImage image)
+		private static Gradient[] DescriptHOG(GrayImage image)
 		{
 			var size = image.BoundingBox.BoundingSize;
 
@@ -79,7 +79,7 @@ namespace Myxini.Recognition.Image
 
 			Rectangle mapped_rect = new Rectangle(0, 0, CELL_SIZE, CELL_SIZE);
 
-			List<Gradient> output = new List<Gradient>(low_resolution_size.Width * low_resolution_size.Height);
+			Gradient[] output = new Gradient[low_resolution_size.Width * low_resolution_size.Height];
 			
 			for (int y = 0; y < low_resolution_size.Height; ++y)
 			{
