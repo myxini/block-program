@@ -67,7 +67,7 @@ namespace Myxini.Recognition
 			return result_script;
 		}
 
-		private bool IsConnectedBlock(List<int> labels, Size label_image_size, Rectangle a, Rectangle b)
+		private bool IsConnectedBlock(int[] labels, Size label_image_size, Rectangle a, Rectangle b)
 		{
 			Point a_bottom_right = new Point(a.X + a.Width, a.Y + a.Height);
 //			Point a_top_left = new Point(a.X, a.Y);

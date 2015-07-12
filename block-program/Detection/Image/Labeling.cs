@@ -66,10 +66,11 @@ namespace Myxini.Recognition.Image
 			return index;
 		}
 
-		public static List<int> Labeling(IImage image)
+		public static int[] Labeling(IImage image)
 		{
 			var parents = new List<int>();
-			var output = new List<int>(image.Width * image.Height);
+			var output = new int[image.Width * image.Height];
+			
 
 			int index = 0;
 
