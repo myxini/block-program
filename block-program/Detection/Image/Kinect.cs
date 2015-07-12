@@ -39,14 +39,6 @@ namespace Myxini.Recognition.Image
 			
 			this.Sensor.Start();
 		}
-		
-		~Kinect()
-		{
-			if(this.Sensor != null && this.Sensor.IsRunning)
-			{
-				this.Sensor.Stop();
-			}
-		}
 
 
 		public static KinectSensor enumerateKinect(Func<KinectSensor, bool> function)
