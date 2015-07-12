@@ -58,6 +58,8 @@
     <Compile Include="Image\ICamera.cs" />
     <Compile Include="Image\Kinect.cs" />
     <Compile Include="Image\KinectImage.cs" />
+    <Compile Include="IPatternMatchingAlgorithm.cs" />
+    <Compile Include="Pattern.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -70,6 +72,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Raw\Size.cs" />
     <Compile Include="Recognizer.cs" />
+    <Compile Include="SADAlgorithm.cs" />
     <Compile Include="Script.cs" />
     <Compile Include="Routine.cs" />
     <Compile Include="WhiteBoard.cs" />
