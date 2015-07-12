@@ -72,7 +72,10 @@ namespace Myxini.Recognition.Image
 				this.ColorInputImage = new ColorImage(raw_img, img.Width, img.Height, img.BytesPerPixel);
 			}
 
-			this.Image = new KinectImage(this.ColorInputImage, this.DepthInputImage);
+			if (this.ColorInputImage != null && this.DepthInputImage != null)
+			{
+				this.Image = new KinectImage(this.ColorInputImage, this.DepthInputImage);
+			}
 		}
 
 		public void OnUpdateDepthImage(Object sender, DepthImageFrameReadyEventArgs e)
@@ -90,7 +93,10 @@ namespace Myxini.Recognition.Image
 				this.DepthInputImage = new DepthImage(raw_img, this.Sensor.ColorStream.FrameWidth, this.Sensor.ColorStream.FrameHeight);
 			}
 
-			this.Image = new KinectImage(this.ColorInputImage, this.DepthInputImage);
+			if(this.ColorInputImage != null && this.DepthInputImage != null)
+			{
+				this.Image = new KinectImage(this.ColorInputImage, this.DepthInputImage);
+			}
 		}
 
 		public bool IsOpened
