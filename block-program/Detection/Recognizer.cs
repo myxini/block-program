@@ -33,10 +33,11 @@ namespace Myxini.Recognition
 			List<Tuple<IBlock, Rectangle>> other_block = new List<Tuple<IBlock, Rectangle>>();
 
 			var classifier = new Classifier();
+            var algorithm = new SADAlgorithm();
 			foreach(var rectangle in rectangles)
 			{
 				var target = kinect_image.RegionOfImage(rectangle);
-				var result = classifier.Clustering(target);
+				var result = classifier.Clustering(target, algorithm);
 
 				if(result.IsControlBlock)
 				{
