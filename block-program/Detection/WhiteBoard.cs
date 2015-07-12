@@ -31,6 +31,7 @@ namespace Myxini.Recognition
 
 				this.ImageSize = new Size(image.Width, image.Height);
 //				this.ImageSize.Height = image.Height;
+				System.Threading.Thread.Sleep(66);
 			}
 
 			this.WhiteBoardBackSurfaceDistance = max;
