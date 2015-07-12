@@ -42,7 +42,7 @@ namespace Myxini.Recognition.Image
 		
 		~Kinect()
 		{
-			if(this.Sensor.IsRunning)
+			if(this.Sensor != null && this.Sensor.IsRunning)
 			{
 				this.Sensor.Stop();
 			}
