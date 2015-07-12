@@ -21,7 +21,7 @@ namespace Myxini.Recognition
 
 			var image = new GrayImage(kinect_image, GrayImage.ImageType.ARGB);
 			var cell_image = CellDescriptor.DescriptImage(image);
-
+			
 			cell_image = new GrayImage(cell_image, Process.Dilate);
 			cell_image = new GrayImage(cell_image, Process.Dilate);
 			cell_image = new GrayImage(cell_image, Process.Dilate);

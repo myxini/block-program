@@ -32,7 +32,7 @@ namespace Myxini.Recognition.Image
 			{
 				for(int x = 0; x < image.Width; ++x)
 				{
-					var depth = image.GetElement(x,y, offset_channel);
+					var depth = (byte)((double)image.GetElement(x, y, offset_channel) / short.MaxValue * 255);
 					output.SetPixel(x, y, System.Drawing.Color.FromArgb(depth, depth, depth));
 				}
 			}
