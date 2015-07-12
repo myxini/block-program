@@ -15,23 +15,30 @@ namespace RecognitionTest
         public void ClusteringTest()
         {
             var classifier = new Classifier();
+            var algorithm = new SADAlgorithm();
 
-            Clustering(classifier, Resources.PatternLED0, Command.LED, 0);
-            Clustering(classifier, Resources.PatternLED1, Command.LED, 1);
-            Clustering(classifier, Resources.PatternMoveBackward1, Command.Move, -1);
-            Clustering(classifier, Resources.PatternMoveForward1, Command.Move, 1);
-            Clustering(classifier, Resources.PatternRotateCCW, Command.Rotate, -1);
-            Clustering(classifier, Resources.PatternRotateCW, Command.Rotate, 1);
-            Clustering(classifier, Resources.PatternMicroSwitch, Command.MicroSwitch, null);
-            Clustering(classifier, Resources.PatternPSD, Command.PSD, null);
-            Clustering(classifier, Resources.PatternStart, Command.Start, null);
-            Clustering(classifier, Resources.PatternEnd, Command.End, null);
+            Clustering(classifier, algorithm, Resources.PatternLED0, Command.LED, 0);
+            Clustering(classifier, algorithm, Resources.PatternLED1, Command.LED, 1);
+            Clustering(classifier, algorithm, Resources.PatternMoveBackward1, Command.Move, -1);
+            Clustering(classifier, algorithm, Resources.PatternMoveForward1, Command.Move, 1);
+            Clustering(classifier, algorithm, Resources.PatternRotateCCW, Command.Rotate, -1);
+            Clustering(classifier, algorithm, Resources.PatternRotateCW, Command.Rotate, 1);
+            Clustering(classifier, algorithm, Resources.PatternMicroSwitch, Command.MicroSwitch, null);
+            Clustering(classifier, algorithm, Resources.PatternPSD, Command.PSD, null);
+            Clustering(classifier, algorithm, Resources.PatternStart, Command.Start, null);
+            Clustering(classifier, algorithm, Resources.PatternEnd, Command.End, null);
         }
 
-        private void Clustering(Classifier classifier, Bitmap pattern, Command command, int? parameter0)
+        private void Clustering(
+            Classifier classifier,
+            IPatternMatchingAlgorithm algorithm,
+            Bitmap pattern,
+            Command command,
+            int? parameter0
+        )
         {
             IImage image = new BitmapImage(pattern);
-            IBlock block = classifier.Clustering(image);
+            IBlock block = classifier.Clustering(image, algorithm);
             Assert.AreEqual(command, block.CommandIdentification);
             if (block.Parameter.ValueLength() == 1)
             {
