@@ -40,11 +40,6 @@ namespace Myxini.Recognition.Image
 			this.Sensor.Start();
 		}
 
-		public bool isOpened()
-		{
-			return this.Image != null;
-		}
-
 		public static KinectSensor enumerateKinect(Func<KinectSensor, bool> function)
 		{
 			foreach(var kinect in KinectSensor.KinectSensors)
@@ -96,6 +91,11 @@ namespace Myxini.Recognition.Image
 			}
 
 			this.Image = new KinectImage(this.ColorInputImage, this.DepthInputImage);
+		}
+
+		public bool IsOpened
+		{
+			get { return this.Image != null; }
 		}
 
 		private KinectSensor Sensor;

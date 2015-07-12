@@ -61,6 +61,8 @@ namespace Myxini.Execution
         {
             camera = new Kinect();
 
+						while (!camera.IsOpened) ;
+
             // キャリブレーション
             whiteboard.Calibration(camera);
         }
