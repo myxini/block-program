@@ -136,5 +136,31 @@ namespace RecognitionTest
 			}
 		}
 
+
+		[TestMethod]
+		public void CreateImageTest()
+		{
+			var color = new ColorImage(ColorPixels, Color.Width, Color.Height);
+
+			var image = color.Create((IImage img, int x, int y, int channel) => (int)Math.Floor((double)color.GetElement(x, y, channel) / 2));
+
+			Assert.AreEqual(image.Channel, color.Channel);
+			Assert.AreEqual(image.IsRegionOfImage, false);
+			Assert.AreEqual(image.BoundingBox.X, 0);
+			Assert.AreEqual(image.BoundingBox.Y, 0);
+			Assert.AreEqual(image.BoundingBox.Width, image.Width);
+			Assert.AreEqual(image.BoundingBox.Height, image.Height);
+
+			for (int y = 0; y < image.Height; ++y)
+			{
+				for (int x = 0; x < image.Width; ++x)
+				{
+					Assert.AreEqual(image.GetElement(x, y, 0), Math.Floor((double)color.GetElement(x, y, 0) / 2));
+					Assert.AreEqual(image.GetElement(x, y, 1), Math.Floor((double)color.GetElement(x, y, 1) / 2));
+					Assert.AreEqual(image.GetElement(x, y, 2), Math.Floor((double)color.GetElement(x, y, 2) / 2));
+				}
+			}
+		}
+
 	}
 }
