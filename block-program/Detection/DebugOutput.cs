@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace Myxini.Recognition.Image
 {
-	class DebugOutput
+	public class DebugOutput
 	{
 		[Conditional("DEBUG")] 
 		public static void SaveImage(string[] file_name, IImage image)
