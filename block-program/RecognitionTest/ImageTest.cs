@@ -33,7 +33,7 @@ namespace RecognitionTest
 		}
 
 		[ClassInitialize]
-		[DeploymentItem(@".\Resource\", "Resource")]
+		[DeploymentItem(@"$(SolutionDir)Resource", "$(TargetDir)Resource")]
 		public static void IntializeThisTest(TestContext context)
 		{
 			Color = new System.Drawing.Bitmap(@".\Resource\resized\Test_Whiteboad_Frame1.jpg");
