@@ -42,7 +42,8 @@ namespace Myxini.Communication.Robot
             {
                 throw new InvalidOperationException("Packet check sum is invalid");
             }
-            this.RobotID = packet[(int)PacketIndex.SENSOR_ID];
+            this.RobotID = packet[(int)PacketIndex.ROBOT_ID];
+            this.SensorID = packet[(int)PacketIndex.SENSOR_ID];
             this.SensorValue = (UInt16)((packet[(int)PacketIndex.SENSOR_VALUE_HIGH] << 8) | packet[(int)PacketIndex.SENSOR_VALUE_LOW]);
         }
 
