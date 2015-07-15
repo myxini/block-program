@@ -13,6 +13,7 @@ namespace Myxini.Communication.Robot
     {
         public float AngularVelocity { get; set; }
         public float Angle { get; set; }
+        private const float Angle2PulseRatio = 24.0f / 90.0f;
 
         public RotateCommand()
         {
@@ -27,7 +28,7 @@ namespace Myxini.Communication.Robot
                 IsNeedInterrupt = this.IsNeedInterrupt,
                 CommandID = this.CommandID,
                 Property1 = (byte)(this.AngularVelocity * 127),
-                Property2 = (byte)(this.Angle)
+                Property2 = (byte)(this.Angle * Angle2PulseRatio)
             };
             packet.AddCheckSum();
             return packet;

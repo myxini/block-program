@@ -35,7 +35,7 @@ namespace Myxini.Communication
         const byte SENSORID_MICROSWITCH = 0x02;
         #endregion
         #region ロボットにおいてどのスレッドが走るかを決めるしきい値群
-        private const int STATE_PSD_THRES = 615;
+        private const int STATE_PSD_THRES = 60;
         private const int STATE_MICROSWITCH_THRES = 1;
         #endregion
         private Dictionary<Command, Robot.CommandList> _robotScript;
@@ -146,14 +146,15 @@ namespace Myxini.Communication
             {
                 var script = this._robotScript;
                 var currentInstruction = this._currentInstructionType;
-                if (this._robotScript.ContainsKey(currentInstruction))
+                if (!this._robotScript.ContainsKey(currentInstruction))
                 {
-                    foreach (var command in this._robotScript[currentInstruction])
-                    {
-                        this.Do(command);
-                        Thread.Sleep(COMMAND_DURATION);
-                    }
+                    currentInstruction = Command.Start;
                 }
+                foreach (var command in this._robotScript[currentInstruction])
+                {
+                    this.Do(command);
+                    Thread.Sleep(COMMAND_DURATION);
+                }                
             }
         }
 
