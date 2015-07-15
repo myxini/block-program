@@ -31,6 +31,8 @@ namespace UI
 
         public System.Drawing.Rectangle Area { get; private set; }
 
+		public ImageSource CameraImageSource { set { this.CameraImage.Source = value; } }
+
         private void ContentPanel_MouseDown(object sender, MouseButtonEventArgs e)
         {
             Point position = e.GetPosition(ContentPanel);
