@@ -7,6 +7,8 @@ namespace Myxini.Recognition
 	{
 		public void Calibration(ICamera camera)
 		{
+			var image = camera.Capture();
+
 			throw new NotImplementedException();
 		}
 
