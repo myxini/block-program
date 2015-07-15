@@ -14,8 +14,8 @@ namespace Myxini.Communication.Robot
             HEAD_LOW,
             ROBOT_ID,
             SENSOR_ID,
-            SENSOR_VALUE_HIGH,
             SENSOR_VALUE_LOW,
+            SENSOR_VALUE_HIGH,
             CHKSUM
         }
 
