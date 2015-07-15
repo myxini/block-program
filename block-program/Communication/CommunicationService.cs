@@ -113,7 +113,7 @@ namespace Myxini.Communication
 
         private void UpdateCurrentCommand(byte sensorID, ushort sensorValue)
         {
-            if(sensorID == SENSORID_PSD && sensorValue > STATE_PSD_THRES)
+            if(sensorID == SENSORID_PSD && sensorValue < STATE_PSD_THRES)
             {
                 this._currentInstructionType = Command.PSD;
             }
