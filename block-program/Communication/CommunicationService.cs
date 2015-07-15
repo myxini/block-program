@@ -91,9 +91,18 @@ namespace Myxini.Communication
             var port = sender as SerialPort;
             string indata = port.ReadExisting();
             byte[] data = System.Text.ASCIIEncoding.ASCII.GetBytes(indata);
+            int headIndex = Array.FindIndex(
+                data,
+                new Predicate<byte>((byte b) => { return b == 0x12; })
+                );
+            if(headIndex + 7 > data.Length)
+            {
+                return;
+            }
+            byte[] packetData = data.Skip(headIndex).Take(7).ToArray();
             try
             {
-                var packet = new Robot.Robot2PcPacket(data);
+                var packet = new Robot.Robot2PcPacket(packetData);
                 this.UpdateCurrentCommand(packet.SensorID, packet.SensorValue);
             }
             catch (Exception)
