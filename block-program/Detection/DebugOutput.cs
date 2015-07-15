@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Windows;
+using System.IO;
+using System.Windows.Markup;
+using System.Windows.Media.Imaging;
 
 namespace Myxini.Recognition.Image
 {
@@ -26,18 +30,28 @@ namespace Myxini.Recognition.Image
 		[Conditional("DEBUG")] 
 		public static void SaveDepthImage(string file_name, IImage image, int offset_channel = 0)
 		{
-			var output = new System.Drawing.Bitmap(image.Width, image.Height);
+			var output = new WriteableBitmap(image.Width, image.Height, 96, 96,
+				System.Windows.Media.PixelFormats.Gray16, null);
+
+			var pixel = new short[image.Width * image.Height];
 
 			for(int y = 0; y < image.Height; ++y)
 			{
 				for(int x = 0; x < image.Width; ++x)
 				{
-					var depth = (byte)((double)image.GetElement(x, y, offset_channel) / short.MaxValue * 255);
-					output.SetPixel(x, y, System.Drawing.Color.FromArgb(depth, depth, depth));
+					pixel[y * image.Width + x] = (short)image.GetElement(x, y, offset_channel);
 				}
 			}
 
-			output.Save(file_name);
+			output.WritePixels(new Int32Rect(0, 0, image.Width, image.Height), pixel, image.Width * sizeof(short), 0);
+
+			using (FileStream stream = new FileStream(file_name, FileMode.CreateNew, FileAccess.Write))
+			{
+				var encoder = new PngBitmapEncoder();
+				encoder.Frames.Add(BitmapFrame.Create(output));
+				encoder.Save(stream);
+				stream.Flush();
+			}
 		}
 
 		[Conditional("DEBUG")] 
