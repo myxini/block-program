@@ -45,7 +45,7 @@ namespace Myxini.Recognition.Image
 
 			output.WritePixels(new Int32Rect(0, 0, image.Width, image.Height), pixel, image.Width * sizeof(short), 0);
 
-			using (FileStream stream = new FileStream(file_name, FileMode.CreateNew, FileAccess.Write))
+			using (FileStream stream = new FileStream(file_name, FileMode.Create, FileAccess.Write))
 			{
 				var encoder = new PngBitmapEncoder();
 				encoder.Frames.Add(BitmapFrame.Create(output));
