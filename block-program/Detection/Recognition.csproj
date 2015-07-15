@@ -64,6 +64,7 @@
     <Compile Include="Image\Kinect.cs" />
     <Compile Include="Image\KinectImage.cs" />
     <Compile Include="IPatternMatchingAlgorithm.cs" />
+    <Compile Include="ManuallyCalibratedWhiteboard.cs" />
     <Compile Include="Pattern.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
