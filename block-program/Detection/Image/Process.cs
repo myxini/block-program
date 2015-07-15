@@ -34,7 +34,7 @@ namespace Myxini.Recognition.Image
 			return result / (image.Height * image.Width);
 		}
 
-		Tuple<int[], int[]> FindMinMax(IImage image)
+		public static Tuple<int[], int[]> FindMinMax(IImage image)
 		{
 			int[] min = new int[image.Channel], max = new int[image.Channel];
 			for (int y = 0; y < image.Height; ++y)
