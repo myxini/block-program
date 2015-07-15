@@ -127,10 +127,7 @@
     <None Include="Resources\pattern_switch.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\UI\UI.csproj">
-      <Project>{dfd1b056-9fba-49a0-839c-18b042b42526}</Project>
-      <Name>UI</Name>
-    </ProjectReference>
+    <Folder Include="UI\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

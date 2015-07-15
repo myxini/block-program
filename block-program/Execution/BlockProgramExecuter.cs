@@ -11,7 +11,7 @@ namespace Myxini.Execution
 {
     public class BlockProgramExecuter : IBlockProgramExecuter
     {
-        private WhiteBoard whiteboard = new WhiteBoard();
+        private IBoard whiteboard = new ManuallyCalibratedWhiteboard();
 
         /// <summary>
         /// 通信するやつ
