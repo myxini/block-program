@@ -34,6 +34,31 @@ namespace Myxini.Recognition.Image
 			return result / (image.Height * image.Width);
 		}
 
+		public static Tuple<int[], int[]> FindMinMax(IImage image)
+		{
+			int[] min = new int[image.Channel], max = new int[image.Channel];
+			for (int y = 0; y < image.Height; ++y)
+			{
+				for (int x = 0; x< image.Width; ++x)
+				{
+					for(int c = 0; c < image.Channel; ++c)
+					{
+						if (min[c] > image.GetElement(x, y, c))
+						{
+							min[c] = image.GetElement(x, y, c);
+						}
+
+						if (max[c] < image.GetElement(x, y, c)) 
+						{
+							max[c] = image.GetElement(x, y, c);
+						}
+					}
+				}
+			}
+
+			return new Tuple<int[], int[]>(min, max);
+		}
+
 		/// <summary>
 		/// 膨張処理
 		/// 基本的にコンストラクタにつっこんでください

@@ -47,32 +47,43 @@ namespace Myxini.Recognition
 		public IImage GetBackgroundDeleteImage(IImage image)
 		{
 			var depth_pixels = new short[image.Width * image.Height];
-			var pixels = new byte[image.Width * image.Height * 3];
-
-			for (int y = 0; y < image.Height; ++y )
+			var color_pixels = new byte[image.Width * image.Height * 3];
+			
+			var min_max = Image.Process.FindMinMax(image);
+			
+			double avg_distance = 0.0;
+			int total_pixel = image.Width * image.Height;
+			for(int y = 0; y < image.Height; ++y)
 			{
-				for(int x = 0; x < image.Width; ++x)
+				for(int x = 0;x < image.Width; ++x)
 				{
-					var depth = image.GetElement(x, y, 0);
-					if ((depth > this.WhiteBoardFrontSurfaceDistance) &&
-						(depth < this.WhiteBoardBackSurfaceDistance))
-					{
-						depth_pixels[y * image.Width + x] = (short)depth;
-						pixels[(y * image.Width + x) * 3 + 0] = (byte)image.GetElement(x, y, 1);
-						pixels[(y * image.Width + x) * 3 + 1] = (byte)image.GetElement(x, y, 2);
-						pixels[(y * image.Width + x) * 3 + 2] = (byte)image.GetElement(x, y, 3);
-					}
-					else
-					{
-						depth_pixels[y * image.Width + x] = 0;
-						pixels[(y * image.Width + x) * 3 + 0] = 0;
-						pixels[(y * image.Width + x) * 3 + 1] = 0;
-						pixels[(y * image.Width + x) * 3 + 2] = 0;
-					}
+					avg_distance += (double)(image.GetElement(x, y, 0)) / total_pixel;
 				}
 			}
 
-			return new KinectImage(depth_pixels, pixels, image.Width, image.Height);
+			for(int y = 0; y < image.Height; ++y)
+			{
+				for(int x = 0;x < image.Width; ++x)
+				{
+					if((image.GetElement(x, y, 0) - 50) > avg_distance)
+					{
+						depth_pixels[y * image.Width + x] = 0;
+						for(int c = 1; c < image.Channel; ++c)
+						{
+							color_pixels[(y * image.Width + x) * 3 + (c - 1)] = 0;
+						}
+					}
+					else
+					{
+						for(int c = 1; c < image.Channel; ++c)
+						{
+							color_pixels[(y * image.Width + x) * 3 + (c - 1)] = (byte)image.GetElement(x, y, c);
+						}
+					}
+				}
+			}
+			
+			return new KinectImage(depth_pixels, color_pixels, image.Width, image.Height);
 		}
 
 		private Size ImageSize;
