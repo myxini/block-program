@@ -9,6 +9,8 @@ namespace Myxini.Recognition
 		{
 			var image = camera.Capture();
 
+			
+
 			throw new NotImplementedException();
 		}
 
