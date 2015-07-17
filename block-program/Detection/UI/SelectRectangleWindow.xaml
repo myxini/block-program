@@ -1,0 +1,21 @@
+﻿<Window x:Class="Myxini.Recognition.UI.SelectRectangleWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid x:Name="ContentPanel"
+          Grid.Row="1"
+          Margin="12,0,12,0"
+          MouseDown="ContentPanel_MouseDown"
+          MouseMove="ContentPanel_MouseMove"
+          MouseUp="ContentPanel_MouseUp"
+          Background="Transparent">
+        <Image Name="CameraImage" />
+        <Rectangle Name="Rectangle1"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   StrokeDashArray="2,2"
+                   Stroke="BlueViolet"
+                   StrokeThickness="3"
+                   Visibility="Collapsed" />
+    </Grid>
+</Window>

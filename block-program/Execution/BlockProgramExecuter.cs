@@ -37,7 +37,7 @@ namespace Myxini.Execution
         {
             // カメラでホワイトボードをパシャリ
             IImage image_whiteboard = camera.Capture();
-			Myxini.Recognition.Image.DebugOutput.SaveImage(new string[] { "whiteboard_depth.png", "whiteboard_color.png" }, image_whiteboard);
+			Myxini.Recognition.Image.DebugOutput.SaveImage(new string[] { "whiteboard_depth.png", "whiteboard_color.png" }, image_whiteboard.Clone());
 
 			// 写真からScriptを作る
 			Myxini.Recognition.Recognizer recognizer = new Recognition.Recognizer();

@@ -63,9 +63,9 @@ namespace Myxini.Recognition.Image
 			{
 				for (int x = 0; x < image.Width; ++x)
 				{
-					var r = image.GetElement(x, y, offset_channel + 0);
+					var b = image.GetElement(x, y, offset_channel + 0);
 					var g = image.GetElement(x, y, offset_channel + 1);
-					var b = image.GetElement(x, y, offset_channel + 2);
+					var r = image.GetElement(x, y, offset_channel + 2);
 					output.SetPixel(x, y, System.Drawing.Color.FromArgb(r, g, b));
 				}
 			}
