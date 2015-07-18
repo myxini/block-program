@@ -89,6 +89,11 @@ namespace Myxini.Communication
                 return;
             }
             var port = sender as SerialPort;
+            if(port.BytesToRead < 7)
+            {
+                return;
+            }
+            /*
             string indata = port.ReadExisting();
             byte[] data = System.Text.ASCIIEncoding.ASCII.GetBytes(indata);
             int headIndex = Array.FindIndex(
@@ -100,6 +105,13 @@ namespace Myxini.Communication
                 return;
             }
             byte[] packetData = data.Skip(headIndex).Take(7).ToArray();
+             */
+            byte[] packetData = new byte[7];
+            port.Read(packetData, 0, 7);
+            port.ReadExisting();
+//            System.Diagnostics.Debug.WriteLine(indata);
+//            System.Diagnostics.Debug.WriteLine(BitConverter.ToString(data));
+            System.Diagnostics.Debug.WriteLine(BitConverter.ToString(packetData));
             try
             {
                 var packet = new Robot.Robot2PcPacket(packetData);
