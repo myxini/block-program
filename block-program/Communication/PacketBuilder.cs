@@ -39,22 +39,22 @@ namespace Myxini.Communication
             switch(block.Parameter.Value(0))
             {
                 case 1:
-                    velocity = 0.3f;
+                    velocity = 1.0f;
                     break;
                 case 2:
-                    velocity = 0.6f;
+                    velocity = 1.0f;
                     break;
                 case 3:
-                    velocity = 0.9f;
+                    velocity = 1.0f;
                     break;
                 case -1:
-                    velocity = -0.3f;
+                    velocity = -1.0f;
                     break;
                 case -2:
-                    velocity = -0.6f;
+                    velocity = -1.0f;
                     break;
                 case -3:
-                    velocity = -0.9f;
+                    velocity = -1.0f;
                     break;
             }
             return new Robot.StraightCommand()
@@ -67,7 +67,7 @@ namespace Myxini.Communication
 
         private Robot.RotateCommand BuildRotateCommand(Recognition.InstructionBlock block)
         {
-            float velocity = 0.5f;
+            float velocity = 1.0f;
             float angle = .0f;
             switch(block.Parameter.Value(0))
             {
