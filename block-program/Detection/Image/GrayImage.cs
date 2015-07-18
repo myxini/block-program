@@ -10,7 +10,7 @@ namespace Myxini.Recognition.Image
 	{
 		public enum ImageType
 		{
-			RGB, ARGB, RGBA
+			RGB, BGR, ARGB, RGBA
 		}
 
 		public GrayImage(int width, int height)
@@ -35,15 +35,21 @@ namespace Myxini.Recognition.Image
 			{
 				case ImageType.RGB:
 				case ImageType.RGBA:
+					place[0] = 2;
+					place[1] = 1;
+					place[2] = 0;
+					break;
+
+				case ImageType.BGR:
 					place[0] = 0;
 					place[1] = 1;
 					place[2] = 2;
 					break;
 
 				case ImageType.ARGB:
-					place[0] = 1;
+					place[0] = 3;
 					place[1] = 2;
-					place[2] = 3;
+					place[2] = 1;
 					break;
 			}
 
