@@ -105,9 +105,9 @@ namespace Myxini.Communication
                 var packet = new Robot.Robot2PcPacket(packetData);
                 this.UpdateCurrentCommand(packet.SensorID, packet.SensorValue);
             }
-            catch (Exception)
+            catch (Exception exce)
             {
-                ;
+                System.Diagnostics.Debug.WriteLine(exce.Message);
             }
         }
 
