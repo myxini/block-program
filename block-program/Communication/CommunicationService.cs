@@ -16,7 +16,7 @@ namespace Myxini.Communication
         private const Parity PARITY = Parity.None;
         private const int DATABITS = 8;
         private const StopBits STOPBITS = StopBits.One;
-        private const int COMMAND_DURATION = 5000;
+        private const int COMMAND_DURATION = 4500;
         #endregion
         public SerialPort RobotPort { get; set; }
         public string RobotPortName
@@ -35,7 +35,7 @@ namespace Myxini.Communication
         const byte SENSORID_MICROSWITCH = 0x02;
         #endregion
         #region ロボットにおいてどのスレッドが走るかを決めるしきい値群
-        private const int STATE_PSD_THRES = 300;
+        private const int STATE_PSD_THRES = 200;
         private const int STATE_MICROSWITCH_THRES = 1;
         #endregion
         private Dictionary<Command, Robot.CommandList> _robotScript;
