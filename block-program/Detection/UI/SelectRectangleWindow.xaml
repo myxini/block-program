@@ -5,11 +5,11 @@
     <Grid x:Name="ContentPanel"
           Grid.Row="1"
           Margin="12,0,12,0"
+          Background="Transparent">
+        <Image Name="CameraImage" 
           MouseDown="ContentPanel_MouseDown"
           MouseMove="ContentPanel_MouseMove"
-          MouseUp="ContentPanel_MouseUp"
-          Background="Transparent">
-        <Image Name="CameraImage" />
+          MouseUp="ContentPanel_MouseUp"/>
         <Rectangle Name="Rectangle1"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Top"

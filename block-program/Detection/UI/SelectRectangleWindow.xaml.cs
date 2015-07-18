@@ -24,7 +24,7 @@ namespace Myxini.Recognition.UI
         {
             InitializeComponent();
 			this.Camera = camera;
-
+			
 			var timer = new System.Windows.Threading.DispatcherTimer { Interval = TimeSpan.FromMilliseconds(33), IsEnabled = true };
 			timer.Tick += UpdateDisplay;
         }
@@ -70,9 +70,13 @@ namespace Myxini.Recognition.UI
         private void ContentPanel_MouseUp(object sender, MouseButtonEventArgs e)
         {
             is_down = false;
-            Area = new System.Drawing.Rectangle(
-                (int) Rectangle1.Margin.Left,
-                (int) Rectangle1.Margin.Top,
+
+			var screen_coordinate = this.PointToScreen(new Point(Rectangle1.Margin.Left, Rectangle1.Margin.Top));
+			var image_coordinate = this.CameraImage.PointFromScreen(screen_coordinate);
+			
+			Area = new System.Drawing.Rectangle(
+				(int) (image_coordinate.X),
+				(int)(image_coordinate.Y),
                 (int) Rectangle1.Width,
                 (int) Rectangle1.Height
             );
@@ -98,9 +102,14 @@ namespace Myxini.Recognition.UI
 				System.Windows.Media.PixelFormats.Bgr32, null);
 			writable_image.WritePixels(new Int32Rect(0, 0, image.Width, image.Height), pixel, sizeof(int) * image.Width, 0);
 
+			var screen_coordinate = this.PointToScreen(new Point(image.Width, image.Height));
+			var image_coordinate = this.CameraImage.PointFromScreen(screen_coordinate);
+
 			this.CameraImage.Source = writable_image;
-			this.Width = image.Width;
-			this.Height = image.Height;
+			this.Width = screen_coordinate.X;
+			this.Height = screen_coordinate.Y;
+			this.CameraImage.Width = image.Width;
+			this.CameraImage.Height = image.Height;
 		}
     }
 }
