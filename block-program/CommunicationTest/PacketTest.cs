@@ -28,6 +28,34 @@ namespace CommunicationTest
         }
 
         [TestMethod]
+        public void RotCommand()
+        {
+            string[] pots = CommunicationService.GetAvailablePorts();
+            CommunicationService serv;
+            if (pots.Length > 0)
+            {
+                serv = new CommunicationService("COM4");
+            }
+            else
+            {
+                return;
+            }
+            Script testScript = new Script();
+            testScript.Add(new ControlBlock(Myxini.Recognition.Command.Start, new BlockParameter()));
+            // 前進低速 :0x 06 09 01 01 26 01 28
+            testScript.Add(new InstructionBlock(
+                    Myxini.Recognition.Command.Move,
+                    new BlockParameter(new int[1] { -1 })
+            ));
+            /*            testScript.Add(new InstructionBlock(
+                                Myxini.Recognition.Command.Rotate,
+                                new BlockParameter(new int[1] { 1 })
+                        ));*/
+            serv.Run(testScript);
+            Thread.Sleep(100000);
+        }
+
+        [TestMethod]
         public void Escape()
         {
             string[] pots = CommunicationService.GetAvailablePorts();
@@ -47,14 +75,14 @@ namespace CommunicationTest
                     Myxini.Recognition.Command.Move,
                     new BlockParameter(new int[1] { 1 })
             ));
-            testScript.Add(new InstructionBlock(
+/*            testScript.Add(new InstructionBlock(
                     Myxini.Recognition.Command.Rotate,
                     new BlockParameter(new int[1] { 1 })
-            ));
-            //testScript.Add(new ControlBlock(Myxini.Recognition.Command.PSD, new BlockParameter()));
-            /*testScript.Add(new InstructionBlock(
+            ));*/
+            testScript.Add(new ControlBlock(Myxini.Recognition.Command.PSD, new BlockParameter()));
+            testScript.Add(new InstructionBlock(
                 Myxini.Recognition.Command.Rotate,
-                new BlockParameter(new int[1] { 1 })));*/
+                new BlockParameter(new int[1] { 1 })));
             serv.Run(testScript);
             Thread.Sleep(100000);
         }
