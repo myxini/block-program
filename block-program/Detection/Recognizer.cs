@@ -111,7 +111,7 @@ namespace Myxini.Recognition
 
 			for (int y = 0; y < depth.Height; ++y)
 			{
-				for (int x = 0; x < depth.Height; ++x)
+				for (int x = 0; x < depth.Width; ++x)
 				{
 					var l = label[y * depth.Width + x];
 
