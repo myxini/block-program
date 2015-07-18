@@ -16,7 +16,7 @@ namespace Myxini.Communication
         private const Parity PARITY = Parity.None;
         private const int DATABITS = 8;
         private const StopBits STOPBITS = StopBits.One;
-        private const int COMMAND_DURATION = 100;
+        private const int COMMAND_DURATION = 5000;
         #endregion
         public SerialPort RobotPort { get; set; }
         public string RobotPortName
