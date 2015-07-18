@@ -99,6 +99,8 @@ namespace Myxini.Recognition.UI
 			writable_image.WritePixels(new Int32Rect(0, 0, image.Width, image.Height), pixel, sizeof(int) * image.Width, 0);
 
 			this.CameraImage.Source = writable_image;
+			this.Width = image.Width;
+			this.Height = image.Height;
 		}
     }
 }
