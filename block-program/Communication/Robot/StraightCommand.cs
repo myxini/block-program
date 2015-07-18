@@ -31,7 +31,7 @@ namespace Myxini.Communication.Robot
                 IsNeedInterrupt = this.IsNeedInterrupt,
                 CommandID = this.CommandID,
                 Property1 = (byte)(this.Velocity * 127),
-                Property2 = (byte)(this.Time * 24)
+                Property2 = (byte)(this.Time * 48)
             };
             p.AddCheckSum();
             return p;

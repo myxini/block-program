@@ -24,7 +24,7 @@ namespace Myxini.Communication.Robot
         /// </summary>
         private float AngleToPulse(float deg)
         {
-            return deg * 24.0f / 90.0f;
+            return deg * 11.0f / 90.0f;
         }
 
         public RotateCommand()
