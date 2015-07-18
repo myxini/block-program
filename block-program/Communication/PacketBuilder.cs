@@ -72,10 +72,12 @@ namespace Myxini.Communication
             switch(block.Parameter.Value(0))
             {
                 case -1:
-                    angle = -90f;
+                    angle = 90f;
+                    velocity = -1.0f;
                     break;
                 case 1:
                     angle = 90f;
+                    velocity = 1.0f;
                     break;
             }
             return new Robot.RotateCommand()
