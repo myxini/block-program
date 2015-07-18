@@ -45,9 +45,13 @@ namespace CommunicationTest
             // 前進低速 :0x 06 09 01 01 26 01 28
             testScript.Add(new InstructionBlock(
                     Myxini.Recognition.Command.Move,
-                    new BlockParameter(new int[1] { -1 })
+                    new BlockParameter(new int[1] { 1 })
             ));
-            testScript.Add(new ControlBlock(Myxini.Recognition.Command.PSD, new BlockParameter()));
+            testScript.Add(new InstructionBlock(
+                    Myxini.Recognition.Command.Rotate,
+                    new BlockParameter(new int[1] { 1 })
+            ));
+            //testScript.Add(new ControlBlock(Myxini.Recognition.Command.PSD, new BlockParameter()));
             /*testScript.Add(new InstructionBlock(
                 Myxini.Recognition.Command.Rotate,
                 new BlockParameter(new int[1] { 1 })));*/
