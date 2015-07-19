@@ -169,6 +169,9 @@ namespace RecognitionTest
             var result = image.Resize(100, 100);
 
             DebugOutput.SaveImage(new string[] { "hoge.png" }, result);
+
+            result = image.Resize(1000, 1000);
+            DebugOutput.SaveImage(new string[] { "fuga.png" }, result);
         }
 
 	}
