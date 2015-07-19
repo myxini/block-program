@@ -166,7 +166,9 @@ namespace RecognitionTest
         public void BitmapImageResizeTest()
         {
             var image = new BitmapImage(Color);
+            var result = image.Resize(100, 100);
 
+            DebugOutput.SaveImage(new string[] { "hoge.png" }, result);
         }
 
 	}

@@ -23,11 +23,11 @@ namespace Myxini.Recognition.Image
             switch (channel)
             {
                 case 0:
-                    return pixel.R;
+                    return pixel.B;
                 case 1:
                     return pixel.G;
                 case 2:
-                    return pixel.B;
+                    return pixel.R;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
