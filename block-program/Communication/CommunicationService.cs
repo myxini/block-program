@@ -35,7 +35,7 @@ namespace Myxini.Communication
         const byte SENSORID_MICROSWITCH = 0x02;
         #endregion
         #region ロボットにおいてどのスレッドが走るかを決めるしきい値群
-        private const int STATE_PSD_THRES = 200;
+        private const int STATE_PSD_THRES = 150;
         private const int STATE_MICROSWITCH_THRES = 1;
         #endregion
         private Dictionary<Command, Robot.CommandList> _robotScript;
