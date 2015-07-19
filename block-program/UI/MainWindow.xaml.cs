@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -71,6 +72,14 @@ namespace UI
                 (int) Rectangle1.Height
             );
 
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            if (Rectangle1.Visibility == Visibility.Collapsed)
+            {
+                e.Cancel = true;
+            }
         }
     }
 }
