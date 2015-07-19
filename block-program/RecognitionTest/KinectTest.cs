@@ -74,16 +74,23 @@ namespace Myxini.Recognition.RecognitionTest
 			new Kinect(-1);
 		}
 
-		[TestMethod]
+		[TestMethod, Timeout(10000)]
 		public void CaptureTest()
 		{
 			var kinect = new Kinect(0);
-			var image = kinect.Capture();
 
-			Assert.Equals(image.Channel, 4);
-			Assert.Equals(image.Width, 640);
-			Assert.Equals(image.Height, 480);
-			Assert.Equals(image.IsRegionOfImage, false);
+			IImage image = null;
+			
+			do
+			{
+				image = kinect.Capture();
+			} while (image == null);
+
+			Assert.IsNotNull(image);
+			Assert.AreEqual(image.Channel, 4);
+			Assert.AreEqual(image.Width, 640);
+			Assert.AreEqual(image.Height, 480);
+			Assert.AreEqual(image.IsRegionOfImage, false);
 		}
 	}
 }

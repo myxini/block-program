@@ -21,7 +21,7 @@ namespace Myxini.Recognition
 
 			var image = new GrayImage(kinect_image, GrayImage.ImageType.ARGB);
 			var cell_image = CellDescriptor.DescriptImage(image);
-
+			
 			cell_image = new GrayImage(cell_image, Process.Dilate);
 			cell_image = new GrayImage(cell_image, Process.Dilate);
 			cell_image = new GrayImage(cell_image, Process.Dilate);
@@ -33,10 +33,11 @@ namespace Myxini.Recognition
 			List<Tuple<IBlock, Rectangle>> other_block = new List<Tuple<IBlock, Rectangle>>();
 
 			var classifier = new Classifier();
+            var algorithm = new SADAlgorithm();
 			foreach(var rectangle in rectangles)
 			{
 				var target = kinect_image.RegionOfImage(rectangle);
-				var result = classifier.Clustering(target);
+				var result = classifier.Clustering(target, algorithm);
 
 				if(result.IsControlBlock)
 				{
@@ -66,7 +67,7 @@ namespace Myxini.Recognition
 			return result_script;
 		}
 
-		private bool IsConnectedBlock(List<int> labels, Size label_image_size, Rectangle a, Rectangle b)
+		private bool IsConnectedBlock(int[] labels, Size label_image_size, Rectangle a, Rectangle b)
 		{
 			Point a_bottom_right = new Point(a.X + a.Width, a.Y + a.Height);
 //			Point a_top_left = new Point(a.X, a.Y);
@@ -110,7 +111,7 @@ namespace Myxini.Recognition
 
 			for (int y = 0; y < depth.Height; ++y)
 			{
-				for (int x = 0; x < depth.Height; ++x)
+				for (int x = 0; x < depth.Width; ++x)
 				{
 					var l = label[y * depth.Width + x];
 
@@ -155,7 +156,8 @@ namespace Myxini.Recognition
 					new Point(element.Value.Left, element.Value.Top), 
 					new Point(element.Value.Right, element.Value.Bottom));
 
-				if (region.BoundingSize.Area < 20)
+				if (region.BoundingSize.Area < 20 && 
+					region.BoundingSize.Area  > depth.BoundingBox.BoundingSize.Area * 0.1)
 				{
 					continue;
 				}

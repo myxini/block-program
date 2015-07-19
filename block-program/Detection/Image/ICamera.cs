@@ -7,5 +7,10 @@
 		/// </summary>
 		/// <returns>取得したカメラ画像</returns>
 		IImage Capture();
+
+		bool IsOpened
+		{
+			get;
+		}
 	}
 }

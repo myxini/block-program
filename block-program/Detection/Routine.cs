@@ -23,5 +23,24 @@ namespace Myxini.Recognition
         {
             list_instruction.Add(instruction);
         }
+
+        public override string ToString()
+        {
+            string s = "[Routine]" + Environment.NewLine;
+            if (Trigger != null)
+            {
+                s += "    Trigger:" + Environment.NewLine;
+                s += Trigger.ToString() + Environment.NewLine;
+            }
+            if (Instructions.Count() > 0)
+            {
+                s += "    Instructions:" + Environment.NewLine;
+            }
+            foreach (InstructionBlock instruction in Instructions)
+            {
+                s += instruction.ToString() + Environment.NewLine;
+            }
+            return s;
+        }
     }
 }

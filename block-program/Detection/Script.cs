@@ -71,6 +71,16 @@ namespace Myxini.Recognition
             just_before_routine = new_routine;
         }
 
+        public override string ToString()
+        {
+            string s = "[Script]" + Environment.NewLine;
+            foreach (Routine routine in Routines)
+            {
+                s += "  " + routine.ToString() + Environment.NewLine;
+            }
+            return s;
+        }
+
         /// <summary>
         /// routine の末尾に instruction を追加する
         /// </summary>

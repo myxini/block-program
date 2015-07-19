@@ -13,7 +13,7 @@ using System;
 		public DepthImage(int width, int height)
 		{
 			this.BoundingBox = new Rectangle(0, 0, width, height);
-			this.OriginalSize = this.BoundingBox.BoundingSize;
+			this.OriginalSize = new Size(width, height);
 			this.Channel = 1;
 			this.IsRegionOfImage = false;
 			this.Pixels = new short[width * height];
@@ -38,10 +38,10 @@ using System;
 		{
 			this.Channel = image.Channel;
 			this.Pixels = image.Pixels;
-			this.OriginalSize = this.OriginalSize;
+			this.OriginalSize = image.OriginalSize;
 			this.IsRegionOfImage = true;
 
-			Rectangle new_region = new Rectangle(
+			this.BoundingBox = new Rectangle(
 				image.BoundingBox.X + region.X,
 				image.BoundingBox.Y + region.Y,
 				region.Width,

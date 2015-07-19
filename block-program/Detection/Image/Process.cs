@@ -34,13 +34,38 @@ namespace Myxini.Recognition.Image
 			return result / (image.Height * image.Width);
 		}
 
+		public static Tuple<int[], int[]> FindMinMax(IImage image)
+		{
+			int[] min = new int[image.Channel], max = new int[image.Channel];
+			for (int y = 0; y < image.Height; ++y)
+			{
+				for (int x = 0; x< image.Width; ++x)
+				{
+					for(int c = 0; c < image.Channel; ++c)
+					{
+						if (min[c] > image.GetElement(x, y, c))
+						{
+							min[c] = image.GetElement(x, y, c);
+						}
+
+						if (max[c] < image.GetElement(x, y, c)) 
+						{
+							max[c] = image.GetElement(x, y, c);
+						}
+					}
+				}
+			}
+
+			return new Tuple<int[], int[]>(min, max);
+		}
+
 		/// <summary>
 		/// 膨張処理
 		/// 基本的にコンストラクタにつっこんでください
 		/// </summary>
 		public static int Dilate(IImage image, int x, int y, int c)
 		{
-			if(x < 0 || y < 0 || x >= image.Width || y >= image.Height)
+			if(x == 0 || y == 0 || (x + 1) >= image.Width || (y + 1) >= image.Height)
 			{
 				return DilateSlow(image, x, y, c);
 			}
@@ -63,7 +88,7 @@ namespace Myxini.Recognition.Image
 		/// </summary>
 		public static int Erode(IImage image, int x, int y, int c)
 		{
-			if (x < 0 || y < 0 || x >= image.Width || y >= image.Height)
+			if (x == 0 || y == 0 || (x + 1) >= image.Width || (y + 1) >= image.Height)
 			{
 				return DilateSlow(image, x, y, c);
 			}

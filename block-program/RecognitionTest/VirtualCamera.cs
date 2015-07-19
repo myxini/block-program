@@ -33,7 +33,12 @@ namespace RecognitionTest
 			return this.Frames[this.CurrentPosition];
 		}
 
-		private List<IImage> Frames;
+		public bool IsOpened
+		{
+			get { return true; }
+		}
+
+		private List<IImage> Frames = new List<IImage>();
 		private int CurrentPosition = -1;
 	}
 }

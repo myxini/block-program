@@ -7,7 +7,7 @@ namespace Myxini.Recognition.Image
 	{
 		public Kinect(int index = 0)
 		{
-			if(KinectSensor.KinectSensors.Count <= index)
+			if (KinectSensor.KinectSensors.Count <= index || index < 0)
 			{
 				throw new InvalidOperationException();
 			}
@@ -39,15 +39,6 @@ namespace Myxini.Recognition.Image
 			
 			this.Sensor.Start();
 		}
-		
-		~Kinect()
-		{
-			if(this.Sensor.IsRunning)
-			{
-				this.Sensor.Stop();
-			}
-		}
-
 
 		public static KinectSensor enumerateKinect(Func<KinectSensor, bool> function)
 		{
@@ -75,13 +66,16 @@ namespace Myxini.Recognition.Image
 				{
 					return;
 				}
-
+				
 				var raw_img = img.GetRawPixelData();
 
-				this.ColorInputImage = new ColorImage(raw_img, this.Sensor.DepthStream.FrameWidth, this.Sensor.DepthStream.FrameHeight);
+				this.ColorInputImage = new ColorImage(raw_img, img.Width, img.Height, img.BytesPerPixel);
 			}
 
-			this.Image = new KinectImage(this.ColorInputImage, this.DepthInputImage);
+			if (this.ColorInputImage != null && this.DepthInputImage != null)
+			{
+				this.Image = new KinectImage(this.ColorInputImage, this.DepthInputImage);
+			}
 		}
 
 		public void OnUpdateDepthImage(Object sender, DepthImageFrameReadyEventArgs e)
@@ -99,7 +93,15 @@ namespace Myxini.Recognition.Image
 				this.DepthInputImage = new DepthImage(raw_img, this.Sensor.ColorStream.FrameWidth, this.Sensor.ColorStream.FrameHeight);
 			}
 
-			this.Image = new KinectImage(this.ColorInputImage, this.DepthInputImage);
+			if(this.ColorInputImage != null && this.DepthInputImage != null)
+			{
+				this.Image = new KinectImage(this.ColorInputImage, this.DepthInputImage);
+			}
+		}
+
+		public bool IsOpened
+		{
+			get { return this.Image != null; }
 		}
 
 		private KinectSensor Sensor;
