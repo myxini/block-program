@@ -109,7 +109,10 @@ namespace Myxini.Communication
              */
             byte[] revBuffer = new byte[bytesToRed];
             port.Read(revBuffer, 0, bytesToRed);
-            int headindex = Array.LastIndexOf(revBuffer, 0x12, 0, revBuffer.Length - 6);
+            int headindex = Array.FindLastIndex(
+                revBuffer,
+                revBuffer.Length - 6,
+                new Predicate<byte>((byte b) => { return b == 0x12; }));
             if(headindex < 0)
             {
                 return;
