@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Myxini.Recognition.Image
 {
-    class BitmapImage : IImage
+    public class BitmapImage : IImage
     {
         private Bitmap bitmap;
 

@@ -120,5 +120,12 @@ namespace RecognitionTest
 			}
 		}
 
+        [TestMethod]
+        public void BitmapImageResizeTest()
+        {
+            var image = new BitmapImage(Color);
+
+        }
+
 	}
 }
