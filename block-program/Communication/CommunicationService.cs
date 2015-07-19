@@ -89,7 +89,8 @@ namespace Myxini.Communication
                 return;
             }
             var port = sender as SerialPort;
-            if(port.BytesToRead < 7)
+            int bytesToRed = port.BytesToRead;
+            if(bytesToRed < 7)
             {
                 return;
             }
@@ -106,9 +107,14 @@ namespace Myxini.Communication
             }
             byte[] packetData = data.Skip(headIndex).Take(7).ToArray();
              */
-            byte[] packetData = new byte[7];
-            port.Read(packetData, 0, 7);
-            port.ReadExisting();
+            byte[] revBuffer = new byte[bytesToRed];
+            port.Read(revBuffer, 0, bytesToRed);
+            int headindex = Array.LastIndexOf(revBuffer, 0x12, 0, revBuffer.Length - 6);
+            if(headindex < 0)
+            {
+                return;
+            }
+            byte[] packetData = revBuffer.Skip(headindex).Take(7).ToArray();
 //            System.Diagnostics.Debug.WriteLine(indata);
 //            System.Diagnostics.Debug.WriteLine(BitConverter.ToString(data));
             System.Diagnostics.Debug.WriteLine(BitConverter.ToString(packetData));
