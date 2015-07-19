@@ -38,6 +38,11 @@ namespace Myxini.Communication.Robot
                 throw new InvalidOperationException("Packet Length is too short");
             }
             this.__packetData = packet;
+            if (!(this.__packetData[(int)PacketIndex.HEAD_HIGH] == 0x12
+                && this.__packetData[(int)PacketIndex.HEAD_LOW] == 0x20))
+            {
+                throw new InvalidOperationException("Pack Head is invalid");
+            }
             if(!this.IsValid())
             {
                 throw new InvalidOperationException("Packet check sum is invalid");
@@ -49,8 +54,7 @@ namespace Myxini.Communication.Robot
 
         public bool IsValid()
         {
-            return Packet.CalcCheckSum(this._packetData) 
-                == 0;
+            return Packet.CalcCheckSum(this._packetData) == 0;
         }
     }
 }
