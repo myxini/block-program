@@ -17,10 +17,15 @@ namespace Myxini.Recognition
 		public void Calibration(ICamera camera)
 		{
 			var window = new Myxini.Recognition.UI.SelectRectangleWindow(camera);
-		
-			window.ShowDialog();
-			var selected_region = window.Area;
 
+			var selected_region = new System.Drawing.Rectangle();
+
+			window.Closed += (object sender, EventArgs e) =>
+				{
+					selected_region = window.Area;
+				};
+
+			window.ShowDialog();
 			this.SelectedRegion = new Rectangle(selected_region.X, selected_region.Y, selected_region.Width, selected_region.Height);
 		}
 
