@@ -14,8 +14,8 @@ namespace Myxini.Communication.Robot
             HEAD_LOW,
             ROBOT_ID,
             SENSOR_ID,
-            SENSOR_VALUE_HIGH,
             SENSOR_VALUE_LOW,
+            SENSOR_VALUE_HIGH,
             CHKSUM
         }
 
@@ -33,14 +33,28 @@ namespace Myxini.Communication.Robot
 
         public Robot2PcPacket(byte[] packet)
         {
+            if (packet.Length < 7)
+            {
+                throw new InvalidOperationException("Packet Length is too short");
+            }
             this.__packetData = packet;
-            this.RobotID = packet[(int)PacketIndex.SENSOR_ID];
-            this.SensorValue = (UInt16)((packet[(int)PacketIndex.SENSOR_VALUE_HIGH] << 8) & packet[(int)PacketIndex.SENSOR_VALUE_LOW]);
+            if (!(this.__packetData[(int)PacketIndex.HEAD_HIGH] == 0x12
+                && this.__packetData[(int)PacketIndex.HEAD_LOW] == 0x20))
+            {
+                throw new InvalidOperationException("Pack Head is invalid");
+            }
+            if(!this.IsValid())
+            {
+                throw new InvalidOperationException("Packet check sum is invalid");
+            }
+            this.RobotID = packet[(int)PacketIndex.ROBOT_ID];
+            this.SensorID = packet[(int)PacketIndex.SENSOR_ID];
+            this.SensorValue = (UInt16)((packet[(int)PacketIndex.SENSOR_VALUE_HIGH] << 8) | packet[(int)PacketIndex.SENSOR_VALUE_LOW]);
         }
 
-        public bool IsValid(byte[] packet)
+        public bool IsValid()
         {
-            return Packet.CalcCheckSum(packet) == (byte)packet[(int)PacketIndex.CHKSUM];
+            return Packet.CalcCheckSum(this._packetData) == 0;
         }
     }
 }

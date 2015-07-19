@@ -11,8 +11,21 @@ namespace Myxini.Communication.Robot
     /// </summary>
     class RotateCommand : MoveCommand
     {
+        /// <summary>
+        /// 速さを表すパラメータ(1で最大)
+        /// </summary>
         public float AngularVelocity { get; set; }
+        /// <summary>
+        /// 角度を表す。degでお願いします。
+        /// </summary>
         public float Angle { get; set; }
+        /// <summary>
+        /// 角度とパルス数の変換を請け負う関数
+        /// </summary>
+        private float AngleToPulse(float deg)
+        {
+            return deg * 11.0f / 90.0f;
+        }
 
         public RotateCommand()
         {
@@ -26,8 +39,8 @@ namespace Myxini.Communication.Robot
                 RobotID = this.RobotID,
                 IsNeedInterrupt = this.IsNeedInterrupt,
                 CommandID = this.CommandID,
-                Property1 = (byte)(this.AngularVelocity * 256),
-                Property2 = (byte)(this.Angle)
+                Property1 = (byte)(this.AngularVelocity * 127),
+                Property2 = (byte)(this.AngleToPulse(this.Angle))
             };
             packet.AddCheckSum();
             return packet;

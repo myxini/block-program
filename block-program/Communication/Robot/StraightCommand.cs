@@ -11,7 +11,13 @@ namespace Myxini.Communication.Robot
     /// </summary>
     class StraightCommand : MoveCommand
     {
+        /// <summary>
+        /// 速さを表すパラメータ。1.0で最大
+        /// </summary>
         public float Velocity { get; set; }
+        /// <summary>
+        /// 回転数を表すパラメータ。1で1ブロック分進むかも
+        /// </summary>
         public float Time { get; set; }
         public StraightCommand()
         {
@@ -24,8 +30,8 @@ namespace Myxini.Communication.Robot
                 RobotID = this.RobotID,
                 IsNeedInterrupt = this.IsNeedInterrupt,
                 CommandID = this.CommandID,
-                Property1 = (byte)(this.Velocity * 256),
-                Property2 = (byte)(this.Time)
+                Property1 = (byte)(this.Velocity * 127),
+                Property2 = (byte)(this.Time * 48)
             };
             p.AddCheckSum();
             return p;

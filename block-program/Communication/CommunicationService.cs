@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.IO.Ports;
 using Myxini.Recognition;
@@ -15,6 +16,7 @@ namespace Myxini.Communication
         private const Parity PARITY = Parity.None;
         private const int DATABITS = 8;
         private const StopBits STOPBITS = StopBits.One;
+        private const int COMMAND_DURATION = 4500;
         #endregion
         public SerialPort RobotPort { get; set; }
         public string RobotPortName
@@ -28,9 +30,17 @@ namespace Myxini.Communication
                 this.RobotPort.PortName = value;
             }
         }
+        #region センサIDとセンサ名をひもづける定数値
+        const byte SENSORID_PSD = 0x07;
+        const byte SENSORID_MICROSWITCH = 0x02;
+        #endregion
+        #region ロボットにおいてどのスレッドが走るかを決めるしきい値群
+        private const int STATE_PSD_THRES = 150;
+        private const int STATE_MICROSWITCH_THRES = 1;
+        #endregion
         private Dictionary<Command, Robot.CommandList> _robotScript;
         private Command _currentInstructionType = Command.Start;
-        private PacketBuilder _buuiler;
+        private PacketBuilder _builer = new PacketBuilder();
         private bool _isRunning = false;
         public bool IsRunning 
         { 
@@ -61,6 +71,7 @@ namespace Myxini.Communication
             this.RobotPortName = portname;
             this._robotScript = new Dictionary<Command, Robot.CommandList>();
             this.RobotPort.DataReceived += DataReceived;
+            this._builer.RobotID = 1;
         }
 
         ~CommunicationService()
@@ -78,14 +89,64 @@ namespace Myxini.Communication
                 return;
             }
             var port = sender as SerialPort;
+            int bytesToRed = port.BytesToRead;
+            if(bytesToRed < 7)
+            {
+                return;
+            }
+            /*
             string indata = port.ReadExisting();
             byte[] data = System.Text.ASCIIEncoding.ASCII.GetBytes(indata);
-            var packet = new Robot.Robot2PcPacket(data);
-            this.UpdateCurrentCommand(packet.SensorID, packet.SensorValue);
+            int headIndex = Array.FindIndex(
+                data,
+                new Predicate<byte>((byte b) => { return b == 0x12; })
+                );
+            if(headIndex + 7 > data.Length)
+            {
+                return;
+            }
+            byte[] packetData = data.Skip(headIndex).Take(7).ToArray();
+             */
+            byte[] revBuffer = new byte[bytesToRed];
+            port.Read(revBuffer, 0, bytesToRed);
+            int headindex = Array.FindLastIndex(
+                revBuffer,
+                revBuffer.Length - 6,
+                new Predicate<byte>((byte b) => { return b == 0x12; }));
+            if(headindex < 0)
+            {
+                return;
+            }
+            byte[] packetData = revBuffer.Skip(headindex).Take(7).ToArray();
+//            System.Diagnostics.Debug.WriteLine(indata);
+//            System.Diagnostics.Debug.WriteLine(BitConverter.ToString(data));
+            System.Diagnostics.Debug.WriteLine(BitConverter.ToString(packetData));
+            try
+            {
+                var packet = new Robot.Robot2PcPacket(packetData);
+                this.UpdateCurrentCommand(packet.SensorID, packet.SensorValue);
+            }
+            catch (Exception exce)
+            {
+                System.Diagnostics.Debug.WriteLine(exce.Message);
+            }
         }
 
         private void UpdateCurrentCommand(byte sensorID, ushort sensorValue)
         {
+            System.Diagnostics.Debug.WriteLine(sensorID.ToString() + ": " + sensorValue.ToString());
+            if(sensorID == SENSORID_PSD && sensorValue >= STATE_PSD_THRES)
+            {
+                this._currentInstructionType = Command.PSD;
+            }
+            else if(sensorID == SENSORID_MICROSWITCH && sensorValue == STATE_MICROSWITCH_THRES)
+            {
+                this._currentInstructionType = Command.MicroSwitch;
+            }
+            else
+            {
+                this._currentInstructionType = Command.Start;
+            }
         }
 
         protected void Do(Robot.Command command)
@@ -93,7 +154,11 @@ namespace Myxini.Communication
             if(this.RobotPort.IsOpen)
             {
                 var packetbytes = (byte[])command.ToPacket();
-                this.RobotPort.Write(packetbytes, 0, packetbytes.Count());
+                for (int i = 0; i < packetbytes.Count(); ++i)
+                {
+                    this.RobotPort.Write(packetbytes, i, 1);
+                }
+//                this.RobotPort.Write(packetbytes, 0, packetbytes.Count());
             }
         }
 
@@ -103,10 +168,15 @@ namespace Myxini.Communication
             {
                 var script = this._robotScript;
                 var currentInstruction = this._currentInstructionType;
-                foreach(var command in this._robotScript[currentInstruction])
+                if (!this._robotScript.ContainsKey(currentInstruction))
+                {
+                    currentInstruction = Command.Start;
+                }
+                foreach (var command in this._robotScript[currentInstruction])
                 {
                     this.Do(command);
-                }
+                    Thread.Sleep(COMMAND_DURATION);
+                }                
             }
         }
 
@@ -117,9 +187,9 @@ namespace Myxini.Communication
                 this.RobotPort.Open();
                 this.IsRunning = this.RobotPort.IsOpen;
             }
-            catch(Exception)
+            catch(Exception e)
             {
-                return;
+                throw e;
             }
             await Task.Run(() =>
             {
@@ -135,7 +205,7 @@ namespace Myxini.Communication
             {
                 this._robotScript.Add(
                     routine.Trigger.CommandIdentification,
-                    this._buuiler.Build(routine.Instructions)
+                    this._builer.Build(routine.Instructions)
                 );
             }
         }
