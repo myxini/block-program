@@ -21,7 +21,23 @@ namespace Myxini.Recognition
 		{
 			var rectangles = this.FindBlockRectangle(kinect_image);
 
-			var image = new GrayImage(kinect_image, GrayImage.ImageType.ARGB);
+			var debug_file = new System.IO.StreamWriter("output.txt", false);
+
+			foreach(var rect in rectangles)
+			{
+				debug_file.Write(rect.X);
+				debug_file.Write(",");
+				debug_file.Write(rect.Y);
+				debug_file.Write(",");
+				debug_file.Write(rect.Width);
+				debug_file.Write(",");
+				debug_file.Write(rect.Height);
+//				debug_file.Write(",");
+				debug_file.WriteLine();
+			}
+			debug_file.Flush();
+
+			var image = new GrayImage(kinect_image, GrayImage.ImageType.ABGR);
 			var cell_image = CellDescriptor.DescriptImage(image);
 
 			cell_image = new GrayImage(cell_image, Process.Dilate);
@@ -141,7 +157,7 @@ namespace Myxini.Recognition
 							return 0;
 						}
 
-						return (int)(value * byte.MaxValue);
+						return 0xff;
 					}
 				);
 
@@ -191,7 +207,7 @@ namespace Myxini.Recognition
 					var find_rect = new Rectangle(new Point(x,y), this.MaskSize);
 					var score = ((double)Process.CountNoneZero(noise_deleted_image.RegionOfImage(find_rect))) / this.MaskSize.Area;
 
-					if(score < 0.1)
+					if(score < 0.13)
 					{
 						score = 0.0f;
 					}
@@ -211,8 +227,8 @@ namespace Myxini.Recognition
 			var candidate_img = new GrayImage(candidate_pixels, noise_deleted_image.Width, noise_deleted_image.Height);
 			DebugOutput.SaveGrayImage("candidate_img.png", candidate_img);
 
-			candidate_area_map = medianFilter(candidate_area_map, noise_deleted_image.BoundingBox.BoundingSize);
-			candidate_area_map = medianFilter(candidate_area_map, noise_deleted_image.BoundingBox.BoundingSize);
+			//candidate_area_map = medianFilter(candidate_area_map, noise_deleted_image.BoundingBox.BoundingSize);
+			//candidate_area_map = medianFilter(candidate_area_map, noise_deleted_image.BoundingBox.BoundingSize);
 			
 			for (int y = 0; y < noise_deleted_image.Height; ++y)
 			{
