@@ -48,8 +48,8 @@ namespace Myxini.Recognition.Image
 
 				case ImageType.ABGR:
 					place[0] = 1;
-					place[0] = 2;
-					place[0] = 3;
+					place[1] = 2;
+					place[2] = 3;
 					break;
 
 				case ImageType.ARGB:

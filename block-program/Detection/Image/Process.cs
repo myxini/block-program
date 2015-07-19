@@ -132,16 +132,14 @@ namespace Myxini.Recognition.Image
 			{
 				for (int px = x - 1; px < (x + 1); ++px)
 				{
-					try
+					if(px < 0 || py < 0 || (px + 1) >= image.Width || (py + 1) >= image.Height)
 					{
-						if (image.GetElement(px, py, c) != 0)
-						{
-							return int.MaxValue;
-						}
+						continue;
 					}
-					catch(Exception )
-					{
 
+					if (image.GetElement(px, py, c) != 0)
+					{
+						return int.MaxValue;
 					}
 				}
 			}

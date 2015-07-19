@@ -14,7 +14,16 @@ namespace Myxini.Recognition.Image
 		{
 			if(image.Channel == 1)
 			{
-				SaveDepthImage(file_name[0], image);
+				var gray = image as GrayImage;
+
+				if(gray != null)
+				{
+					SaveGrayImage(file_name[0], gray);
+				}
+				else
+				{
+					SaveDepthImage(file_name[0], image);
+				}
 			}
 			else if (image.Channel == 3)
 			{
@@ -44,6 +53,33 @@ namespace Myxini.Recognition.Image
 			}
 
 			output.WritePixels(new Int32Rect(0, 0, image.Width, image.Height), pixel, image.Width * sizeof(short), 0);
+
+			using (FileStream stream = new FileStream(file_name, FileMode.Create, FileAccess.Write))
+			{
+				var encoder = new PngBitmapEncoder();
+				encoder.Frames.Add(BitmapFrame.Create(output));
+				encoder.Save(stream);
+				stream.Flush();
+			}
+		}
+
+		[Conditional("DEBUG")]
+		public static void SaveGrayImage(string file_name, IImage image, int offset_channel = 0)
+		{
+			var output = new WriteableBitmap(image.Width, image.Height, 96, 96,
+				System.Windows.Media.PixelFormats.Gray8, null);
+
+			var pixel = new byte[image.Width * image.Height];
+
+			for (int y = 0; y < image.Height; ++y)
+			{
+				for (int x = 0; x < image.Width; ++x)
+				{
+					pixel[y * image.Width + x] = (byte)image.GetElement(x, y, offset_channel);
+				}
+			}
+
+			output.WritePixels(new Int32Rect(0, 0, image.Width, image.Height), pixel, image.Width * sizeof(byte), 0);
 
 			using (FileStream stream = new FileStream(file_name, FileMode.Create, FileAccess.Write))
 			{

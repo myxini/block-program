@@ -110,7 +110,8 @@ namespace Myxini.Recognition
 			var img = new GrayImage(kinect_image, GrayImage.ImageType.ABGR);
 
 			var mask_size = this.MaskSize;
-	
+
+			DebugOutput.SaveGrayImage("gray_img.png", img);
 			var output = new GrayImage(img, 
 				(IImage input, int x, int y, int c)=>
 					{
@@ -125,14 +126,15 @@ namespace Myxini.Recognition
 						return (int)Math.Sqrt(fx * fx + fy * fy);
 					}
 				);
-			
+
+			DebugOutput.SaveGrayImage("output.png", output);
 			// 出力用の画像の正規化
 			var minmax = Process.FindMinMax(output);
 			
 			var normalized_output = new GrayImage(
 				output, (IImage input, int x, int y, int c)=>
 					{
-						var value = (double)(output.GetElement(x, y, c) - minmax.Item1[c]) / (minmax.Item2[c] - minmax.Item2[c]) ;
+						var value = ((double)(output.GetElement(x, y, c) - minmax.Item1[c])) / (minmax.Item2[c] - minmax.Item1[c]) ;
 
 						if(value < 0.2)
 						{
@@ -143,6 +145,7 @@ namespace Myxini.Recognition
 					}
 				);
 
+			DebugOutput.SaveGrayImage("normalized_image.png", normalized_output);
 			//ごま塩ノイズの削除
 			var noise_deleted_image = new GrayImage(
 				normalized_output,
@@ -178,7 +181,8 @@ namespace Myxini.Recognition
 					}
 				);
 
-			var candidate_area_map = new float[this.MaskSize.Area];
+			DebugOutput.SaveGrayImage("noise_deleted_image.png", noise_deleted_image);
+			var candidate_area_map = new float[noise_deleted_image.BoundingBox.BoundingSize.Area];
 			
 			for(int y = 0; y < (noise_deleted_image.Height - this.MaskSize.Height); ++y)
 			{
@@ -192,10 +196,33 @@ namespace Myxini.Recognition
 						score = 0.0f;
 					}
 
-					candidate_area_map[y * this.MaskSize.Width + x] = (float)score;
+					candidate_area_map[y * noise_deleted_image.Width + x] = (float)score;
 				}
 			}
+
+			var candidate_pixels = new byte[noise_deleted_image.BoundingBox.BoundingSize.Area];
+			for(int y = 0; y < noise_deleted_image.Height; ++y)
+			{
+				for(int x = 0;x < noise_deleted_image.Width; ++x)
+				{
+					candidate_pixels[y * noise_deleted_image.Width + x] = (byte)(candidate_area_map[y * noise_deleted_image.Width + x] * (float)byte.MaxValue);
+				}
+			}
+			var candidate_img = new GrayImage(candidate_pixels, noise_deleted_image.Width, noise_deleted_image.Height);
+			DebugOutput.SaveGrayImage("candidate_img.png", candidate_img);
+
+			candidate_area_map = medianFilter(candidate_area_map, noise_deleted_image.BoundingBox.BoundingSize);
+			candidate_area_map = medianFilter(candidate_area_map, noise_deleted_image.BoundingBox.BoundingSize);
 			
+			for (int y = 0; y < noise_deleted_image.Height; ++y)
+			{
+				for (int x = 0; x < noise_deleted_image.Width; ++x)
+				{
+					candidate_pixels[y * noise_deleted_image.Width + x] = (byte)(candidate_area_map[y * noise_deleted_image.Width + x] * (float)byte.MaxValue);
+				}
+			}
+			candidate_img = new GrayImage(candidate_pixels, noise_deleted_image.Width, noise_deleted_image.Height);
+			DebugOutput.SaveGrayImage("candidate_img_median.png", candidate_img);
 
 			var found_points = GetMaximalRects(candidate_area_map, this.MaskSize);
 
@@ -231,5 +258,30 @@ namespace Myxini.Recognition
 
 			return maximal;
 		}
+
+		private float[] medianFilter(float[] pixels, Size size)
+		{
+			float[] output = new float[size.Area];
+			for (int y = 1; y < (size.Height - 1); ++y)
+			{
+				for (int x = 1; x < (size.Width - 1); ++x)
+				{
+					float sum = 0.0f;
+					for (int i = -1; i < 1; ++i )
+					{
+						for (int j = -1; j < 1; ++j )
+						{
+							sum += pixels[(y + i) * size.Width + x + j];
+						}
+					}
+
+					output[y * size.Width + x] = sum / 9;
+					///
+				}
+			}
+
+			return output;
+		}
+
 	}
 }
