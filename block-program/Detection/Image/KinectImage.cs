@@ -37,7 +37,7 @@ namespace Myxini.Recognition.Image
 			this.Color = new ColorImage(image.Color, region);
 			this.Depth = new DepthImage(image.Depth, region);
 
-			Rectangle new_region = new Rectangle(
+			this.BoundingBox = new Rectangle(
 				image.BoundingBox.X + region.X,
 				image.BoundingBox.Y + region.Y,
 				region.Width,

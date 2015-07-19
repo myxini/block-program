@@ -162,5 +162,17 @@ namespace RecognitionTest
 			}
 		}
 
+        [TestMethod]
+        public void BitmapImageResizeTest()
+        {
+            var image = new BitmapImage(Color);
+            var result = image.Resize(100, 100);
+
+            DebugOutput.SaveImage(new string[] { "hoge.png" }, result);
+
+            result = image.Resize(1000, 1000);
+            DebugOutput.SaveImage(new string[] { "fuga.png" }, result);
+        }
+
 	}
 }

@@ -81,6 +81,9 @@
     <Compile Include="SADAlgorithm.cs" />
     <Compile Include="Script.cs" />
     <Compile Include="Routine.cs" />
+    <Compile Include="UI\SelectRectangleWindow.xaml.cs">
+      <DependentUpon>SelectRectangleWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WhiteBoard.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -125,6 +128,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\pattern_switch.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Page Include="UI\SelectRectangleWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

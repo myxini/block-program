@@ -10,6 +10,7 @@ namespace Main
 {
     class Program
     {
+		[STAThread]
         static void Main(string[] args)
         {
             // 入出力するやつを生成

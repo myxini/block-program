@@ -11,7 +11,7 @@ namespace Myxini.Execution
 {
     public class BlockProgramExecuter : IBlockProgramExecuter
     {
-        private WhiteBoard whiteboard = new WhiteBoard();
+        private IBoard whiteboard = new ManuallyCalibratedWhiteboard();
 
         /// <summary>
         /// 通信するやつ
@@ -36,14 +36,19 @@ namespace Myxini.Execution
         public void Execute()
         {
             // カメラでホワイトボードをパシャリ
-            IImage image_whiteboard = camera.Capture();
-			Myxini.Recognition.Image.DebugOutput.SaveImage(new string[] { "whiteboard_depth.png", "whiteboard_color.png" }, image_whiteboard);
+			IImage image_whiteboard = null;
+			do
+			{
+				image_whiteboard = camera.Capture();
+			} while (image_whiteboard.Width == 0 || image_whiteboard.Height == 0);
+
+			//Myxini.Recognition.Image.DebugOutput.SaveImage(new string[] { "whiteboard_depth.png", "whiteboard_color.png" }, image_whiteboard.Clone());
 
 			// 写真からScriptを作る
 			Myxini.Recognition.Recognizer recognizer = new Recognition.Recognizer();
 
-			IImage backgrond_deleted_image = whiteboard.GetBackgroundDeleteImage(image_whiteboard);
-			Myxini.Recognition.Image.DebugOutput.SaveImage(new string[] { "background_deleted_depth.png", "background_deleted_color.png" }, backgrond_deleted_image);
+			IImage backgrond_deleted_image = whiteboard.GetBackgroundDeleteImage(image_whiteboard).Clone();
+			Myxini.Recognition.Image.DebugOutput.SaveImage(new string[] { "background_deleted_depth.png", "background_deleted_color.png" }, backgrond_deleted_image.Clone());
 
 			Script script = recognizer.Recognition(
 				backgrond_deleted_image

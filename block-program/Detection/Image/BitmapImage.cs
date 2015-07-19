@@ -23,11 +23,11 @@ namespace Myxini.Recognition.Image
             switch (channel)
             {
                 case 0:
-                    return pixel.R;
+                    return pixel.B;
                 case 1:
                     return pixel.G;
                 case 2:
-                    return pixel.B;
+                    return pixel.R;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -35,8 +35,8 @@ namespace Myxini.Recognition.Image
 
         public IImage Create(Func<IImage, int, int, int, int> convertor)
         {
-            throw new NotImplementedException();
-        }
+		    throw new NotSupportedException();
+		}
 
         public IImage RegionOfImage(int x, int y, int width, int height)
         {
@@ -47,6 +47,20 @@ namespace Myxini.Recognition.Image
         public IImage RegionOfImage(Raw.Rectangle region)
         {
             return RegionOfImage(region.X, region.Y, region.Width, region.Height);
+        }
+
+        public IImage Resize(int target_width, int target_height)
+        {
+            //if (target_width > Width || target_height > Height)
+            //{
+            //    throw new NotSupportedException();
+            //}
+            Bitmap result = new Bitmap(target_width, target_height);
+            Graphics g = Graphics.FromImage(result);
+            g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+            g.DrawImage(bitmap, 0, 0, result.Width, result.Height);
+
+            return new BitmapImage(result);
         }
 
         public IImage Clone()
