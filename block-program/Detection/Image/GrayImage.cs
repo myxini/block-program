@@ -50,6 +50,7 @@ namespace Myxini.Recognition.Image
 					place[0] = 1;
 					place[0] = 2;
 					place[0] = 3;
+					break;
 
 				case ImageType.ARGB:
 					place[0] = 3;

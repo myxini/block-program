@@ -173,6 +173,8 @@ namespace Myxini.Recognition
 								return 0x00;
 							}
 						}
+
+						return 0x00;
 					}
 				);
 
@@ -190,7 +192,7 @@ namespace Myxini.Recognition
 						score = 0.0f;
 					}
 
-					candidate_area_map[y * this.MaskSize.Width + x] = score;
+					candidate_area_map[y * this.MaskSize.Width + x] = (float)score;
 				}
 			}
 			
