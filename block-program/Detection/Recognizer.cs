@@ -7,6 +7,8 @@ namespace Myxini.Recognition
 {
 	public class Recognizer
 	{
+		private Size MaskSize = new Size(30, 30);
+
 		class OuterRectangle
 		{
 			public int Top = int.MaxValue;
@@ -21,7 +23,7 @@ namespace Myxini.Recognition
 
 			var image = new GrayImage(kinect_image, GrayImage.ImageType.ARGB);
 			var cell_image = CellDescriptor.DescriptImage(image);
-			
+
 			cell_image = new GrayImage(cell_image, Process.Dilate);
 			cell_image = new GrayImage(cell_image, Process.Dilate);
 			cell_image = new GrayImage(cell_image, Process.Dilate);
@@ -33,13 +35,13 @@ namespace Myxini.Recognition
 			List<Tuple<IBlock, Rectangle>> other_block = new List<Tuple<IBlock, Rectangle>>();
 
 			var classifier = new Classifier();
-            var algorithm = new SADAlgorithm();
-			foreach(var rectangle in rectangles)
+			var algorithm = new SADAlgorithm();
+			foreach (var rectangle in rectangles)
 			{
 				var target = kinect_image.RegionOfImage(rectangle);
 				var result = classifier.Clustering(target, algorithm);
 
-				if(result.IsControlBlock)
+				if (result.IsControlBlock)
 				{
 					control_block.Add(new Tuple<IBlock, Rectangle>(result, rectangle));
 				}
@@ -50,14 +52,14 @@ namespace Myxini.Recognition
 			}
 
 			Script result_script = new Script();
-			
-			foreach(var trigger in control_block)
+
+			foreach (var trigger in control_block)
 			{
 				result_script.Add(trigger.Item1 as ControlBlock);
 
-				foreach(var other in other_block)
+				foreach (var other in other_block)
 				{
-					if(this.IsConnectedBlock(labels, cell_image.BoundingBox.BoundingSize, trigger.Item2, other.Item2))
+					if (this.IsConnectedBlock(labels, cell_image.BoundingBox.BoundingSize, trigger.Item2, other.Item2))
 					{
 						result_script.Add(other.Item1 as InstructionBlock);
 					}
@@ -70,9 +72,9 @@ namespace Myxini.Recognition
 		private bool IsConnectedBlock(int[] labels, Size label_image_size, Rectangle a, Rectangle b)
 		{
 			Point a_bottom_right = new Point(a.X + a.Width, a.Y + a.Height);
-//			Point a_top_left = new Point(a.X, a.Y);
+			//			Point a_top_left = new Point(a.X, a.Y);
 			Point b_bottom_right = new Point(b.X + b.Width, b.Y + b.Height);
-//			Point b_top_left = new Point(b.X, b.Y);
+			//			Point b_top_left = new Point(b.X, b.Y);
 
 			for (int ry = a.Y; ry < a_bottom_right.Y; ++ry)
 			{
@@ -103,70 +105,129 @@ namespace Myxini.Recognition
 		}
 
 
-		private List<Rectangle> FindBlockRectangle(IImage depth)
+		private List<Rectangle> FindBlockRectangle(IImage kinect_image)
 		{
-			var rectangle_dictionary = new Dictionary<int, OuterRectangle>();
+			var img = new GrayImage(kinect_image, GrayImage.ImageType.ABGR);
 
-			var label = Process.Labeling(depth);
+			var mask_size = this.MaskSize;
+	
+			var output = new GrayImage(img, 
+				(IImage input, int x, int y, int c)=>
+					{
+						if(x == 0 || y == 0 || x == (input.Width - 1) || y == (input.Height - 1))
+						{
+							return 0;
+						}
 
-			for (int y = 0; y < depth.Height; ++y)
+						var fx = input.GetElement(x + 1, y, c) - input.GetElement(x, y, c);
+						var fy = input.GetElement(x, y + 1, c) - input.GetElement(x, y - 1, c);
+
+						return (int)Math.Sqrt(fx * fx + fy * fy);
+					}
+				);
+			
+			// 出力用の画像の正規化
+			var minmax = Process.FindMinMax(output);
+			
+			var normalized_output = new GrayImage(
+				output, (IImage input, int x, int y, int c)=>
+					{
+						var value = (double)(output.GetElement(x, y, c) - minmax.Item1[c]) / (minmax.Item2[c] - minmax.Item2[c]) ;
+
+						if(value < 0.2)
+						{
+							return 0;
+						}
+
+						return (int)(value * byte.MaxValue);
+					}
+				);
+
+			//ごま塩ノイズの削除
+			var noise_deleted_image = new GrayImage(
+				normalized_output,
+				(IImage input, int x, int y, int c)=>
+					{
+						if(x == 0 || y == 0 || x == (input.Width - 1) || y == (input.Height - 1))
+						{
+							return 0;
+						}
+
+						if(input.GetElement(x, y, c) != 0)
+						{
+							if(
+								input.GetElement(x - 1, y - 1, c) != 0 ||
+								input.GetElement(x - 1, y - 0, c) != 0 ||
+								input.GetElement(x - 1, y + 1, c) != 0 ||
+								input.GetElement(x - 0, y - 1, c) != 0 ||
+//								input.GetElement(x - 0, y - 0, c) != 0 ||
+								input.GetElement(x - 0, y + 1, c) != 0 ||
+								input.GetElement(x + 1, y - 1, c) != 0 ||
+								input.GetElement(x + 1, y - 0, c) != 0 ||
+								input.GetElement(x + 1, y + 1, c) != 0)
+							{
+								return 0xff;
+							}
+							else
+							{
+								return 0x00;
+							}
+						}
+					}
+				);
+
+			var candidate_area_map = new float[this.MaskSize.Area];
+			
+			for(int y = 0; y < (noise_deleted_image.Height - this.MaskSize.Height); ++y)
 			{
-				for (int x = 0; x < depth.Width; ++x)
+				for(int x = 0; x < (noise_deleted_image.Width - this.MaskSize.Width); ++x)
 				{
-					var l = label[y * depth.Width + x];
+					var find_rect = new Rectangle(new Point(x,y), this.MaskSize);
+					var score = ((double)Process.CountNoneZero(noise_deleted_image.RegionOfImage(find_rect))) / this.MaskSize.Area;
 
-					if (l == 0)
+					if(score < 0.1)
 					{
-						continue;
+						score = 0.0f;
 					}
 
-					if(!rectangle_dictionary.ContainsKey(l))
-					{
-						rectangle_dictionary.Add(l, new OuterRectangle());
-					}
-
-					var outer_rectangle = rectangle_dictionary[l];
-
-					if (outer_rectangle.Left > x)
-					{
-						outer_rectangle.Left = x;
-					}
-
-					if (outer_rectangle.Right < x)
-					{
-						outer_rectangle.Right = x;
-					}
-
-					if (outer_rectangle.Top > y)
-					{
-						outer_rectangle.Top = y;
-					}
-
-					if (outer_rectangle.Bottom < y)
-					{
-						outer_rectangle.Bottom = y;
-					}
+					candidate_area_map[y * this.MaskSize.Width + x] = score;
 				}
 			}
+			
+
+			var found_points = GetMaximalRects(candidate_area_map, this.MaskSize);
 
 			var result = new List<Rectangle>();
-			foreach (var element in rectangle_dictionary)
+			foreach(var p in found_points)
 			{
-				Rectangle region = new Rectangle(
-					new Point(element.Value.Left, element.Value.Top), 
-					new Point(element.Value.Right, element.Value.Bottom));
-
-				if (region.BoundingSize.Area < 20 && 
-					region.BoundingSize.Area  > depth.BoundingBox.BoundingSize.Area * 0.1)
-				{
-					continue;
-				}
-
-				result.Add(region);
+				result.Add(new Rectangle(p, this.MaskSize));
 			}
 
 			return result;
 		}
 
+		private List<Point> GetMaximalRects(float[] candidate_map, Size mask_size)
+		{
+			var maximal = new List<Point>();
+
+			for(int y = 1; y < (mask_size.Height - 1); ++y)
+			{
+				for(int x = 1; x < (mask_size.Width - 1); ++x)
+				{
+					var fy1 = candidate_map[y * mask_size.Width + x] - candidate_map[(y - 1) * mask_size.Width + x];
+					var fy2 = candidate_map[(y + 1) * mask_size.Width + x] - candidate_map[y * mask_size.Width + x];
+					var fx1 = candidate_map[y * mask_size.Width + x] - candidate_map[y * mask_size.Width + x - 1];
+					var fx2 = candidate_map[y * mask_size.Width + x + 1] - candidate_map[y * mask_size.Width + x];
+					
+					if (fy1 >= 0 && fy2 < 0 && fx1 >= 0 && fx2 < 0) // 平坦な極地を検出するために>=
+					{
+						maximal.Add(new Point(x, y));
+					}
+
+				}
+			}
+
+			return maximal;
+		}
 	}
 }
