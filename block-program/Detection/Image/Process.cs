@@ -19,6 +19,7 @@ namespace Myxini.Recognition.Image
 
 			return result;
 		}
+
 		public static double Average(IImage image, int channel)
 		{
 			double result = 0.0;
@@ -32,6 +33,26 @@ namespace Myxini.Recognition.Image
 			}
 
 			return result / (image.Height * image.Width);
+		}
+
+		public static int CountNoneZero(IImage image)
+		{
+			int count = 0;
+			for(int y = 0; y < image.Height; ++y)
+			{
+				for(int x = 0; x < image.Width; ++x)
+				{
+					for(int c = 0;c < image.Channel;++c)
+					{
+						if(image.GetElement(x, y, c) != 0)
+						{
+							++count;
+						}
+					}
+				}
+			}
+
+			return count;
 		}
 
 		public static Tuple<int[], int[]> FindMinMax(IImage image)
