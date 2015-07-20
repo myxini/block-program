@@ -28,9 +28,9 @@ namespace Myxini.Recognition
 					{
 						for(int x = 0; x < kinect_image.Width; ++x)
 						{
-							color_pixel[(y * kinect_image.Width + x) * kinect_image.Channel + 0] = (byte)kinect_image.GetElement(x, y, 1);
-							color_pixel[(y * kinect_image.Width + x) * kinect_image.Channel + 1] = (byte)kinect_image.GetElement(x, y, 2);
-							color_pixel[(y * kinect_image.Width + x) * kinect_image.Channel + 2] = (byte)kinect_image.GetElement(x, y, 3);
+							color_pixel[(y * kinect_image.Width + x) * 3 + 0] = (byte)kinect_image.GetElement(x, y, 1);
+							color_pixel[(y * kinect_image.Width + x) * 3 + 1] = (byte)kinect_image.GetElement(x, y, 2);
+							color_pixel[(y * kinect_image.Width + x) * 3 + 2] = (byte)kinect_image.GetElement(x, y, 3);
 						}
 					}
 					color = new ColorImage(color_pixel, kinect_image.Width, kinect_image.Height);
