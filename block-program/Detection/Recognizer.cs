@@ -23,7 +23,7 @@ namespace Myxini.Recognition
 			switch(kinect_image.Channel)
 			{
 				case 4:
-					byte[] color_pixel = new byte[kinect_image.BoundingBox.BoundingSize.Area];
+					byte[] color_pixel = new byte[kinect_image.BoundingBox.BoundingSize.Area * 3];
 					for (int y = 0; y < kinect_image.Height; ++y )
 					{
 						for(int x = 0; x < kinect_image.Width; ++x)
