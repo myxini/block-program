@@ -207,7 +207,7 @@ namespace Myxini.Recognition
 					var find_rect = new Rectangle(new Point(x,y), this.MaskSize);
 					var score = ((double)Process.CountNoneZero(noise_deleted_image.RegionOfImage(find_rect))) / this.MaskSize.Area;
 
-					if(score < 0.13)
+					if(score < 0.10)
 					{
 						score = 0.0f;
 					}
@@ -240,7 +240,7 @@ namespace Myxini.Recognition
 			candidate_img = new GrayImage(candidate_pixels, noise_deleted_image.Width, noise_deleted_image.Height);
 			DebugOutput.SaveGrayImage("candidate_img_median.png", candidate_img);
 
-			var found_points = GetMaximalRects(candidate_area_map, this.MaskSize);
+			var found_points = GetMaximalRects(candidate_area_map, noise_deleted_image.BoundingBox.BoundingSize);
 
 			var result = new List<Rectangle>();
 			foreach(var p in found_points)
@@ -251,18 +251,18 @@ namespace Myxini.Recognition
 			return result;
 		}
 
-		private List<Point> GetMaximalRects(float[] candidate_map, Size mask_size)
+		private List<Point> GetMaximalRects(float[] candidate_map, Size size)
 		{
 			var maximal = new List<Point>();
 
-			for(int y = 1; y < (mask_size.Height - 1); ++y)
+			for(int y = 1; y < (size.Height - 1); ++y)
 			{
-				for(int x = 1; x < (mask_size.Width - 1); ++x)
+				for(int x = 1; x < (size.Width - 1); ++x)
 				{
-					var fy1 = candidate_map[y * mask_size.Width + x] - candidate_map[(y - 1) * mask_size.Width + x];
-					var fy2 = candidate_map[(y + 1) * mask_size.Width + x] - candidate_map[y * mask_size.Width + x];
-					var fx1 = candidate_map[y * mask_size.Width + x] - candidate_map[y * mask_size.Width + x - 1];
-					var fx2 = candidate_map[y * mask_size.Width + x + 1] - candidate_map[y * mask_size.Width + x];
+					var fy1 = candidate_map[y * size.Width + x] - candidate_map[(y - 1) * size.Width + x];
+					var fy2 = candidate_map[(y + 1) * size.Width + x] - candidate_map[y * size.Width + x];
+					var fx1 = candidate_map[y * size.Width + x] - candidate_map[y * size.Width + x - 1];
+					var fx2 = candidate_map[y * size.Width + x + 1] - candidate_map[y * size.Width + x];
 					
 					if (fy1 >= 0 && fy2 < 0 && fx1 >= 0 && fx2 < 0) // 平坦な極地を検出するために>=
 					{
