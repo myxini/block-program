@@ -97,7 +97,9 @@ namespace Myxini.Recognition.Image
 		/// <returns>部分画像</returns>
 		public IImage RegionOfImage(int x, int y, int width, int height)
 		{
-			return new ColorImage(this, new Rectangle(x, y, width, height));
+			var w = Math.Min(x + width, this.Width) - x;
+			var h = Math.Min(y + height, this.Height) - y;
+			return new ColorImage(this, new Rectangle(x, y, w, h));
 		}
 
 		/// <summary>
