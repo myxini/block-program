@@ -27,13 +27,37 @@ namespace Myxini.Recognition.Image
                 int g = pixels[i * stride + 1];
                 int r = pixels[i * stride + 2];
                 System.Drawing.Color color = System.Drawing.Color.FromArgb(
-                    pixels[i * stride + 0],
-                    pixels[i * stride + 1],
-                    pixels[i * stride + 2]
+                    r,
+					g,
+					b
                 );
-                this.Pixels[i * this.Channel + 0] = (byte) (color.GetHue() * 255 / 360); // H
+                this.Pixels[i * this.Channel + 0] = (byte) (color.GetHue() * 360 / 2); // H
                 this.Pixels[i * this.Channel + 1] = (byte) (color.GetSaturation() * 255); // S
 				this.Pixels[i * this.Channel + 2] = (byte) (color.GetBrightness() * 255); // V
+			}
+		}
+
+		public HSVImage(ColorImage image)
+			: this(image.Width, image.Height)
+		{
+			//pixels.CopyTo(this.Pixels, 0;
+			for(int y = 0; y < image.Height; ++y)
+			{
+				for(int x = 0; x < image.Width; ++x)
+				{
+					int b = image.GetElement(x, y, 0);
+					int g = image.GetElement(x, y, 1);
+					int r = image.GetElement(x, y, 2);
+					System.Drawing.Color color = System.Drawing.Color.FromArgb(
+						r,
+						g,
+						b
+					);
+
+					this.Pixels[(y * this.Width + x) * this.Channel + 0] = (byte)(color.GetHue() * 360 / 2); // H
+					this.Pixels[(y * this.Width + x) * this.Channel + 1] = (byte)(color.GetSaturation() * 255); // S
+					this.Pixels[(y * this.Width + x) * this.Channel + 2] = (byte)(color.GetBrightness() * 255); // V
+				}
 			}
 		}
 
