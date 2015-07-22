@@ -70,9 +70,12 @@ namespace Myxini.Recognition
 
 			var classifier = new Classifier();
 			var algorithm = new SADAlgorithm();
+			int iteration = 0;
 			foreach (var rectangle in rectangles)
 			{
 				var target = color.RegionOfImage(rectangle);
+				DebugOutput.SaveColorImage(iteration.ToString() + ".png", target);
+				++iteration;
 				var result = classifier.Clustering(target, algorithm);
 
 				if (result.IsControlBlock)
@@ -201,15 +204,15 @@ namespace Myxini.Recognition
 			//candidate_area_map = medianFilter(candidate_area_map, noise_deleted_image.BoundingBox.BoundingSize);
 			//candidate_area_map = medianFilter(candidate_area_map, noise_deleted_image.BoundingBox.BoundingSize);
 			
-			for (int y = 0; y < noise_deleted_image.Height; ++y)
-			{
-				for (int x = 0; x < noise_deleted_image.Width; ++x)
-				{
-					candidate_pixels[y * noise_deleted_image.Width + x] = (byte)(candidate_area_map[y * noise_deleted_image.Width + x] * (float)byte.MaxValue);
-				}
-			}
-			candidate_img = new GrayImage(candidate_pixels, noise_deleted_image.Width, noise_deleted_image.Height);
-			DebugOutput.SaveGrayImage("candidate_img_median.png", candidate_img);
+			//for (int y = 0; y < noise_deleted_image.Height; ++y)
+			//{
+			//	for (int x = 0; x < noise_deleted_image.Width; ++x)
+			//	{
+			//		candidate_pixels[y * noise_deleted_image.Width + x] = (byte)(candidate_area_map[y * noise_deleted_image.Width + x] * (float)byte.MaxValue);
+			//	}
+			//}
+			//candidate_img = new GrayImage(candidate_pixels, noise_deleted_image.Width, noise_deleted_image.Height);
+			//DebugOutput.SaveGrayImage("candidate_img_median.png", candidate_img);
 
 			var found_points = GetMaximalRects(candidate_area_map, noise_deleted_image.BoundingBox.BoundingSize);
 
