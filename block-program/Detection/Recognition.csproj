@@ -53,6 +53,7 @@
     <Compile Include="Command.cs" />
     <Compile Include="IBlock.cs" />
     <Compile Include="Image\BitmapImage.cs" />
+    <Compile Include="Image\HSVImage.cs" />
     <Compile Include="Image\GrayImage.cs" />
     <Compile Include="Image\CellDescriptor.cs" />
     <Compile Include="Image\Labeling.cs" />
