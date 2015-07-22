@@ -20,6 +20,11 @@ namespace Myxini.Recognition
 
         public double Match(IImage pattern, IImage image)
         {
+			if(pattern.Channel != image.Channel)
+			{
+				throw new BadImageFormatException();
+			}
+
             // ここでパターンマッチング
             // とりあえず SADで
             uint distance = 0;
@@ -27,7 +32,10 @@ namespace Myxini.Recognition
             {
                 for (int x = 0; x < image.Height; ++x)
                 {
-                    distance += (uint) Math.Pow(image.GetElement(x, y, 0) - pattern.GetElement(x, y, 0), 2);
+					for (int c = 0; c < image.Channel; ++c )
+					{
+						distance += (uint)Math.Pow(image.GetElement(x, y, c) - pattern.GetElement(x, y, c), 2);
+					}
                 }
             }
 

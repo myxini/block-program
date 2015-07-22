@@ -19,9 +19,43 @@ namespace Myxini.Recognition
 
 		public Script Recognition(IImage kinect_image)
 		{
+			ColorImage color= kinect_image as ColorImage;
+			switch(kinect_image.Channel)
+			{
+				case 4:
+					byte[] color_pixel = new byte[kinect_image.BoundingBox.BoundingSize.Area * 3];
+					for (int y = 0; y < kinect_image.Height; ++y )
+					{
+						for(int x = 0; x < kinect_image.Width; ++x)
+						{
+							color_pixel[(y * kinect_image.Width + x) * 3 + 0] = (byte)kinect_image.GetElement(x, y, 1);
+							color_pixel[(y * kinect_image.Width + x) * 3 + 1] = (byte)kinect_image.GetElement(x, y, 2);
+							color_pixel[(y * kinect_image.Width + x) * 3 + 2] = (byte)kinect_image.GetElement(x, y, 3);
+						}
+					}
+					color = new ColorImage(color_pixel, kinect_image.Width, kinect_image.Height);
+					break;
+			}
+
 			var rectangles = this.FindBlockRectangle(kinect_image);
 
-			var image = new GrayImage(kinect_image, GrayImage.ImageType.ARGB);
+			var debug_file = new System.IO.StreamWriter("output.txt", false);
+
+			foreach(var rect in rectangles)
+			{
+				debug_file.Write(rect.X);
+				debug_file.Write(",");
+				debug_file.Write(rect.Y);
+				debug_file.Write(",");
+				debug_file.Write(rect.Width);
+				debug_file.Write(",");
+				debug_file.Write(rect.Height);
+//				debug_file.Write(",");
+				debug_file.WriteLine();
+			}
+			debug_file.Flush();
+
+			var image = new GrayImage(kinect_image, GrayImage.ImageType.ABGR);
 			var cell_image = CellDescriptor.DescriptImage(image);
 
 			cell_image = new GrayImage(cell_image, Process.Dilate);
@@ -36,9 +70,12 @@ namespace Myxini.Recognition
 
 			var classifier = new Classifier();
 			var algorithm = new SADAlgorithm();
+			int iteration = 0;
 			foreach (var rectangle in rectangles)
 			{
-				var target = kinect_image.RegionOfImage(rectangle);
+				var target = color.RegionOfImage(rectangle);
+				DebugOutput.SaveColorImage(iteration.ToString() + ".png", target);
+				++iteration;
 				var result = classifier.Clustering(target, algorithm);
 
 				if (result.IsControlBlock)
@@ -141,65 +178,18 @@ namespace Myxini.Recognition
 							return 0;
 						}
 
-						return (int)(value * byte.MaxValue);
+						return 0xff;
 					}
 				);
 
 			DebugOutput.SaveGrayImage("normalized_image.png", normalized_output);
 			//ごま塩ノイズの削除
-			var noise_deleted_image = new GrayImage(
-				normalized_output,
-				(IImage input, int x, int y, int c)=>
-					{
-						if(x == 0 || y == 0 || x == (input.Width - 1) || y == (input.Height - 1))
-						{
-							return 0;
-						}
-
-						if(input.GetElement(x, y, c) != 0)
-						{
-							if(
-								input.GetElement(x - 1, y - 1, c) != 0 ||
-								input.GetElement(x - 1, y - 0, c) != 0 ||
-								input.GetElement(x - 1, y + 1, c) != 0 ||
-								input.GetElement(x - 0, y - 1, c) != 0 ||
-//								input.GetElement(x - 0, y - 0, c) != 0 ||
-								input.GetElement(x - 0, y + 1, c) != 0 ||
-								input.GetElement(x + 1, y - 1, c) != 0 ||
-								input.GetElement(x + 1, y - 0, c) != 0 ||
-								input.GetElement(x + 1, y + 1, c) != 0)
-							{
-								return 0xff;
-							}
-							else
-							{
-								return 0x00;
-							}
-						}
-
-						return 0x00;
-					}
-				);
+			var noise_deleted_image = DeleteSinglePixelNoise(normalized_output);
 
 			DebugOutput.SaveGrayImage("noise_deleted_image.png", noise_deleted_image);
-			var candidate_area_map = new float[noise_deleted_image.BoundingBox.BoundingSize.Area];
+
+			var candidate_area_map = CreateScoreMap(noise_deleted_image);
 			
-			for(int y = 0; y < (noise_deleted_image.Height - this.MaskSize.Height); ++y)
-			{
-				for(int x = 0; x < (noise_deleted_image.Width - this.MaskSize.Width); ++x)
-				{
-					var find_rect = new Rectangle(new Point(x,y), this.MaskSize);
-					var score = ((double)Process.CountNoneZero(noise_deleted_image.RegionOfImage(find_rect))) / this.MaskSize.Area;
-
-					if(score < 0.1)
-					{
-						score = 0.0f;
-					}
-
-					candidate_area_map[y * noise_deleted_image.Width + x] = (float)score;
-				}
-			}
-
 			var candidate_pixels = new byte[noise_deleted_image.BoundingBox.BoundingSize.Area];
 			for(int y = 0; y < noise_deleted_image.Height; ++y)
 			{
@@ -211,42 +201,44 @@ namespace Myxini.Recognition
 			var candidate_img = new GrayImage(candidate_pixels, noise_deleted_image.Width, noise_deleted_image.Height);
 			DebugOutput.SaveGrayImage("candidate_img.png", candidate_img);
 
-			candidate_area_map = medianFilter(candidate_area_map, noise_deleted_image.BoundingBox.BoundingSize);
-			candidate_area_map = medianFilter(candidate_area_map, noise_deleted_image.BoundingBox.BoundingSize);
+			//candidate_area_map = medianFilter(candidate_area_map, noise_deleted_image.BoundingBox.BoundingSize);
+			//candidate_area_map = medianFilter(candidate_area_map, noise_deleted_image.BoundingBox.BoundingSize);
 			
-			for (int y = 0; y < noise_deleted_image.Height; ++y)
-			{
-				for (int x = 0; x < noise_deleted_image.Width; ++x)
-				{
-					candidate_pixels[y * noise_deleted_image.Width + x] = (byte)(candidate_area_map[y * noise_deleted_image.Width + x] * (float)byte.MaxValue);
-				}
-			}
-			candidate_img = new GrayImage(candidate_pixels, noise_deleted_image.Width, noise_deleted_image.Height);
-			DebugOutput.SaveGrayImage("candidate_img_median.png", candidate_img);
+			//for (int y = 0; y < noise_deleted_image.Height; ++y)
+			//{
+			//	for (int x = 0; x < noise_deleted_image.Width; ++x)
+			//	{
+			//		candidate_pixels[y * noise_deleted_image.Width + x] = (byte)(candidate_area_map[y * noise_deleted_image.Width + x] * (float)byte.MaxValue);
+			//	}
+			//}
+			//candidate_img = new GrayImage(candidate_pixels, noise_deleted_image.Width, noise_deleted_image.Height);
+			//DebugOutput.SaveGrayImage("candidate_img_median.png", candidate_img);
 
-			var found_points = GetMaximalRects(candidate_area_map, this.MaskSize);
+			var found_points = GetMaximalRects(candidate_area_map, noise_deleted_image.BoundingBox.BoundingSize);
 
-			var result = new List<Rectangle>();
+			var candidate_rect = new List<Rectangle>();
 			foreach(var p in found_points)
 			{
-				result.Add(new Rectangle(p, this.MaskSize));
+				candidate_rect.Add(new Rectangle(p, this.MaskSize));
 			}
 
-			return result;
+			var output_rects = RestrictRectangle(candidate_rect, noise_deleted_image);
+
+			return output_rects;
 		}
 
-		private List<Point> GetMaximalRects(float[] candidate_map, Size mask_size)
+		private List<Point> GetMaximalRects(float[] candidate_map, Size size)
 		{
 			var maximal = new List<Point>();
 
-			for(int y = 1; y < (mask_size.Height - 1); ++y)
+			for(int y = 1; y < (size.Height - 1); ++y)
 			{
-				for(int x = 1; x < (mask_size.Width - 1); ++x)
+				for(int x = 1; x < (size.Width - 1); ++x)
 				{
-					var fy1 = candidate_map[y * mask_size.Width + x] - candidate_map[(y - 1) * mask_size.Width + x];
-					var fy2 = candidate_map[(y + 1) * mask_size.Width + x] - candidate_map[y * mask_size.Width + x];
-					var fx1 = candidate_map[y * mask_size.Width + x] - candidate_map[y * mask_size.Width + x - 1];
-					var fx2 = candidate_map[y * mask_size.Width + x + 1] - candidate_map[y * mask_size.Width + x];
+					var fy1 = candidate_map[y * size.Width + x] - candidate_map[(y - 1) * size.Width + x];
+					var fy2 = candidate_map[(y + 1) * size.Width + x] - candidate_map[y * size.Width + x];
+					var fx1 = candidate_map[y * size.Width + x] - candidate_map[y * size.Width + x - 1];
+					var fx2 = candidate_map[y * size.Width + x + 1] - candidate_map[y * size.Width + x];
 					
 					if (fy1 >= 0 && fy2 < 0 && fx1 >= 0 && fx2 < 0) // 平坦な極地を検出するために>=
 					{
@@ -259,7 +251,127 @@ namespace Myxini.Recognition
 			return maximal;
 		}
 
-		private float[] medianFilter(float[] pixels, Size size)
+		private IImage DeleteSinglePixelNoise(IImage image)
+		{
+			return image.Create(
+				(IImage input, int x, int y, int c) =>
+				{
+					if (x == 0 || y == 0 || x == (input.Width - 1) || y == (input.Height - 1))
+					{
+						return 0;
+					}
+
+					if (input.GetElement(x, y, c) != 0)
+					{
+						if (
+							input.GetElement(x - 1, y - 1, c) != 0 ||
+							input.GetElement(x - 1, y - 0, c) != 0 ||
+							input.GetElement(x - 1, y + 1, c) != 0 ||
+							input.GetElement(x - 0, y - 1, c) != 0 ||
+							//								input.GetElement(x - 0, y - 0, c) != 0 ||
+							input.GetElement(x - 0, y + 1, c) != 0 ||
+							input.GetElement(x + 1, y - 1, c) != 0 ||
+							input.GetElement(x + 1, y - 0, c) != 0 ||
+							input.GetElement(x + 1, y + 1, c) != 0)
+						{
+							return 0xff;
+						}
+						else
+						{
+							return 0x00;
+						}
+					}
+
+					return 0x00;
+				}
+				);
+		}
+
+		private float[] CreateScoreMap(IImage image)
+		{
+			var candidate_area_map = new float[image.BoundingBox.BoundingSize.Area];
+
+			for (int y = 0; y < (image.Height - this.MaskSize.Height); ++y)
+			{
+				for (int x = 0; x < (image.Width - this.MaskSize.Width); ++x)
+				{
+					var find_rect = new Rectangle(new Point(x, y), this.MaskSize);
+					var score = ((double)Process.CountNoneZero(image.RegionOfImage(find_rect))) / this.MaskSize.Area;
+
+					if (score < 0.10)
+					{
+						score = 0.0f;
+					}
+
+					candidate_area_map[y * image.Width + x] = (float)score;
+				}
+			}
+
+			return candidate_area_map;
+		}
+
+		private List<Rectangle> RestrictRectangle(List<Rectangle> candidate_rects, IImage diff_img)
+		{
+			var rerect_dictionary = new Dictionary<int, List<Rectangle>>();
+			var output_rects = new List<Rectangle>();
+			var skip_rect = new List<int>();
+
+			for (int i = 0; i < candidate_rects.Count; ++i)
+			{
+				for (int j = 0; j < candidate_rects.Count; ++j)
+				{
+					if (skip_rect.Contains(j))
+					{
+						continue;
+					}
+
+					if (IsIntersection(candidate_rects[i], candidate_rects[j]))
+					{
+						skip_rect.Add(i);
+						skip_rect.Add(j);
+						if (!rerect_dictionary.ContainsKey(i))
+						{
+							rerect_dictionary[i] = new List<Rectangle>();
+						}
+						rerect_dictionary[i].Add(candidate_rects[j]);
+					}
+				}
+			}
+
+			for (int i = 0; i < candidate_rects.Count; ++i)
+			{
+				if (skip_rect.Contains(i))
+				{
+					continue;
+				}
+
+				output_rects.Add(candidate_rects[i]);
+			}
+
+			foreach (var rects in rerect_dictionary)
+			{
+				int max_count = 0;
+				Rectangle most_candidate = new Rectangle();
+
+				foreach (var r in rects.Value)
+				{
+					var roi_diff_img = diff_img.RegionOfImage(r);
+					var count = Process.CountNoneZero(roi_diff_img);
+
+					if (count > max_count)
+					{
+						max_count = count;
+						most_candidate = r;
+					}
+				}
+
+				output_rects.Add(most_candidate);
+			}
+
+			return output_rects;
+		}
+
+		private float[] MedianFilter(float[] pixels, Size size)
 		{
 			float[] output = new float[size.Area];
 			for (int y = 1; y < (size.Height - 1); ++y)
@@ -282,6 +394,28 @@ namespace Myxini.Recognition
 
 			return output;
 		}
+		
+		private bool IsIntersection(Rectangle a, Rectangle b)
+		{
+			int r1MinX = Math.Min(a.X, a.X + a.Width);
+			int r1MaxX = Math.Max(a.X, a.X + a.Width);
+			int r1MinY = Math.Min(a.Y, a.Y + a.Height);
+			int r1MaxY = Math.Max(a.Y, a.Y + a.Height);
 
+			// Compute the min and max of the second rectangle on both axes
+			int r2MinX = Math.Min(b.X, b.X + b.Width);
+			int r2MaxX = Math.Max(b.X, b.X + b.Width);
+			int r2MinY = Math.Min(b.Y, b.Y + b.Height);
+			int r2MaxY = Math.Max(b.Y, b.Y + b.Height);
+
+			// Compute the intersection boundaries
+			int interLeft = Math.Max(r1MinX, r2MinX);
+			int interTop = Math.Max(r1MinY, r2MinY);
+			int interRight = Math.Min(r1MaxX, r2MaxX);
+			int interBottom = Math.Min(r1MaxY, r2MaxY);
+
+			// If the intersection is valid (positive non zero area), then there is an intersection
+			return ((interLeft < interRight) && (interTop < interBottom));
+		}
 	}
 }
