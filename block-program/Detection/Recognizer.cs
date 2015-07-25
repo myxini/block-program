@@ -525,6 +525,61 @@ namespace Myxini.Recognition
 			return result_rect;
 		}
 
+		private List<Rectangle> RemoveNearRectangle(List<Rectangle> rect)
+		{
+			var tmp_output = new List<Rectangle>();
+			var intersection_dictionary = new Dictionary<int, List<int>>();
+
+			for(int i = 0; i < rect.Count; ++i)
+			{
+				for(int j = i + 1; j < rect.Count; ++j)
+				{
+					if(IsIntersection(rect[i], rect[j]))
+					{
+						if(!intersection_dictionary.ContainsKey(i))
+						{
+							intersection_dictionary.Add(i, new List<int>());
+						}
+						intersection_dictionary[i].Add(j);
+					}
+				}
+			}
+
+			var skip_lists = new List<int>();
+			foreach(var intersection in intersection_dictionary)
+			{
+				skip_lists.Add(intersection.Key);
+				var avg = rect[intersection.Key];
+				var n = intersection.Value.Count + 1;
+				foreach(var i in intersection.Value)
+				{
+					skip_lists.Add(i);
+					avg.X += rect[i].X;
+					avg.Y += rect[i].Y;
+					avg.Width += rect[i].Width;
+					avg.Height += rect[i].Height;
+				}
+				
+				avg.X /= n;
+				avg.Y /= n;
+				avg.Width /= n;
+				avg.Height /= n;
+				tmp_output.Add(avg);
+			}
+
+			for(int i = 0; i < rect.Count; ++i)
+			{
+				if(skip_lists.Contains(i))
+				{
+					continue;
+				}
+
+				tmp_output.Add(rect[i]);
+			}
+
+			return tmp_output;
+		}
+
 		private List<int> InRange(IImage image, List<Tuple<byte, byte>> range)
 		{
 			var result = new List<int>(range.Count);
