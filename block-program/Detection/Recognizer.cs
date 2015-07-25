@@ -237,6 +237,9 @@ namespace Myxini.Recognition
 			var color_img=new ColorImage(color_pixels, kinect_image.Width, kinect_image.Height);
 			var output_rects = RestrictRectangle(candidate_rect, noise_deleted_image, color_img);
 
+			output_rects = RemoveIntersectionRectangle(color_img, output_rects);
+			output_rects = RemoveNearRectangle(output_rects);
+			
 			return output_rects;
 		}
 
@@ -428,12 +431,8 @@ namespace Myxini.Recognition
 
 				output_rects.Add(most_candidate);
 			}
-			
-			return RemoveNearRectangle(
-				RemoveIntersectionRectangle(
-				color_image, output_rects
-				)
-				);
+
+			return output_rects;
 		}
 
 		private List<Rectangle> RemoveIntersectionRectangle(IImage image, List<Rectangle> input_rects)
@@ -461,42 +460,41 @@ namespace Myxini.Recognition
 
 			foreach(var inter in intersection_list)
 			{
+				int max_score = 0, max_index = -1;
 				foreach(var i in inter.Value)
 				{
-					int max_score = 0, max_index = 0;
-					foreach(var s in skip_lists)
+					
+					if(skip_lists.Contains(i))
 					{
-						if(s == i)
-						{
-							continue;
-						}
+						continue;
+					}
 
-						int sum_br = 0;
-						int sum_gr = 0;
+					int sum_br = 0;
+					int sum_gr = 0;
 
-						var roi = image.RegionOfImage(input_rects[i]);
+					var roi = image.RegionOfImage(input_rects[i]);
 
-						for(int y = 0; y < roi.Height; ++y)
+					for (int y = 0; y < roi.Height; ++y)
+					{
+						for (int x = 0; x < roi.Width; ++x)
 						{
-							for(int x = 0; x < roi.Width; ++x)
-							{
-								sum_br += Math.Abs(roi.GetElement(x, y, 0) - roi.GetElement(x, y, 2));
-								sum_gr += Math.Abs(roi.GetElement(x, y, 1) - roi.GetElement(x, y, 2));
-							}
-						}
-
-						var score = (sum_br + sum_gr);
-						if(max_score < score)
-						{
-							max_score = score;
-							skip_lists.Add(max_index);
-							max_index = i;
-						}
-						else
-						{
-							skip_lists.Add(i);
+							sum_br += Math.Abs(roi.GetElement(x, y, 0) - roi.GetElement(x, y, 2));
+							sum_gr += Math.Abs(roi.GetElement(x, y, 1) - roi.GetElement(x, y, 2));
 						}
 					}
+
+					var score = (sum_br + sum_gr);
+					if (max_score < score)
+					{
+						max_score = score;
+						skip_lists.Add(max_index);
+						max_index = i;
+					}
+					else
+					{
+						skip_lists.Add(i);
+					}
+					
 
 					results.Add(max_index);
 				}
@@ -506,6 +504,11 @@ namespace Myxini.Recognition
 
 			foreach(var r in results)
 			{
+				if(r < 0)
+				{
+					continue;
+				}
+
 				var rect = input_rects[r];
 				bool skip = false;
 
