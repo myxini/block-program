@@ -431,7 +431,100 @@ namespace Myxini.Recognition
 			
 			return output_rects;
 		}
-		
+
+		private List<Rectangle> RemoveIntersectionRectangle(IImage image, List<Rectangle> input_rects, out List<Rectangle> output_rects)
+		{
+			var skip_lists = new List<int>();
+			var intersection_list = new Dictionary<int, List<int>>();
+
+			for(int i = 0; i < input_rects.Count; ++i)
+			{
+				for(int j = i; j < input_rects.Count; ++j)
+				{
+					if(IsIntersection(input_rects[i], input_rects[j]))
+					{
+						if(!intersection_list.ContainsKey(i))
+						{
+							intersection_list.Add(i, new List<int>());
+						}
+
+						intersection_list[i].Add(j);
+					}
+				}
+			}
+
+			var results = new List<int>();
+
+			foreach(var inter in intersection_list)
+			{
+				foreach(var i in inter.Value)
+				{
+					int max_score = 0, max_index = 0;
+					foreach(var s in skip_lists)
+					{
+						if(s == i)
+						{
+							continue;
+						}
+
+						int sum_br = 0;
+						int sum_gr = 0;
+
+						var roi = image.RegionOfImage(input_rects[i]);
+
+						for(int y = 0; y < roi.Height; ++y)
+						{
+							for(int x = 0; x < roi.Width; ++x)
+							{
+								sum_br += Math.Abs(roi.GetElement(x, y, 0) - roi.GetElement(x, y, 2));
+								sum_gr += Math.Abs(roi.GetElement(x, y, 1) - roi.GetElement(x, y, 2));
+							}
+						}
+
+						var score = (sum_br + sum_gr);
+						if(max_score < score)
+						{
+							max_score = score;
+							skip_lists.Add(max_index);
+							max_index = i;
+						}
+						else
+						{
+							skip_lists.Add(i);
+						}
+					}
+
+					results.Add(max_index);
+				}
+			}
+			
+			var result_rect = new List<Rectangle>();
+
+			foreach(var r in results)
+			{
+				var rect = input_rects[r];
+				bool skip = false;
+
+				foreach (var rr in result_rect)
+				{
+					if(rr == rect)
+					{
+						skip = true;
+						break;
+					}
+				}
+
+				if(skip)
+				{
+					continue;
+				}
+
+				result_rect.Add(rect);
+			}
+
+			output_rects = result_rect;
+		}
+
 		private List<int> InRange(IImage image, List<Tuple<byte, byte>> range)
 		{
 			var result = new List<int>(range.Count);
