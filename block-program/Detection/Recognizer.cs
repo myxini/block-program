@@ -429,7 +429,11 @@ namespace Myxini.Recognition
 				output_rects.Add(most_candidate);
 			}
 			
-			return output_rects;
+			return RemoveNearRectangle(
+				RemoveIntersectionRectangle(
+				color_image, output_rects
+				)
+				);
 		}
 
 		private List<Rectangle> RemoveIntersectionRectangle(IImage image, List<Rectangle> input_rects)
