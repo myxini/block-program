@@ -432,7 +432,7 @@ namespace Myxini.Recognition
 			return output_rects;
 		}
 
-		private List<Rectangle> RemoveIntersectionRectangle(IImage image, List<Rectangle> input_rects, out List<Rectangle> output_rects)
+		private List<Rectangle> RemoveIntersectionRectangle(IImage image, List<Rectangle> input_rects)
 		{
 			var skip_lists = new List<int>();
 			var intersection_list = new Dictionary<int, List<int>>();
@@ -522,7 +522,7 @@ namespace Myxini.Recognition
 				result_rect.Add(rect);
 			}
 
-			output_rects = result_rect;
+			return result_rect;
 		}
 
 		private List<int> InRange(IImage image, List<Tuple<byte, byte>> range)
