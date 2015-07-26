@@ -6,15 +6,9 @@ namespace Myxini.Recognition
 {
 	public class SVMClassifier : IClassifier
 	{
-		public SVMClassifier(string output_file_name, string learn_directory)
+		public SVMClassifier(string learn_directory)
 		{
-			this.OutputFileName = output_file_name;
 			this.LearnDirectory = learn_directory;
-
-			if(!System.IO.File.Exists(output_file_name))
-			{
-				throw new System.IO.FileNotFoundException();
-			}
 
 			if(!System.IO.Directory.Exists(learn_directory))
 			{
@@ -35,7 +29,7 @@ namespace Myxini.Recognition
 			}
 			var proc = new System.Diagnostics.Process();
 			proc.StartInfo.FileName = EXECUTOR_NAME;
-			proc.StartInfo.Arguments = String.Format(ARGUMENTS, TARGET_FILE_NAME, LEARNING_DIRECTORY);
+			proc.StartInfo.Arguments = String.Format(ARGUMENTS, TARGET_FILE_NAME, LearnDirectory);
 			proc.Start();
 			proc.WaitForExit();
 			var result = proc.ExitCode;
@@ -65,8 +59,7 @@ namespace Myxini.Recognition
 		private string LearnDirectory;
 		private string OutputFileName;
 		private const string TARGET_FILE_NAME = "target.png";
-		private const string LEARNING_DIRECTORY = "./learning/";
 		private const string EXECUTOR_NAME = "SVM.exe";
-		private const string ARGUMENTS = "-m svm.model -i %1% --input-dir=%2%";
+		private const string ARGUMENTS = "-m svm.model -i {0} --input-dir={1} -o _output.txt";
 	}
 }

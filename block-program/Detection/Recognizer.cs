@@ -55,21 +55,11 @@ namespace Myxini.Recognition
 			}
 			debug_file.Flush();
 
-			var image = new GrayImage(kinect_image, GrayImage.ImageType.ABGR);
-			var cell_image = CellDescriptor.DescriptImage(image);
-
-			cell_image = new GrayImage(cell_image, Process.Dilate);
-			cell_image = new GrayImage(cell_image, Process.Dilate);
-			cell_image = new GrayImage(cell_image, Process.Dilate);
-
-			var labels = Process.Labeling(cell_image);
-
-
 			List<Tuple<IBlock, Rectangle>> control_block = new List<Tuple<IBlock, Rectangle>>();
 			List<Tuple<IBlock, Rectangle>> other_block = new List<Tuple<IBlock, Rectangle>>();
 
 			//var classifier = new Classifier();
-			var classifier = new SVMClassifier("","");
+			var classifier = new SVMClassifier(@".\learning\");
 			var algorithm = new SADClassifier();
 			int iteration = 0;
 			foreach (var rectangle in rectangles)
@@ -89,8 +79,19 @@ namespace Myxini.Recognition
 				}
 			}
 
+
 			Script result_script = new Script();
 
+			/// ブロックの連結について調べる
+
+			var image = new GrayImage(kinect_image, GrayImage.ImageType.ABGR);
+			var cell_image = CellDescriptor.DescriptImage(image);
+			
+			cell_image = new GrayImage(cell_image, Process.Dilate);
+			cell_image = new GrayImage(cell_image, Process.Dilate);
+			cell_image = new GrayImage(cell_image, Process.Dilate);
+			DebugOutput.SaveGrayImage("cell_image.png", cell_image);
+			var labels = Process.Labeling(cell_image);
 			foreach (var trigger in control_block)
 			{
 				result_script.Add(trigger.Item1 as ControlBlock);
