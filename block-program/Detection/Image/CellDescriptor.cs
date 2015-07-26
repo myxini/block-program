@@ -154,5 +154,9 @@ namespace Myxini.Recognition.Image
 			return new GrayImage(gray_bitmap, low_resolution_size.Width, low_resolution_size.Height);
 		}
 
+		public static int mapPoint(int p)
+		{
+			return p / CELL_SIZE;
+		}
 	}
 }

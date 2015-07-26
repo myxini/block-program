@@ -88,17 +88,48 @@ namespace Myxini.Recognition
 			var cell_image = CellDescriptor.DescriptImage(image);
 			
 			cell_image = new GrayImage(cell_image, Process.Dilate);
-			cell_image = new GrayImage(cell_image, Process.Dilate);
-			cell_image = new GrayImage(cell_image, Process.Dilate);
+			//cell_image = new GrayImage(cell_image, Process.Dilate);
+			//cell_image = new GrayImage(cell_image, Process.Dilate);
 			DebugOutput.SaveGrayImage("cell_image.png", cell_image);
 			var labels = Process.Labeling(cell_image);
+
+			/// <summary>
+			/// ラベルを保存する
+			/// </summary>
+			byte[] byte_label = new byte[labels.Length];
+			byte max_label = 0;
+			for (int i = 0; i < labels.Length; ++i )
+			{
+				byte_label[i] = (byte)labels[i];
+				if(max_label < byte_label[i])
+				{
+					max_label = byte_label[i];
+				}
+			}
+			for (int i = 0; i < byte_label.Length; ++i )
+			{
+				byte_label[i] = (byte)((float)(byte_label[i]) / max_label * byte.MaxValue);
+			}
+			var label_img = new GrayImage(byte_label, cell_image.Width, cell_image.Height);
+			DebugOutput.SaveGrayImage("label.png", label_img);
+
 			foreach (var trigger in control_block)
 			{
 				result_script.Add(trigger.Item1 as ControlBlock);
 
+				var trigger_mapped_rectangle = trigger.Item2;
+				trigger_mapped_rectangle.X = CellDescriptor.mapPoint(trigger_mapped_rectangle.X);
+				trigger_mapped_rectangle.Y = CellDescriptor.mapPoint(trigger_mapped_rectangle.Y);
+				trigger_mapped_rectangle.Width = CellDescriptor.mapPoint(trigger_mapped_rectangle.Width);
+				trigger_mapped_rectangle.Height = CellDescriptor.mapPoint(trigger_mapped_rectangle.Height);
 				foreach (var other in other_block)
 				{
-					if (this.IsConnectedBlock(labels, cell_image.BoundingBox.BoundingSize, trigger.Item2, other.Item2))
+					var other_mapped_rectangle = other.Item2;
+					other_mapped_rectangle.X = CellDescriptor.mapPoint(other_mapped_rectangle.X);
+					other_mapped_rectangle.Y = CellDescriptor.mapPoint(other_mapped_rectangle.Y);
+					other_mapped_rectangle.Width = CellDescriptor.mapPoint(other_mapped_rectangle.Width);
+					other_mapped_rectangle.Height = CellDescriptor.mapPoint(other_mapped_rectangle.Height);
+					if (this.IsConnectedBlock(labels, cell_image.BoundingBox.BoundingSize, trigger_mapped_rectangle, other_mapped_rectangle))
 					{
 						result_script.Add(other.Item1 as InstructionBlock);
 					}
@@ -115,6 +146,8 @@ namespace Myxini.Recognition
 			Point b_bottom_right = new Point(b.X + b.Width, b.Y + b.Height);
 			//			Point b_top_left = new Point(b.X, b.Y);
 
+			float avg_label = 0.0f;
+			int match_count = 0;
 			for (int ry = a.Y; ry < a_bottom_right.Y; ++ry)
 			{
 				for (int rx = a.X; rx < a_bottom_right.X; ++rx)
@@ -125,22 +158,26 @@ namespace Myxini.Recognition
 						{
 							var r_label = labels[ry * label_image_size.Width + rx];
 							var b_label = labels[by * label_image_size.Width + bx];
-
+							/*
 							if (r_label == 0 || b_label == 0)
 							{
 								continue;
-							}
+							}*/
 
 							if (r_label == b_label)
 							{
-								return true;
+								match_count++;
+								avg_label += r_label;
+								//return true;
 							}
 						}
 					}
 				}
 			}
 
-			return false;
+			avg_label /= match_count;
+
+			return (int)Math.Round(avg_label);
 		}
 
 
