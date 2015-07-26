@@ -68,7 +68,8 @@ namespace Myxini.Recognition
 			List<Tuple<IBlock, Rectangle>> control_block = new List<Tuple<IBlock, Rectangle>>();
 			List<Tuple<IBlock, Rectangle>> other_block = new List<Tuple<IBlock, Rectangle>>();
 
-			var classifier = new Classifier();
+			//var classifier = new Classifier();
+			var classifier = new SVMClassifier("","");
 			var algorithm = new SADClassifier();
 			int iteration = 0;
 			foreach (var rectangle in rectangles)

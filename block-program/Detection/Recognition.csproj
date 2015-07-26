@@ -82,7 +82,7 @@
     <Compile Include="SADClassifier.cs" />
     <Compile Include="Script.cs" />
     <Compile Include="Routine.cs" />
-    <Compile Include="SVMAlgorithm.cs" />
+    <Compile Include="SVMClassifier.cs" />
     <Compile Include="UI\SelectRectangleWindow.xaml.cs">
       <DependentUpon>SelectRectangleWindow.xaml</DependentUpon>
     </Compile>

@@ -4,9 +4,9 @@ using Myxini.Recognition.Image;
 
 namespace Myxini.Recognition
 {
-	public class SVMAlgorithm : IClassifier
+	public class SVMClassifier : IClassifier
 	{
-		SVMAlgorithm(string output_file_name, string learn_directory)
+		public SVMClassifier(string output_file_name, string learn_directory)
 		{
 			this.OutputFileName = output_file_name;
 			this.LearnDirectory = learn_directory;
