@@ -72,13 +72,19 @@ namespace Myxini.Recognition.Image
 			var output = new int[image.Width * image.Height];
 			
 
-			int index = 0;
-
+			int index = 1;
+			parents.Add(0);
 			for (int y = 0; y < image.Height; ++y)
 			{
 				for (int x = 0; x < image.Width; ++x)
 				{
 					int value = GetElement(image, x, y);
+
+					if(value == 0)
+					{
+						output[y * image.Width + x] = 0;
+						continue;
+					}
 
 					bool in_left = (IsIntersection(image, x - 1, y) && value == GetElement(image, x - 1, y)); //左
 					bool in_top = (IsIntersection(image, x, y - 1) && value == GetElement(image, x, y - 1)); //上

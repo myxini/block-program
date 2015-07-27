@@ -15,7 +15,7 @@ namespace RecognitionTest
         public void ClusteringTest()
         {
             var classifier = new Classifier();
-            var algorithm = new SADAlgorithm();
+            var algorithm = new SADClassifier();
 
             Clustering(classifier, algorithm, Resources.PatternLED0, Command.LED, 0);
             Clustering(classifier, algorithm, Resources.PatternLED1, Command.LED, 1);
