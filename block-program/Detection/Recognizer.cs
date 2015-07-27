@@ -221,9 +221,25 @@ namespace Myxini.Recognition
 			{
 				candidate_rect.Add(new Rectangle(p, this.MaskSize));
 			}
+			
+			var color_pixels = new byte[kinect_image.BoundingBox.BoundingSize.Area * 3];
+			for(int y = 0; y < kinect_image.Height; ++y)
+			{
+				for(int x = 0; x < kinect_image.Width; ++x)
+				{
+					for(int c = 0; c < 3; ++c)
+					{
+						color_pixels[(y * kinect_image.Width + x) * 3 + c] = (byte)kinect_image.GetElement(x, y, c + 1);
+					}
+				}
+			}
 
-			var output_rects = RestrictRectangle(candidate_rect, noise_deleted_image);
+			var color_img=new ColorImage(color_pixels, kinect_image.Width, kinect_image.Height);
+			var output_rects = RestrictRectangle(candidate_rect, noise_deleted_image, color_img);
 
+			output_rects = RemoveIntersectionRectangle(color_img, output_rects);
+			output_rects = RemoveNearRectangle(output_rects);
+			
 			return output_rects;
 		}
 
@@ -310,8 +326,14 @@ namespace Myxini.Recognition
 			return candidate_area_map;
 		}
 
-		private List<Rectangle> RestrictRectangle(List<Rectangle> candidate_rects, IImage diff_img)
+		private List<Rectangle> RestrictRectangle(List<Rectangle> candidate_rects, IImage diff_img, ColorImage color_image)
 		{
+			Tuple<byte, byte> green_hue_range = new Tuple<byte, byte>(35, 70);
+			Tuple<byte, byte> blue_hue_range = new Tuple<byte, byte>(100, 135);
+			var color_ranges = new List<Tuple<byte,byte>>(){green_hue_range, blue_hue_range};
+			//const byte green_hue = 80;	/// 70-130
+			//const byte blue_hue = 100;	/// 200-270
+			var hsv_img = new HSVImage(color_image);
 			var rerect_dictionary = new Dictionary<int, List<Rectangle>>();
 			var output_rects = new List<Rectangle>();
 			var skip_rect = new List<int>();
@@ -337,7 +359,8 @@ namespace Myxini.Recognition
 					}
 				}
 			}
-
+			
+			/// 候補である矩形のうちまったく重複していない矩形を削除する
 			for (int i = 0; i < candidate_rects.Count; ++i)
 			{
 				if (skip_rect.Contains(i))
@@ -345,9 +368,50 @@ namespace Myxini.Recognition
 					continue;
 				}
 
+				var counts = InRange(hsv_img.RegionOfImage(candidate_rects[i]), color_ranges);
+
+				int count = int.MinValue;
+				foreach(var c in counts)
+				{
+					if(count < c)
+					{
+						count = c;
+					}
+				}
+
+				if(count > (candidate_rects[i].BoundingSize.Area * 0.3))
+				{
+					continue;
+				}
+
 				output_rects.Add(candidate_rects[i]);
 			}
 
+			// 候補である矩形から重複している分について削除する
+
+			/*foreach (var rects in rerect_dictionary)
+			{
+				Rectangle most_candidate = new Rectangle();
+
+				foreach (var r in rects.Value)
+				{
+					var counts = InRange(hsv_img.RegionOfImage(r), color_ranges);
+
+					foreach (var c in counts)
+					{
+						if (c > (r.BoundingSize.Area * 0.1))
+						{
+							most_candidate = r;
+						}
+					}
+				}
+
+				if (most_candidate.BoundingSize.Area > 0)
+				{
+					output_rects.Add(most_candidate);
+				}
+			}*/
+			
 			foreach (var rects in rerect_dictionary)
 			{
 				int max_count = 0;
@@ -369,6 +433,183 @@ namespace Myxini.Recognition
 			}
 
 			return output_rects;
+		}
+
+		private List<Rectangle> RemoveIntersectionRectangle(IImage image, List<Rectangle> input_rects)
+		{
+			var skip_lists = new List<int>();
+			var intersection_list = new Dictionary<int, List<int>>();
+
+			for(int i = 0; i < input_rects.Count; ++i)
+			{
+				for(int j = i; j < input_rects.Count; ++j)
+				{
+					if(IsIntersection(input_rects[i], input_rects[j]))
+					{
+						if(!intersection_list.ContainsKey(i))
+						{
+							intersection_list.Add(i, new List<int>());
+						}
+
+						intersection_list[i].Add(j);
+					}
+				}
+			}
+
+			var results = new List<int>();
+
+			foreach(var inter in intersection_list)
+			{
+				int max_score = 0, max_index = -1;
+				foreach(var i in inter.Value)
+				{
+					
+					if(skip_lists.Contains(i))
+					{
+						continue;
+					}
+
+					int sum_br = 0;
+					int sum_gr = 0;
+
+					var roi = image.RegionOfImage(input_rects[i]);
+
+					for (int y = 0; y < roi.Height; ++y)
+					{
+						for (int x = 0; x < roi.Width; ++x)
+						{
+							sum_br += Math.Abs(roi.GetElement(x, y, 0) - roi.GetElement(x, y, 2));
+							sum_gr += Math.Abs(roi.GetElement(x, y, 1) - roi.GetElement(x, y, 2));
+						}
+					}
+
+					var score = (sum_br + sum_gr);
+					if (max_score < score)
+					{
+						max_score = score;
+						skip_lists.Add(max_index);
+						max_index = i;
+					}
+					else
+					{
+						skip_lists.Add(i);
+					}
+					
+
+					results.Add(max_index);
+				}
+			}
+			
+			var result_rect = new List<Rectangle>();
+
+			foreach(var r in results)
+			{
+				if(r < 0)
+				{
+					continue;
+				}
+
+				var rect = input_rects[r];
+				bool skip = false;
+
+				foreach (var rr in result_rect)
+				{
+					if(rr == rect)
+					{
+						skip = true;
+						break;
+					}
+				}
+
+				if(skip)
+				{
+					continue;
+				}
+
+				result_rect.Add(rect);
+			}
+
+			return result_rect;
+		}
+
+		private List<Rectangle> RemoveNearRectangle(List<Rectangle> rect)
+		{
+			var tmp_output = new List<Rectangle>();
+			var intersection_dictionary = new Dictionary<int, List<int>>();
+
+			for(int i = 0; i < rect.Count; ++i)
+			{
+				for(int j = i + 1; j < rect.Count; ++j)
+				{
+					if(IsIntersection(rect[i], rect[j]))
+					{
+						if(!intersection_dictionary.ContainsKey(i))
+						{
+							intersection_dictionary.Add(i, new List<int>());
+						}
+						intersection_dictionary[i].Add(j);
+					}
+				}
+			}
+
+			var skip_lists = new List<int>();
+			foreach(var intersection in intersection_dictionary)
+			{
+				skip_lists.Add(intersection.Key);
+				var avg = rect[intersection.Key];
+				var n = intersection.Value.Count + 1;
+				foreach(var i in intersection.Value)
+				{
+					skip_lists.Add(i);
+					avg.X += rect[i].X;
+					avg.Y += rect[i].Y;
+					avg.Width += rect[i].Width;
+					avg.Height += rect[i].Height;
+				}
+				
+				avg.X /= n;
+				avg.Y /= n;
+				avg.Width /= n;
+				avg.Height /= n;
+				tmp_output.Add(avg);
+			}
+
+			for(int i = 0; i < rect.Count; ++i)
+			{
+				if(skip_lists.Contains(i))
+				{
+					continue;
+				}
+
+				tmp_output.Add(rect[i]);
+			}
+
+			return tmp_output;
+		}
+
+		private List<int> InRange(IImage image, List<Tuple<byte, byte>> range)
+		{
+			var result = new List<int>(range.Count);
+			
+			foreach(var r in range)
+			{
+				int count = 0;
+				for (int y = 0; y < image.Height; ++y )
+				{
+					for (int x = 0; x < image.Width; ++x)
+					{
+						var elem = image.GetElement(x,y, 0);
+						if(elem > r.Item1 && elem < r.Item2)
+						{
+							++count;
+						}
+					}
+				}
+
+				result.Add(count);
+			}
+
+			return result;
 		}
 
 		private float[] MedianFilter(float[] pixels, Size size)

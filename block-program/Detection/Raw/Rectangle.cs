@@ -20,6 +20,16 @@ namespace Myxini.Recognition.Raw
 			this.BoundingSize = bounding_size;
 		}
 
+		public static bool operator ==(Rectangle a, Rectangle b)
+		{
+			return a.Position == b.Position && a.BoundingSize == b.BoundingSize;
+		}
+
+		public static bool operator !=(Rectangle a, Rectangle b)
+		{
+			return a.Position != b.Position || a.BoundingSize != b.BoundingSize;
+		}
+
 		public int X { get { return this.Position.X; } set { this.Position.X = value; } }
 		public int Y { get { return this.Position.Y; } set { this.Position.Y = value; } }
 

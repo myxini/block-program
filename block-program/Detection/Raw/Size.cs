@@ -20,6 +20,16 @@ namespace Myxini.Recognition.Raw
 			get { return this.Width * this.Height; }
 		}
 
+		public static bool operator ==(Size a, Size b)
+		{
+			return a.Width == b.Width && a.Height == b.Height;
+		}
+
+		public static bool operator !=(Size a, Size b)
+		{
+			return a.Width != b.Width || a.Height != b.Height;
+		}
+
 
 		public int Width;
 		public int Height;

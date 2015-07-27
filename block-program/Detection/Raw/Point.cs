@@ -14,7 +14,18 @@ namespace Myxini.Recognition.Raw
 		{
 			return (String.Format("{0},{1}", this.X, this.Y));
 		}
-		
+
+		public static bool operator ==(Point a, Point b)
+		{
+			return a.X == b.X && a.Y == b.Y;
+		}
+
+		public static bool operator !=(Point a, Point b)
+		{
+			return a.X != b.X || a.Y != b.Y;
+		}
+
+
 		public int X;
 		public int Y;
 	}
