@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using Myxini.Recognition.Raw;
 using Myxini.Recognition.Image;
@@ -55,21 +56,12 @@ namespace Myxini.Recognition
 			}
 			debug_file.Flush();
 
-			var image = new GrayImage(kinect_image, GrayImage.ImageType.ABGR);
-			var cell_image = CellDescriptor.DescriptImage(image);
-
-			cell_image = new GrayImage(cell_image, Process.Dilate);
-			cell_image = new GrayImage(cell_image, Process.Dilate);
-			cell_image = new GrayImage(cell_image, Process.Dilate);
-
-			var labels = Process.Labeling(cell_image);
-
-
 			List<Tuple<IBlock, Rectangle>> control_block = new List<Tuple<IBlock, Rectangle>>();
 			List<Tuple<IBlock, Rectangle>> other_block = new List<Tuple<IBlock, Rectangle>>();
 
-			var classifier = new Classifier();
-			var algorithm = new SADAlgorithm();
+			//var classifier = new Classifier();
+			var classifier = new SVMClassifier(@".\learning\");
+			var algorithm = new SADClassifier();
 			int iteration = 0;
 			foreach (var rectangle in rectangles)
 			{
@@ -88,15 +80,60 @@ namespace Myxini.Recognition
 				}
 			}
 
+
 			Script result_script = new Script();
 
+			/// ブロックの連結について調べる
+
+			var image = new GrayImage(kinect_image, GrayImage.ImageType.ABGR);
+			var cell_image = CellDescriptor.DescriptImage(image);
+			
+			cell_image = new GrayImage(cell_image, Process.Dilate);
+			//cell_image = new GrayImage(cell_image, Process.Dilate);
+			//cell_image = new GrayImage(cell_image, Process.Dilate);
+			DebugOutput.SaveGrayImage("cell_image.png", cell_image);
+			var labels = Process.Labeling(cell_image);
+
+			/// <summary>
+			/// ラベルを保存する，ついでにラベルの正規化
+			/// </summary>
+			byte[] byte_label = new byte[labels.Length];
+			byte max_label = 0;
+			for (int i = 0; i < labels.Length; ++i )
+			{
+				byte_label[i] = (byte)labels[i];
+				if(max_label < byte_label[i])
+				{
+					max_label = byte_label[i];
+				}
+			}
+			for (int i = 0; i < byte_label.Length; ++i )
+			{
+				byte_label[i] = (byte)((float)(byte_label[i]) / max_label * byte.MaxValue);
+			}
+			var label_img = new GrayImage(byte_label, cell_image.Width, cell_image.Height);
+			DebugOutput.SaveGrayImage("label.png", label_img);
+
+			using(var file_descriptor = new System.IO.StreamWriter("debug_rectangle.txt"))
 			foreach (var trigger in control_block)
 			{
 				result_script.Add(trigger.Item1 as ControlBlock);
 
+				var trigger_mapped_rectangle = trigger.Item2;
+				trigger_mapped_rectangle.X = CellDescriptor.mapPoint(trigger_mapped_rectangle.X);
+				trigger_mapped_rectangle.Y = CellDescriptor.mapPoint(trigger_mapped_rectangle.Y);
+				trigger_mapped_rectangle.Width = CellDescriptor.mapPoint(trigger_mapped_rectangle.Width);
+				trigger_mapped_rectangle.Height = CellDescriptor.mapPoint(trigger_mapped_rectangle.Height);
+				file_descriptor.WriteLine(String.Format("{0},{1},{2},{3}", trigger_mapped_rectangle.X, trigger_mapped_rectangle.Y, trigger_mapped_rectangle.Width, trigger_mapped_rectangle.Height));
 				foreach (var other in other_block)
 				{
-					if (this.IsConnectedBlock(labels, cell_image.BoundingBox.BoundingSize, trigger.Item2, other.Item2))
+					var other_mapped_rectangle = other.Item2;
+					other_mapped_rectangle.X = CellDescriptor.mapPoint(other_mapped_rectangle.X);
+					other_mapped_rectangle.Y = CellDescriptor.mapPoint(other_mapped_rectangle.Y);
+					other_mapped_rectangle.Width = CellDescriptor.mapPoint(other_mapped_rectangle.Width);
+					other_mapped_rectangle.Height = CellDescriptor.mapPoint(other_mapped_rectangle.Height);
+					file_descriptor.WriteLine(String.Format("{0},{1},{2},{3}", other_mapped_rectangle.X, other_mapped_rectangle.Y, other_mapped_rectangle.Width, other_mapped_rectangle.Height));
+					if (this.IsConnectedBlock(labels, cell_image.BoundingBox.BoundingSize, trigger_mapped_rectangle, other_mapped_rectangle))
 					{
 						result_script.Add(other.Item1 as InstructionBlock);
 					}
@@ -108,38 +145,45 @@ namespace Myxini.Recognition
 
 		private bool IsConnectedBlock(int[] labels, Size label_image_size, Rectangle a, Rectangle b)
 		{
-			Point a_bottom_right = new Point(a.X + a.Width, a.Y + a.Height);
+			Point a_bottom_right = new Point(a.X + a.Width + 1, a.Y + a.Height + 1);
 			//			Point a_top_left = new Point(a.X, a.Y);
-			Point b_bottom_right = new Point(b.X + b.Width, b.Y + b.Height);
+			Point b_bottom_right = new Point(b.X + b.Width + 1, b.Y + b.Height + 1);
 			//			Point b_top_left = new Point(b.X, b.Y);
 
-			for (int ry = a.Y; ry < a_bottom_right.Y; ++ry)
+			var a_counter = new Dictionary<int, int>();
+			for (int y = a.Y; y < a_bottom_right.Y; ++y)
 			{
-				for (int rx = a.X; rx < a_bottom_right.X; ++rx)
+				for (int x = a.X; x < a_bottom_right.X; ++x)
 				{
-					for (int by = b.Y; by < b_bottom_right.Y; ++by)
+					var label = labels[y * a.Width + x];
+					if(!a_counter.ContainsKey(label))
 					{
-						for (int bx = b.X; bx < a_bottom_right.X; ++bx)
-						{
-							var r_label = labels[ry * label_image_size.Width + rx];
-							var b_label = labels[by * label_image_size.Width + bx];
-
-							if (r_label == 0 || b_label == 0)
-							{
-								continue;
-							}
-
-							if (r_label == b_label)
-							{
-								return true;
-							}
-						}
+						a_counter.Add(label, 0);
 					}
+					a_counter[label]++;
 				}
 			}
 
-			return false;
+			var b_counter = new Dictionary<int, int>();
+			for (int y = b.Y; y < b_bottom_right.Y; ++y)
+			{
+				for (int x = b.X; x < b_bottom_right.X; ++x)
+				{
+					var label = labels[y * b.Width + x];
+					if (!b_counter.ContainsKey(label))
+					{
+						b_counter.Add(label, 0);
+					}
+					b_counter[label]++;
+				}
+			}
+
+			var max_a = a_counter.FirstOrDefault(x => x.Value == a_counter.Values.Max()).Key;
+			var max_b = b_counter.FirstOrDefault(x => x.Value == b_counter.Values.Max()).Key;
+
+			return max_a == max_b;
 		}
+
 
 
 		private List<Rectangle> FindBlockRectangle(IImage kinect_image)
